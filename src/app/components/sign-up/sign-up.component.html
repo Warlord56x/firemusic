@@ -1,0 +1,23 @@
+<div fxLayout="column" fxLayoutAlign="center" fxFlexFill>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1rem" >
+        <mat-form-field fxFlex>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" />
+            <mat-error>Invalid Email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" />
+            <mat-error>Invalid password</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirmPassword" type="password" />
+            <mat-error>Invalid password or does not match</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Sign Up</button>
+    </form>
+</div>

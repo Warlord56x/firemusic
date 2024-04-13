@@ -1,0 +1,8 @@
+<div fxLayout="column" fxLayoutAlign="center" fxFlexFill>
+    <div  fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1rem" >
+
+        <h1>Email verification sent to <ng-container *ngIf="authService.isLoggedIn">{{authService.user?.email}}</ng-container></h1>
+        <button mat-raised-button color="primary" routerLink="/sign-in">Sign In</button>
+
+    </div>
+</div>
