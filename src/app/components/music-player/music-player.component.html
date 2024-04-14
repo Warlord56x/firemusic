@@ -1,2 +1,14 @@
 <p>music-player works!</p>
-<audio [src]="audioUrl" controls></audio>
+
+<div class="audio-player">
+    <audio #audio (timeupdate)="updateTime()"></audio>
+    <button mat-icon-button (click)="play()">
+        <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button (click)="pause()">
+        <mat-icon>pause</mat-icon>
+    </button>
+    <mat-slider min="0" [max]="duration ? duration : 0">
+        <input #slider matSliderThumb [(ngModel)]="currentTime" />
+    </mat-slider>
+</div>

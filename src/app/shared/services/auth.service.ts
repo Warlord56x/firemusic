@@ -21,7 +21,6 @@ export class AuthService {
         this.fireAuth.authState.subscribe((user) => {
             if (user) {
                 localStorage.setItem('user', JSON.stringify(user)!);
-
                 //JSON.parse(localStorage.getItem('user')!);
             } else {
                 localStorage.setItem('user', 'null');
