@@ -13,6 +13,7 @@ import {
 import { AuthService } from '../../shared/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-sign-in',
@@ -25,6 +26,7 @@ import { merge } from 'rxjs';
         MatInput,
         MatLabel,
         ReactiveFormsModule,
+        MatIcon,
     ],
     templateUrl: './sign-in.component.html',
     styleUrl: './sign-in.component.scss',

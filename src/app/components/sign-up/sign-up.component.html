@@ -1,5 +1,14 @@
-<div fxLayout="column" fxLayoutAlign="center" fxFlexFill>
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1rem" >
+<div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <mat-icon class="icon" svgIcon="firemusic"></mat-icon>
+    <h1>Fire Music</h1>
+
+    <form
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+    >
         <mat-form-field fxFlex>
             <mat-label>Email</mat-label>
             <input matInput formControlName="email" type="email" />

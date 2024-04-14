@@ -1,5 +1,6 @@
 @use "@angular/material" as mat;
 
+@use "sass:map";
 
 @include mat.core();
 @import "material-icons/iconfont/material-icons.css";
@@ -15,6 +16,24 @@ $warn: mat.define-palette($red, 500, 400, 600, 950);
 
 $typography: mat.define-typography-config(
     $font-family: "InterVariable",
+);
+
+$backgrounds: (
+    status-bar: #11141fff,
+    app-bar: #11141fff,
+    background: #11141fff,
+    hover: #11141fff,
+    card: #11141fff,
+    dialog: #11141fff,
+    raised-button: #11141fff,
+    selected-button: #11141fff,
+    selected-disabled-button: #11141fff,
+    disabled-button: #11141fff,
+    focused-button: #11141fff,
+    disabled-button-toggle: #11141fff,
+    unselected-chip: #11141fff,
+    disabled-list-option: #11141fff,
+    tooltip: #11141fff,
 );
 
 $light-theme: mat.define-light-theme(
@@ -39,6 +58,8 @@ $dark-theme: mat.define-dark-theme(
     )
 );
 
+
+
 @include mat.all-component-themes($light-theme);
 
 html,
@@ -49,6 +70,24 @@ body {
     margin: 0;
     font-family: InterVariable, "Helvetica Neue", sans-serif;
 }
+
+// Based on:
+// https://stackoverflow.com/questions/77978760/angular-material-17-how-to-set-custom-background-color
+//
+
+$color-map: map.get($dark-theme, "color");
+$modified-color-map: map.merge(
+    $color-map,
+    (
+        "background": $backgrounds,
+    )
+);
+$dark-theme: map.merge(
+    $dark-theme,
+    (
+        "color": $modified-color-map,
+    )
+);
 
 @media (prefers-color-scheme: dark) {
     @include mat.all-component-colors($dark-theme);

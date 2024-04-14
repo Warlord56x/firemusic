@@ -11,6 +11,7 @@ import { DragComponent } from './components/drag/drag.component';
 import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
+    { path: '', pathMatch: 'full', component: HomeComponent },
     { path: 'three', component: ThreeComponent },
     { path: 'sign-up', component: SignupComponent },
     { path: 'sign-in', component: SignInComponent },

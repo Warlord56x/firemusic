@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthService } from '../../shared/services/auth.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-sign-up',
@@ -23,6 +24,7 @@ import { AuthService } from '../../shared/services/auth.service';
         MatInputModule,
         ReactiveFormsModule,
         MatButton,
+        MatIcon,
     ],
     templateUrl: './sign-up.component.html',
     styleUrl: './sign-up.component.scss',
