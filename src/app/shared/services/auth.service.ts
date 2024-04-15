@@ -3,9 +3,7 @@ import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import firebase from 'firebase/compat';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import User = firebase.User;
-import { firstValueFrom } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +12,6 @@ export class AuthService {
     constructor(
         public fireAuth: AngularFireAuth, // Inject Firebase auth service
         private router: Router,
-        private fireStore: AngularFireStorage,
     ) {
         /* Saving user data in localstorage when
         logged in and setting up null when logged out */
@@ -34,11 +31,6 @@ export class AuthService {
 
     get user(): User | null {
         return this._user || null;
-    }
-
-    async testAudio(): Promise<string> {
-        const audioRef = this.fireStore.ref('/Project_37.mp3');
-        return await firstValueFrom(audioRef.getDownloadURL());
     }
 
     // Sign in with email/password

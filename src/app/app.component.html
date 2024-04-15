@@ -49,6 +49,7 @@
         </mat-sidenav>
         <mat-sidenav-content (click)="sidenav.close()" class="content">
             <router-outlet></router-outlet>
+            <app-music-player [audioPath]="'public/Digital Dreams.mp3'"/>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

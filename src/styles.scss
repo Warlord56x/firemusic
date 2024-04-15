@@ -19,21 +19,21 @@ $typography: mat.define-typography-config(
 );
 
 $backgrounds: (
-    status-bar: #11141fff,
-    app-bar: #11141fff,
-    background: #11141fff,
-    hover: #11141fff,
-    card: #11141fff,
-    dialog: #11141fff,
-    raised-button: #11141fff,
-    selected-button: #11141fff,
-    selected-disabled-button: #11141fff,
-    disabled-button: #11141fff,
-    focused-button: #11141fff,
-    disabled-button-toggle: #11141fff,
-    unselected-chip: #11141fff,
-    disabled-list-option: #11141fff,
-    tooltip: #11141fff,
+    status-bar: map.get($slate, 950),
+    app-bar: map.get($slate, 800),
+    background: map.get($slate, 950),
+    hover: map.get($slate, 950),
+    card: map.get($slate, 900),
+    dialog: map.get($slate, 900),
+    raised-button: map.get($slate, 950),
+    selected-button: map.get($slate, 950),
+    selected-disabled-button: map.get($slate, 950),
+    disabled-button: map.get($slate, 950),
+    focused-button: map.get($slate, 950),
+    disabled-button-toggle: map.get($slate, 950),
+    unselected-chip: map.get($slate, 950),
+    disabled-list-option: map.get($slate, 950),
+    tooltip: map.get($slate, 950),
 );
 
 $light-theme: mat.define-light-theme(

@@ -25,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DragComponent } from './components/drag/drag.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MusicPlayerComponent} from "./components/music-player/music-player.component";
 
 @NgModule({
     declarations: [AppComponent, DashboardComponent, DragComponent],
@@ -56,6 +57,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         MatSidenavModule,
         MatListModule,
         DragDropModule,
+        MusicPlayerComponent,
     ],
     providers: [],
     bootstrap: [AppComponent],
