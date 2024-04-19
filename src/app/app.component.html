@@ -1,55 +1,79 @@
-<div class="container">
-    <mat-toolbar color="primary">
-        <div fxFlex fxLayout>
-            <div fxHide.gt-xs>
-                <button mat-icon-button (click)="sidenav.toggle()">
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </div>
-            <button class="icon-container" mat-icon-button routerLink="/home">
-                <mat-icon class="icon" svgIcon="firemusic"></mat-icon>
-            </button>
-        </div>
-        <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-            <div fxLayout fxLayoutGap="1rem" class="navigation-items">
-                <ng-container *ngIf="!auth.isLoggedIn">
-                    <button mat-raised-button routerLink="/sign-in">
-                        Sign in
-                    </button>
-                    <button mat-raised-button routerLink="/sign-up">
-                        Sign up
-                    </button>
-                </ng-container>
-                <button mat-raised-button routerLink="/three">Vis</button>
-                <ng-container *ngIf="auth.isLoggedIn">
-                    <button mat-raised-button routerLink="/dashboard">
-                        Dashboard
-                    </button>
-                    <button mat-raised-button (click)="auth.signOut()">
-                        Sign out
-                    </button>
-                </ng-container>
-            </div>
-        </div>
-    </mat-toolbar>
-
-    <mat-sidenav-container class="sidenav">
-        <mat-sidenav mode="side" #sidenav role="navigation">
+<div class="container" fxFlexFill fxLayout="column">
+    <mat-sidenav-container fxFlexFill>
+        <mat-sidenav mode="over" autoFocus="dialog" #sidenav role="navigation">
             <mat-nav-list>
-                <ng-container *ngIf="!auth.isLoggedIn">
+                <a mat-list-item routerLink="/home">
+                    <mat-icon matIconPrefix svgIcon="firemusic"></mat-icon>
+                    Fire music
+                </a>
+                <mat-divider></mat-divider>
+                <ng-container *ngIf="!authService.isLoggedIn">
                     <a mat-list-item routerLink="/sign-in">Sign in</a>
-                    <a mat-list-item routerLink="/sign-up">Sign up</a>
                 </ng-container>
                 <a mat-list-item routerLink="/three">Vis</a>
-                <ng-container *ngIf="auth.isLoggedIn">
-                    <a mat-list-item routerLink="/dashboard"> Dashboard </a>
-                    <a mat-list-item (click)="auth.signOut()"> Sign out </a>
+                <ng-container *ngIf="authService.isLoggedIn">
+                    <a mat-list-item routerLink="/dashboard">Dashboard</a>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item routerLink="/profile">Profile</a>
+                    <a mat-list-item (click)="authService.signOut()"
+                        >Sign out</a
+                    >
                 </ng-container>
             </mat-nav-list>
         </mat-sidenav>
-        <mat-sidenav-content (click)="sidenav.close()" class="content">
+        <mat-sidenav-content>
+            <mat-toolbar color="primary" class="app-bar">
+                <ng-container *ngIf="!search; else showSearch">
+                    <div fxFlex fxLayout>
+                        <button mat-icon-button (click)="sidenav.toggle()">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                    </div>
+
+                    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+                        <button
+                            fxFlex
+                            class="icon-container"
+                            mat-icon-button
+                            routerLink="/home"
+                        >
+                            <mat-icon svgIcon="firemusic"></mat-icon>
+                        </button>
+                    </div>
+
+                    <div fxFlex fxLayout fxLayoutAlign="end">
+                        <button mat-icon-button (click)="search = true">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-template #showSearch>
+                    <mat-form-field fxFlex fxFlexFill subscriptSizing="dynamic">
+                        <input
+                            matInput
+                            #searchInput
+                            type="search"
+                            (focusout)="search = false"
+                        />
+                        <button
+                            matSuffix
+                            mat-icon-button
+                            (click)="search = false"
+                        >
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </ng-template>
+            </mat-toolbar>
+
             <router-outlet></router-outlet>
-            <app-music-player [audioPath]="'public/Digital Dreams.mp3'"/>
+
+            <app-music-player
+                *ngIf="authService.isLoggedIn"
+                [audioPath]="
+                    'public/Pentakill - Smite and Ignite - 01 Lightbringer.mp3'
+                "
+            />
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

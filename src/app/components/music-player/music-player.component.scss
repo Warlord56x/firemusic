@@ -3,6 +3,10 @@
 }
 
 mat-toolbar {
-    position: fixed;
+    position: sticky;
     bottom: 0;
+}
+
+img {
+    margin: 1rem;
 }

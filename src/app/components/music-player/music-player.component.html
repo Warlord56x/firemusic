@@ -1,34 +1,87 @@
-<mat-toolbar class="container" fxFlex fxLayoutAlign="center center">
-    <audio #audio (timeupdate)="updateTime()" (ended)="atEnd()" [loop]="_loop" ></audio>
-    <div fxFlex fxLayout>
-        <button color="primary" mat-icon-button (click)="togglePlayState()">
-            <ng-container>
-                <mat-icon *ngIf="isPlaying; else showPlayIcon">pause</mat-icon>
-                <ng-template #showPlayIcon
-                    ><mat-icon>play_arrow</mat-icon></ng-template
+<ng-template #musicDetails>
+    <ng-container *ngIf="metadata; else showTitle">
+        <p fxFlex>{{ metadata.common.title }}</p>
+    </ng-container>
+    <ng-template #showTitle>
+        <p fxFlex>{{ getLastPartOfUrl(audioPath, 18) }}</p>
+    </ng-template>
+</ng-template>
+
+<mat-toolbar class="container">
+    <mat-toolbar-row fxLayoutAlign="center center" fxHide.gt-xs>
+        <ng-container *ngTemplateOutlet="musicDetails"></ng-container>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row fxLayoutAlign="center center">
+        <audio
+            #audio
+            (timeupdate)="updateTime()"
+            (ended)="atEnd()"
+            [loop]="_loop"
+        ></audio>
+
+        <img
+            fxHide.xs
+            priority
+            [ngSrc]="cover ? cover : 'assets/img/fm_logo.png'"
+            [alt]="''"
+            height="50"
+            width="50"
+        />
+
+        <div fxHide.xs>
+            <ng-container *ngTemplateOutlet="musicDetails"></ng-container>
+        </div>
+
+        <div fxFlex fxLayout>
+            <div fxFlex fxLayout>
+                <button
+                    color="primary"
+                    mat-icon-button
+                    (click)="togglePlayState()"
                 >
-            </ng-container>
-        </button>
-        <mat-slider fxFlex min="0" [max]="duration ? duration : 0">
-            <input #slider matSliderThumb [(ngModel)]="currentTime" />
-        </mat-slider>
-        <button [color]="_loop ? 'primary' : 'accent'" mat-icon-button (click)="loop()">
-            <mat-icon>loop</mat-icon>
-        </button>
-    </div>
-    <div fxFlex fxLayout fxLayoutAlign="end">
-        <button color="accent" mat-icon-button (click)="toggleMute()">
-            <ng-container>
-                <mat-icon *ngIf="volume === 0; else showMuteIcon"
-                    >volume_off</mat-icon
+                    <ng-container>
+                        <mat-icon *ngIf="isPlaying; else showPlayIcon"
+                            >pause</mat-icon
+                        >
+                        <ng-template #showPlayIcon
+                            ><mat-icon>play_arrow</mat-icon></ng-template
+                        >
+                    </ng-container>
+                </button>
+                <mat-slider fxFlex min="0" [max]="duration ? duration : 0">
+                    <input
+                        #slider
+                        matSliderThumb
+                        (touchend)="sliderInputDone()"
+                        (click)="sliderInputDone()"
+                        [(ngModel)]="currentTime"
+                    />
+                </mat-slider>
+                <button
+                    [color]="_loop ? 'primary' : 'accent'"
+                    mat-icon-button
+                    (click)="loop()"
                 >
-                <ng-template #showMuteIcon
-                    ><mat-icon>volume_up</mat-icon></ng-template
-                >
-            </ng-container>
-        </button>
-        <mat-slider color="accent" min="0" max="1" step="0.01">
-            <input matSliderThumb [value]="1.0" [(ngModel)]="volume" />
-        </mat-slider>
-    </div>
+                    <mat-icon>loop</mat-icon>
+                </button>
+            </div>
+
+            <div fxHide.xs fxFlex fxLayout fxLayoutAlign="end">
+                <button color="accent" mat-icon-button (click)="toggleMute()">
+                    <ng-container>
+                        <mat-icon *ngIf="volume === 0; else showMuteIcon"
+                            >volume_off</mat-icon
+                        >
+                        <ng-template #showMuteIcon
+                            ><mat-icon>volume_up</mat-icon></ng-template
+                        >
+                    </ng-container>
+                </button>
+                <mat-slider color="accent" min="0" max="1" step="0.01">
+                    <input matSliderThumb [value]="1.0" [(ngModel)]="volume" />
+                </mat-slider>
+            </div>
+        </div>
+    </mat-toolbar-row>
 </mat-toolbar>

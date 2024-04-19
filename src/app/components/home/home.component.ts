@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../shared/services/auth.service';
 import { MusicPlayerComponent } from '../music-player/music-player.component';
+import { getAuth } from '@angular/fire/auth';
 
 @Component({
     selector: 'app-home',
@@ -21,4 +22,6 @@ import { MusicPlayerComponent } from '../music-player/music-player.component';
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
 })
-export class HomeComponent {}
+export class HomeComponent {
+    constructor(protected authService: AuthService) {}
+}

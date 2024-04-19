@@ -1,12 +1,15 @@
-<div fxLayout="column" fxLayoutAlign="center" fxFlexFill>
-    <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1rem">
-        <mat-icon class="icon" svgIcon="firemusic"></mat-icon>
-        <h1>Welcome to Fire Music!</h1>
-        <p>Have a nice time here!</p>
+<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
+    <mat-icon class="icon" svgIcon="firemusic"></mat-icon>
+    <h1>Welcome to Fire Music!</h1>
+    <p>Have a nice time here!</p>
 
-        <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxFlex fxLayout="row" fxLayoutGap="1rem">
+        <ng-container *ngIf="!authService.isLoggedIn; else showGreet">
             <button mat-raised-button routerLink="/sign-in">Sign in</button>
             <button mat-raised-button routerLink="/sign-up">Sign up</button>
-        </div>
+        </ng-container>
+        <ng-template #showGreet>{{
+            authService.user?.displayName
+        }}</ng-template>
     </div>
 </div>

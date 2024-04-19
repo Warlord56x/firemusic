@@ -5,15 +5,13 @@ import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import {
     FormBuilder,
-    FormControl,
     FormGroup,
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-sign-in',
@@ -27,6 +25,7 @@ import { MatIcon } from '@angular/material/icon';
         MatLabel,
         ReactiveFormsModule,
         MatIcon,
+        RouterLink,
     ],
     templateUrl: './sign-in.component.html',
     styleUrl: './sign-in.component.scss',

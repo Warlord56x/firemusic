@@ -9,6 +9,8 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
 import { DragComponent } from './components/drag/drag.component';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { WildCardComponent } from './components/404/404.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', component: HomeComponent },
@@ -19,10 +21,16 @@ const routes: Routes = [
     { path: 'drag', component: DragComponent },
     { path: 'home', component: HomeComponent },
     {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AngularFireAuthGuard],
+    },
+    {
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AngularFireAuthGuard],
     },
+    { path: '**', component: WildCardComponent },
 ];
 
 @NgModule({

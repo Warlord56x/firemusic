@@ -7,7 +7,7 @@
         (ngSubmit)="onSubmit()"
         fxLayout="column"
         fxLayoutAlign="start center"
-        fxLayoutGap="1rem"
+        fxLayoutGap="0.5rem"
     >
         <mat-form-field fxFlex>
             <mat-label>Email</mat-label>
@@ -23,5 +23,6 @@
         <mat-error>{{ errorMessage }}</mat-error>
 
         <button mat-raised-button color="primary" type="submit">Sign In</button>
+        <a routerLink="/sign-up"> Don't have an account? Sign up now!</a>
     </form>
 </div>

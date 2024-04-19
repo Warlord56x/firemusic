@@ -33,6 +33,13 @@ export class AuthService {
         return this._user || null;
     }
 
+    updateUser(profile: {
+        displayName: string | undefined;
+        photoURL: string | undefined;
+    }) {
+        this.user?.updateProfile(profile);
+    }
+
     // Sign in with email/password
     async signIn(email: string, password: string) {
         return await this.fireAuth
