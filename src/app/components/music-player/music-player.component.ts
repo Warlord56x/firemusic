@@ -32,7 +32,7 @@ export class MusicPlayerComponent implements OnInit {
     isPlaying: boolean = false;
     _volume: number = 1.0;
     _loop: boolean = false;
-    music: Music = { name: '' };
+    music: Music = { name: '', rating: 0 };
 
     constructor(readonly musicService: MusicService) {}
 

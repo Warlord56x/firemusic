@@ -62,25 +62,30 @@ export class StorageService {
         );
     }
 
-    async uploadMusic(audio: File, image: File | undefined, data: Music) {
-        return this.fireStorage
-            .upload(`/public/${this.auth.user?.uid}/music/${audio.name}`, audio)
-            .then(async (audioUrl) => {
-                data.audio = await audioUrl.ref.getDownloadURL();
-                data.uid = this.auth.user?.uid;
-                if (image) {
-                    this.fireStorage
-                        .upload(
-                            `/public/${this.auth.user?.uid}/img/${image.name}`,
-                            image,
-                        )
-                        .then(async (imgUrl) => {
-                            data.cover = await imgUrl.ref.getDownloadURL();
-                            await this.musicCollection.add(data);
-                        });
-                } else {
-                    await this.musicCollection.add(data);
-                }
-            });
+    uploadMusic(audio: File, image: File | undefined, data: Music) {
+        const task = this.fireStorage.upload(
+            `/public/${this.auth.user?.uid}/music/${audio.name}/${audio.name}`,
+            audio,
+        );
+
+        task.then(async (audioUrl) => {
+            data.audio = await audioUrl.ref.getDownloadURL();
+            data.uid = this.auth.user?.uid;
+            if (image) {
+                this.fireStorage
+                    .upload(
+                        `/public/${this.auth.user?.uid}/img/${audio.name}/${image.name}`,
+                        image,
+                    )
+                    .then(async (imgUrl) => {
+                        data.cover = await imgUrl.ref.getDownloadURL();
+                        await this.musicCollection.add(data);
+                    });
+            } else {
+                await this.musicCollection.add(data);
+            }
+        });
+
+        return task;
     }
 }

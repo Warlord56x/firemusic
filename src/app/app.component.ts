@@ -9,6 +9,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './shared/services/storage.service';
 import { Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent {
         matIconRegistry: MatIconRegistry,
         domSanitizer: DomSanitizer,
         private changeDetection: ChangeDetectorRef,
+        protected bpObserver: BreakpointObserver,
     ) {
         matIconRegistry.addSvgIcon(
             'firemusic',
@@ -45,4 +47,6 @@ export class AppComponent {
             this.searchInputRef!.nativeElement.focus();
         }
     }
+
+    protected readonly Breakpoints = Breakpoints;
 }

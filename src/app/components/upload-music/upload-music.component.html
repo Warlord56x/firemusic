@@ -6,12 +6,14 @@
         fxLayoutAlign="start center"
         fxLayoutGap="1rem"
     >
-        <form>
+        <form fxLayout="column" fxFlex fxLayoutGap="1rem">
             <img
-                src="assets/img/fm_logo.png"
+                priority
+                ngSrc="assets/img/fm_logo.png"
                 alt="Cover image"
-                height="200px"
+                height="200"
                 #img
+                width="200"
             />
             <input
                 (change)="updateImage($event)"
@@ -36,21 +38,19 @@
             </button>
         </form>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex subscriptSizing="dynamic">
             <mat-label>Name</mat-label>
             <input #musicName matInput formControlName="name" type="text" />
             <mat-error>Invalid Name</mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex subscriptSizing="dynamic">
             <mat-label>Album</mat-label>
             <input matInput formControlName="album" type="text" />
         </mat-form-field>
 
-        <mat-slide-toggle fxFlex formControlName="public"
-            >Public</mat-slide-toggle
-        >
-
         <button mat-raised-button color="primary" type="submit">Upload</button>
+
+        <mat-progress-spinner [value]="progress()"></mat-progress-spinner>
     </form>
 </div>

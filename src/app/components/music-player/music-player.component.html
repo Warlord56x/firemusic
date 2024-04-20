@@ -4,7 +4,7 @@
     </ng-container>
 </ng-template>
 
-<mat-toolbar class="container">
+<mat-toolbar>
     <mat-toolbar-row fxLayoutAlign="center center" fxHide.gt-xs>
         <ng-container *ngTemplateOutlet="musicDetails"></ng-container>
     </mat-toolbar-row>
@@ -75,7 +75,13 @@
                         >
                     </ng-container>
                 </button>
-                <mat-slider color="accent" min="0" max="1" step="0.01">
+                <mat-slider
+                    fxFlexOrder
+                    color="accent"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                >
                     <input matSliderThumb [value]="1.0" [(ngModel)]="volume" />
                 </mat-slider>
             </div>

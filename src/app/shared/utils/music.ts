@@ -4,5 +4,6 @@ export interface Music {
     album?: string | null;
     cover?: string | null;
     audio?: string;
+    rating: number;
     uid?: string;
 }

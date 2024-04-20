@@ -24,9 +24,15 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DragComponent } from './components/drag/drag.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
-import { MatFormField, MatPrefix } from '@angular/material/form-field';
+import {
+    MatFormField,
+    MatPrefix,
+    MatSuffix,
+} from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
     declarations: [AppComponent, DashboardComponent, DragComponent],
@@ -58,6 +64,9 @@ import { FormsModule } from '@angular/forms';
         FormsModule,
         MatFormField,
         MatPrefix,
+        MatGridListModule,
+        MatCardModule,
+        MatSuffix,
     ],
     providers: [],
     bootstrap: [AppComponent],

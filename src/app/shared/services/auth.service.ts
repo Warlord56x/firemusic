@@ -62,12 +62,13 @@ export class AuthService {
                 /* Call the SendVerificationMail() function when new user sign
                 up and returns promise */
                 credentials.user?.updateProfile({ displayName: name });
+                this.sendVerificationMail();
             })
             .catch((error) => {
                 window.alert(error.message);
             });
     }
-    // Send email verfificaiton when new user sign up
+    // Send email verification when new user sign up
     async sendVerificationMail() {
         return this.fireAuth.currentUser.then((u: User | null) => {
             u?.sendEmailVerification();
