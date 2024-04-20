@@ -1,0 +1,56 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <form
+        [formGroup]="musicForm"
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+    >
+        <form>
+            <img
+                src="assets/img/fm_logo.png"
+                alt="Cover image"
+                height="200px"
+                #img
+            />
+            <input
+                (change)="updateImage($event)"
+                hidden
+                #imgInput
+                type="file"
+                accept="image/*"
+            />
+            <button mat-raised-button (click)="imgInput.click()">
+                Choose cover&hellip;
+            </button>
+
+            <input
+                (change)="updateMusic($event)"
+                hidden
+                #audioInput
+                type="file"
+                accept="audio/*"
+            />
+            <button mat-raised-button (click)="audioInput.click()">
+                Choose audio&hellip;
+            </button>
+        </form>
+
+        <mat-form-field fxFlex>
+            <mat-label>Name</mat-label>
+            <input #musicName matInput formControlName="name" type="text" />
+            <mat-error>Invalid Name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+            <mat-label>Album</mat-label>
+            <input matInput formControlName="album" type="text" />
+        </mat-form-field>
+
+        <mat-slide-toggle fxFlex formControlName="public"
+            >Public</mat-slide-toggle
+        >
+
+        <button mat-raised-button color="primary" type="submit">Upload</button>
+    </form>
+</div>

@@ -1,10 +1,7 @@
 <ng-template #musicDetails>
-    <ng-container *ngIf="metadata; else showTitle">
-        <p fxFlex>{{ metadata.common.title }}</p>
+    <ng-container *ngIf="music.name !== ''">
+        <p fxFlex>{{ shortenTitle(music.name, 18) }}</p>
     </ng-container>
-    <ng-template #showTitle>
-        <p fxFlex>{{ getLastPartOfUrl(audioPath, 18) }}</p>
-    </ng-template>
 </ng-template>
 
 <mat-toolbar class="container">
@@ -23,7 +20,7 @@
         <img
             fxHide.xs
             priority
-            [ngSrc]="cover ? cover : 'assets/img/fm_logo.png'"
+            [ngSrc]="music.cover ? music.cover : 'assets/img/fm_logo.png'"
             [alt]="''"
             height="50"
             width="50"

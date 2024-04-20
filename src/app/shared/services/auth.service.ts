@@ -33,11 +33,13 @@ export class AuthService {
         return this._user || null;
     }
 
-    updateUser(profile: {
-        displayName: string | undefined;
-        photoURL: string | undefined;
+    updateProfile(profile: {
+        displayName?: string | undefined;
+        photoURL?: string | undefined;
     }) {
-        this.user?.updateProfile(profile);
+        this.fireAuth.currentUser.then((user) => {
+            user?.updateProfile(profile);
+        });
     }
 
     // Sign in with email/password
@@ -52,14 +54,14 @@ export class AuthService {
                 });
             });
     }
-    // Sign up with email/password
-    async signUp(email: string, password: string) {
+    // Sign up with email/password, setting displayName
+    async signUp(name: string, email: string, password: string) {
         return this.fireAuth
             .createUserWithEmailAndPassword(email, password)
-            .then(() => {
+            .then((credentials) => {
                 /* Call the SendVerificationMail() function when new user sign
                 up and returns promise */
-                this.sendVerificationMail();
+                credentials.user?.updateProfile({ displayName: name });
             })
             .catch((error) => {
                 window.alert(error.message);

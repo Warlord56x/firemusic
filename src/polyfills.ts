@@ -38,9 +38,6 @@
 // import 'core-js/es6/weak-map';
 // import 'core-js/es6/set';
 
-import * as process from 'process';
-(window as any).process = process;
-
 (window as any).global = window;
 
 import * as _buffer from 'buffer';

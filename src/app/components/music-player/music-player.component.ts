@@ -1,13 +1,13 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
-import { StorageService } from '../../shared/services/storage.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { IAudioMetadata } from 'music-metadata-browser';
+import { MusicService } from '../../shared/services/music.service';
+import { Music } from '../../shared/utils/music';
 
 @Component({
     selector: 'app-music-player',
@@ -27,30 +27,20 @@ import { IAudioMetadata } from 'music-metadata-browser';
     styleUrl: './music-player.component.scss',
 })
 export class MusicPlayerComponent implements OnInit {
-    @Input({ required: true }) audioPath!: string;
     @ViewChild('audio') audioRef: ElementRef | undefined;
     @ViewChild('slider') sliderRef: ElementRef | undefined;
     isPlaying: boolean = false;
-    errorMsg: string = '';
     _volume: number = 1.0;
     _loop: boolean = false;
-    metadata: IAudioMetadata | undefined;
-    cover: string | undefined;
+    music: Music = { name: '' };
 
-    constructor(readonly storageService: StorageService) {}
+    constructor(readonly musicService: MusicService) {}
 
-    getLastPartOfUrl(url: string, maxLength: number): string | undefined {
-        let lastPart = url.split('/').pop();
-
-        if (lastPart?.includes('.')) {
-            lastPart = lastPart.split('.').slice(0, -1).join('.');
+    shortenTitle(title: string, maxLength: number): string | undefined {
+        if (title!.length > maxLength) {
+            return title?.slice(0, maxLength) + '...';
         }
-
-        if (lastPart!.length > maxLength) {
-            return lastPart?.slice(0, maxLength) + '...';
-        }
-
-        return lastPart;
+        return title;
     }
 
     get audio(): HTMLAudioElement | undefined {
@@ -62,6 +52,9 @@ export class MusicPlayerComponent implements OnInit {
     }
 
     play() {
+        if (!this.audio?.src) {
+            return;
+        }
         this.audio?.play().then(() => (this.isPlaying = true));
     }
 
@@ -90,25 +83,12 @@ export class MusicPlayerComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.audioPath === '') {
-            this.errorMsg = 'No audio to play';
-            return;
-        }
-        this.storageService.getAudio(this.audioPath).then((data) => {
+        this.musicService.music$.subscribe((music) => {
+            this.music = music;
             if (this.audio) {
-                this.audio.src = data.url;
+                this.pause();
+                this.audio.src = music.audio!;
             }
-            this.metadata = data.metadata;
-            this.cover = data.cover;
-
-            navigator.mediaSession.metadata = {
-                artwork: [
-                    { src: data.cover ? data.cover : 'assets/img/fm_logo.png' },
-                ],
-                album: data.metadata.common.album!,
-                artist: data.metadata.common.artist!,
-                title: data.metadata.common.title!,
-            };
         });
     }
 

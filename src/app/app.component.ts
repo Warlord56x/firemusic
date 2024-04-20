@@ -7,6 +7,8 @@ import {
 import { AuthService } from './shared/services/auth.service';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { StorageService } from './shared/services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -20,6 +22,8 @@ export class AppComponent {
 
     constructor(
         protected authService: AuthService,
+        protected storageService: StorageService,
+        protected router: Router,
         matIconRegistry: MatIconRegistry,
         domSanitizer: DomSanitizer,
         private changeDetection: ChangeDetectorRef,

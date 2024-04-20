@@ -1,1 +1,33 @@
-<p>profile works!</p>
+<div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <mat-list>
+        <mat-list-item
+            >Name: {{ this.authService.user?.displayName }}</mat-list-item
+        >
+        <mat-list-item>Email: {{ this.authService.user?.email }}</mat-list-item>
+        <mat-list-item
+            >Verified email
+            {{ this.authService.user?.emailVerified }}</mat-list-item
+        >
+        <mat-list-item
+            >Phone number:{{
+                this.authService.user?.phoneNumber
+            }}</mat-list-item
+        >
+    </mat-list>
+
+    <form
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+    >
+        <mat-form-field fxFlex>
+            <mat-label>Display name</mat-label>
+            <input matInput formControlName="name" type="text" />
+            <mat-error>Invalid Name</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Update</button>
+    </form>
+</div>

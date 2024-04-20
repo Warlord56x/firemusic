@@ -12,7 +12,7 @@ import { MatButton } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthService } from '../../shared/services/auth.service';
 import { MatIcon } from '@angular/material/icon';
-import {RouterLink} from "@angular/router";
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-sign-up',
@@ -39,6 +39,7 @@ export class SignupComponent {
         private formBuilder: FormBuilder,
     ) {
         this.signupForm = this.formBuilder.group({
+            name: [Validators.required, Validators.pattern('^[A-Za-z0-9_]*$')],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirmPassword: ['', [Validators.required]],
@@ -48,6 +49,7 @@ export class SignupComponent {
     onSubmit() {
         if (this.signupForm.valid) {
             this.authService.signUp(
+                this.signupForm.value.name,
                 this.signupForm.value.email,
                 this.signupForm.value.password,
             );

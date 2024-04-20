@@ -1,6 +1,6 @@
 <div class="container" fxFlexFill fxLayout="column">
     <mat-sidenav-container fxFlexFill>
-        <mat-sidenav mode="over" autoFocus="dialog" #sidenav role="navigation">
+        <mat-sidenav mode="side" autoFocus="dialog" #sidenav role="navigation">
             <mat-nav-list>
                 <a mat-list-item routerLink="/home">
                     <mat-icon matIconPrefix svgIcon="firemusic"></mat-icon>
@@ -52,7 +52,11 @@
                         <input
                             matInput
                             #searchInput
-                            type="search"
+                            type="text"
+                            (input)="
+                                storageService.searchQuery(searchInput.value)
+                            "
+                            (change)="router.navigate(['search'])"
                             (focusout)="search = false"
                         />
                         <button
@@ -68,12 +72,7 @@
 
             <router-outlet></router-outlet>
 
-            <app-music-player
-                *ngIf="authService.isLoggedIn"
-                [audioPath]="
-                    'public/Pentakill - Smite and Ignite - 01 Lightbringer.mp3'
-                "
-            />
+            <app-music-player *ngIf="authService.isLoggedIn" />
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

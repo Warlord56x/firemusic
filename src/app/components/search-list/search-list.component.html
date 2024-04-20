@@ -1,0 +1,24 @@
+<div fxFlexFill>
+    <mat-selection-list
+        *ngIf="storageService.queryResult$ | async; let results; else: loading"
+    >
+        <ng-container *ngFor="let result of results">
+            <mat-list-item (click)="this.play(result)">
+                <img
+                    matListItemAvatar
+                    width="50"
+                    height="50"
+                    alt="{{ result.name }} image"
+                    [ngSrc]="
+                        result.cover ? result.cover : 'assets/img/fm_logo.png'
+                    "
+                />
+                <h2 matListItemTitle>{{ result.name }}</h2>
+                <p matListItemLine>{{ result.author }}</p>
+            </mat-list-item>
+        </ng-container>
+
+        <p *ngIf="results.length === 0">Nothing to display</p>
+    </mat-selection-list>
+</div>
+<ng-template #loading>Loading&hellip;</ng-template>

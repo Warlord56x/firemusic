@@ -8,8 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatListItem, MatNavList, MatListModule } from '@angular/material/list';
@@ -20,18 +20,13 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DragComponent } from './components/drag/drag.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
-import {
-    MatFormField,
-    MatPrefix,
-    MatSuffix,
-} from '@angular/material/form-field';
+import { MatFormField, MatPrefix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [AppComponent, DashboardComponent, DragComponent],
@@ -47,15 +42,11 @@ import { MatInput } from '@angular/material/input';
         AppRoutingModule,
         RouterOutlet,
         MatButtonModule,
-        MatToolbar,
-        MatMenu,
         FlexLayoutModule,
         MatIcon,
         MatNavList,
         MatListItem,
         HttpClientModule,
-        MatGridListModule,
-        MatCardModule,
         MatMenuModule,
         MatIconModule,
         MatToolbarModule,
@@ -63,9 +54,9 @@ import { MatInput } from '@angular/material/input';
         MatListModule,
         DragDropModule,
         MusicPlayerComponent,
-        MatFormField,
         MatInput,
-        MatSuffix,
+        FormsModule,
+        MatFormField,
         MatPrefix,
     ],
     providers: [],

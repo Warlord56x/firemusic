@@ -11,6 +11,8 @@ import { DragComponent } from './components/drag/drag.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { WildCardComponent } from './components/404/404.component';
+import { UploadMusicComponent } from './components/upload-music/upload-music.component';
+import { SearchListComponent } from './components/search-list/search-list.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', component: HomeComponent },
@@ -20,6 +22,12 @@ const routes: Routes = [
     { path: 'verify-email', component: VerifyEmailComponent },
     { path: 'drag', component: DragComponent },
     { path: 'home', component: HomeComponent },
+    { path: 'search', component: SearchListComponent },
+    {
+        path: 'upload',
+        component: UploadMusicComponent,
+        canActivate: [AngularFireAuthGuard],
+    },
     {
         path: 'profile',
         component: ProfileComponent,
