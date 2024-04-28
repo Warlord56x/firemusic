@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterOutlet } from '@angular/router';
@@ -21,7 +20,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { DragComponent } from './components/drag/drag.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
 import {
@@ -32,10 +30,10 @@ import {
 import { MatInput } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard, MatCardModule } from '@angular/material/card';
 
 @NgModule({
-    declarations: [AppComponent, DashboardComponent, DragComponent],
+    declarations: [AppComponent, DashboardComponent],
     imports: [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
@@ -58,6 +56,8 @@ import { MatCardModule } from '@angular/material/card';
         MatToolbarModule,
         MatSidenavModule,
         MatListModule,
+        MatCard,
+        MatCardModule,
         DragDropModule,
         MusicPlayerComponent,
         MatInput,

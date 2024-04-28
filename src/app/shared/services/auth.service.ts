@@ -4,6 +4,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import firebase from 'firebase/compat';
 import User = firebase.User;
+import { Profile } from '../utils/profile';
+import { DatabaseService } from './database.service';
 
 @Injectable({
     providedIn: 'root',
@@ -11,6 +13,7 @@ import User = firebase.User;
 export class AuthService {
     constructor(
         public fireAuth: AngularFireAuth, // Inject Firebase auth service
+        private databaseService: DatabaseService,
         private router: Router,
     ) {
         /* Saving user data in localstorage when
@@ -33,10 +36,7 @@ export class AuthService {
         return this._user || null;
     }
 
-    updateProfile(profile: {
-        displayName?: string | undefined;
-        photoURL?: string | undefined;
-    }) {
+    updateProfile(profile: Profile) {
         this.fireAuth.currentUser.then((user) => {
             user?.updateProfile(profile);
         });
@@ -54,6 +54,7 @@ export class AuthService {
                 });
             });
     }
+
     // Sign up with email/password, setting displayName
     async signUp(name: string, email: string, password: string) {
         return this.fireAuth
@@ -62,12 +63,14 @@ export class AuthService {
                 /* Call the SendVerificationMail() function when new user sign
                 up and returns promise */
                 credentials.user?.updateProfile({ displayName: name });
+                this.databaseService.addUser({
+                    displayName: name,
+                    uid: credentials.user?.uid,
+                });
                 this.sendVerificationMail();
-            })
-            .catch((error) => {
-                window.alert(error.message);
             });
     }
+
     // Send email verification when new user sign up
     async sendVerificationMail() {
         return this.fireAuth.currentUser.then((u: User | null) => {
@@ -75,6 +78,7 @@ export class AuthService {
             this.router.navigate(['verify-email']);
         });
     }
+
     // Reset Forgot password
     async forgotPassword(passwordResetEmail: string) {
         return this.fireAuth
@@ -86,17 +90,20 @@ export class AuthService {
                 window.alert(error);
             });
     }
+
     // Returns true when user is logged in
     get isLoggedIn(): boolean {
         this._user = JSON.parse(localStorage.getItem('user')!);
         return this._user !== null;
     }
+
     // Sign in with Google
     async GoogleAuth() {
         return this.authLogin(new auth.GoogleAuthProvider()).then(() => {
             this.router.navigate(['dashboard']);
         });
     }
+
     // Auth logic to run auth providers
     async authLogin(provider: any) {
         return this.fireAuth

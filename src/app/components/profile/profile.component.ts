@@ -13,6 +13,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { MatList, MatListItem } from '@angular/material/list';
+import { DatabaseService } from '../../shared/services/database.service';
 
 @Component({
     selector: 'app-profile',
@@ -38,6 +39,7 @@ export class ProfileComponent {
 
     constructor(
         readonly authService: AuthService,
+        readonly databaseService: DatabaseService,
         private formBuilder: FormBuilder,
     ) {
         this.profileForm = this.formBuilder.group({
@@ -46,8 +48,10 @@ export class ProfileComponent {
     }
 
     onSubmit() {
-        this.authService.updateProfile({
+        const profile = {
             displayName: this.profileForm.value.name,
-        });
+        };
+        this.authService.updateProfile(profile);
+        this.databaseService.updateUser(profile);
     }
 }

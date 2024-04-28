@@ -54,6 +54,5 @@ export class SignupComponent {
                 this.signupForm.value.password,
             );
         }
-        console.log(this.signupForm.value);
     }
 }

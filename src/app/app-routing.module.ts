@@ -7,7 +7,6 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 
 import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
-import { DragComponent } from './components/drag/drag.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { WildCardComponent } from './components/404/404.component';
@@ -20,7 +19,6 @@ const routes: Routes = [
     { path: 'sign-up', component: SignupComponent },
     { path: 'sign-in', component: SignInComponent },
     { path: 'verify-email', component: VerifyEmailComponent },
-    { path: 'drag', component: DragComponent },
     { path: 'home', component: HomeComponent },
     { path: 'search', component: SearchListComponent },
     {

@@ -19,6 +19,14 @@
         </ng-container>
 
         <p *ngIf="results.length === 0">Nothing to display</p>
+        <mat-paginator
+            [length]="results.length"
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="pageChange($event)"
+            aria-label="Select page"
+        >
+        </mat-paginator>
     </mat-selection-list>
 </div>
 <ng-template #loading>Loading&hellip;</ng-template>
