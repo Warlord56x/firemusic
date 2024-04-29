@@ -73,22 +73,15 @@ export class AuthService {
 
     // Send email verification when new user sign up
     async sendVerificationMail() {
-        return this.fireAuth.currentUser.then((u: User | null) => {
-            u?.sendEmailVerification();
+        return this.fireAuth.currentUser.then((user: User | null) => {
+            user?.sendEmailVerification();
             this.router.navigate(['verify-email']);
         });
     }
 
     // Reset Forgot password
     async forgotPassword(passwordResetEmail: string) {
-        return this.fireAuth
-            .sendPasswordResetEmail(passwordResetEmail)
-            .then(() => {
-                window.alert('Password reset email sent, check your inbox.');
-            })
-            .catch((error) => {
-                window.alert(error);
-            });
+        return this.fireAuth.sendPasswordResetEmail(passwordResetEmail);
     }
 
     // Returns true when user is logged in
