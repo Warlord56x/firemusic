@@ -1,33 +1,58 @@
-import { Component, inject } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { DatabaseService } from "../../shared/services/database.service";
+import { AuthService } from "../../shared/services/auth.service";
+import { Observable, of, Subscription } from "rxjs";
+import { Music } from "../../shared/utils/music";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+
+interface CardData {
+    music: Music;
+    cols: number;
+    rows: number;
+}
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrl: './dashboard.component.scss',
+    selector: "app-dashboard",
+    templateUrl: "./dashboard.component.html",
+    styleUrl: "./dashboard.component.scss",
 })
-export class DashboardComponent {
-    private breakpointObserver = inject(BreakpointObserver);
+export class DashboardComponent implements OnDestroy, OnInit {
+    cards$: Observable<CardData[]> = new Observable();
+    musics: CardData[] | undefined;
 
-    /** Based on the screen size, switch from standard to one column per row */
-    cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-        map(({ matches }) => {
-            if (matches) {
-                return [
-                    { title: 'Card 1', cols: 1, rows: 1 },
-                    { title: 'Card 2', cols: 1, rows: 1 },
-                    { title: 'Card 3', cols: 1, rows: 1 },
-                    { title: 'Card 4', cols: 1, rows: 1 },
-                ];
-            }
+    breakSubscription: Subscription | undefined;
 
-            return [
-                { title: 'Card 1', cols: 2, rows: 1 },
-                { title: 'Card 2', cols: 1, rows: 1 },
-                { title: 'Card 3', cols: 1, rows: 2 },
-                { title: 'Card 4', cols: 1, rows: 1 },
-            ];
-        }),
-    );
+    constructor(
+        private databaseService: DatabaseService,
+        private authService: AuthService,
+        private breakpointObserver: BreakpointObserver,
+    ) {}
+
+    ngOnInit(): void {
+        this.getCards().then((res) => {
+            const cardData = res.map((music) => {
+                return { music: music, cols: 1, rows: 1 };
+            });
+            this.cards$ = of(cardData);
+            this.musics = cardData;
+
+            this.breakSubscription = this.breakpointObserver
+                .observe(Breakpoints.Handset)
+                .subscribe(({ matches }) => {
+                    this.musics?.forEach(
+                        (musicData) => (musicData.cols = matches ? 2 : 1),
+                    );
+                });
+        });
+    }
+
+    async getCards() {
+        return await this.databaseService.getUserMusics(
+            this.authService.user!.uid,
+        );
+    }
+
+    ngOnDestroy(): void {
+        this.breakSubscription?.unsubscribe();
+    }
 }

@@ -41,8 +41,13 @@
 
         <mat-form-field fxFlex subscriptSizing="dynamic">
             <mat-label>Name</mat-label>
-            <input #musicName matInput formControlName="name" type="text" />
+            <input #musicName matInput formControlName="name" type="text" placeholder="A perfect name" />
             <mat-error>Invalid Name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex subscriptSizing="dynamic">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="desc" placeholder="A fabuluos description..."></textarea>
         </mat-form-field>
 
         <mat-form-field fxFlex subscriptSizing="dynamic">

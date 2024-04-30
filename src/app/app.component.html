@@ -93,7 +93,7 @@
                             #searchInput
                             type="text"
                             (input)="
-                                storageService.searchQuery(searchInput.value)
+                                databaseService.searchQuery(searchInput.value)
                             "
                             (change)="router.navigate(['search'])"
                             (focusout)="search = false"

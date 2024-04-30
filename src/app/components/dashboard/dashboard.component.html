@@ -1,13 +1,13 @@
-<!--TODO: there should be your musics in a card, and an option to modify them, like the title description and stuff like that-->
+<!--TODO: Should make 2 dialogs 1 for remove and 1 for updating the content, (not the audio file, only the "metadata" and/or the cover image (maybe next time))-->
 <div class="grid-container">
     <h1 class="mat-h1">Dashboard</h1>
-    <mat-grid-list cols="2" rowHeight="350px">
-        @for (card of cards | async; track card) {
+    <mat-grid-list cols="2" rowHeight="10rem">
+        @for (card of cards$ | async; track card) {
             <mat-grid-tile [colspan]="card.cols" [rowspan]="card.rows">
                 <mat-card class="dashboard-card">
                     <mat-card-header>
                         <mat-card-title>
-                            {{ card.title }}
+                            {{ card.music.name }}
                             <button
                                 mat-icon-button
                                 class="more-button"
@@ -24,6 +24,7 @@
                     </mat-card-header>
                     <mat-card-content class="dashboard-card-content">
                         <div>Card Content Here</div>
+                        {{ card.music.description }}
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>

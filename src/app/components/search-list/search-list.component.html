@@ -1,6 +1,6 @@
 <div fxFlexFill>
     <mat-selection-list
-        *ngIf="storageService.queryResult$ | async; let results; else: loading"
+        *ngIf="databaseService.queryResult$ | async; let results; else: loading"
     >
         <ng-container *ngFor="let result of results">
             <mat-list-item (click)="this.play(result)">
