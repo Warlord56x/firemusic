@@ -1,15 +1,13 @@
 <div fxFlexFill>
-    <mat-selection-list
-        *ngIf="databaseService.queryResult$ | async; let results; else: loading"
-    >
-        <ng-container *ngFor="let result of results">
+    <mat-selection-list *ngIf="searchList; let results; else: loading">
+        <ng-container *ngFor="let result of results.slice(pageIndex*pageSize, (pageIndex+1)*pageSize)">
             <mat-list-item (click)="this.play(result)">
                 <img
                     matListItemAvatar
                     width="50"
                     height="50"
                     alt="{{ result.name }} image"
-                    [ngSrc]="
+                    [src]="
                         result.cover ? result.cover : 'assets/img/fm_logo.png'
                     "
                 />
@@ -19,14 +17,17 @@
         </ng-container>
 
         <p *ngIf="results.length === 0">Nothing to display</p>
-        <mat-paginator
-            [length]="results.length"
-            [pageSize]="10"
-            [pageSizeOptions]="[5, 10, 25, 100]"
-            (page)="pageChange($event)"
-            aria-label="Select page"
-        >
-        </mat-paginator>
+        <ng-container *ngIf="results.length > pageSize">
+            <mat-paginator
+                [length]="results.length"
+                [pageSize]="10"
+                [pageIndex]="0"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                (page)="pageChange($event)"
+                aria-label="Select page"
+            >
+            </mat-paginator>
+        </ng-container>
     </mat-selection-list>
 </div>
 <ng-template #loading>Loading&hellip;</ng-template>
