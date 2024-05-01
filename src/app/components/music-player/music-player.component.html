@@ -1,12 +1,8 @@
-<ng-template #musicDetails>
-    <ng-container *ngIf="music.name !== ''">
-        <p fxFlex>{{ shortenTitle(music.name, 18) }}</p>
-    </ng-container>
-</ng-template>
-
 <mat-toolbar>
     <mat-toolbar-row fxLayoutAlign="center center" fxHide.gt-xs>
-        <ng-container *ngTemplateOutlet="musicDetails"></ng-container>
+        <ng-container *ngIf="music.name !== ''">
+            <p fxFlex>{{ shortenTitle(music.name, 18) }}</p>
+        </ng-container>
     </mat-toolbar-row>
 
     <mat-toolbar-row fxLayoutAlign="center center">
@@ -26,9 +22,9 @@
             width="50"
         />
 
-        <div fxHide.xs>
-            <ng-container *ngTemplateOutlet="musicDetails"></ng-container>
-        </div>
+        <ng-container  *ngIf="music.name !== ''">
+            <p fxHide.xs fxFlex>{{ shortenTitle(music.name, 18) }}</p>
+        </ng-container>
 
         <div fxFlex fxLayout>
             <div fxFlex fxLayout>
