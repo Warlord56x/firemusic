@@ -1,5 +1,5 @@
 <!--TODO: This should be on the dashboard somewhere or the sidenav when you're on the dashboard, and should make this a nice popup or something-->
-<div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+<div fxLayoutAlign="center center" fxFlexFill>
     <form
         [formGroup]="musicForm"
         (ngSubmit)="onSubmit()"
@@ -41,13 +41,13 @@
 
         <mat-form-field fxFlex subscriptSizing="dynamic">
             <mat-label>Name</mat-label>
-            <input #musicName matInput formControlName="name" type="text" placeholder="A perfect name" />
+            <input matInput formControlName="name" type="text" placeholder="A perfect name" />
             <mat-error>Invalid Name</mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex subscriptSizing="dynamic">
             <mat-label>Description</mat-label>
-            <textarea matInput formControlName="desc" placeholder="A fabuluos description..."></textarea>
+            <textarea matInput formControlName="description" placeholder="A fabuluos description..."></textarea>
         </mat-form-field>
 
         <mat-form-field fxFlex subscriptSizing="dynamic">
@@ -57,6 +57,9 @@
 
         <button mat-raised-button color="primary" type="submit">Upload</button>
 
-        <mat-progress-spinner [value]="progress()"></mat-progress-spinner>
+        <ng-container *ngIf="taskDone; else progressSpinner" ><mat-icon>done</mat-icon></ng-container>
+        <ng-template #progressSpinner>
+            <mat-progress-spinner [value]="progress()"></mat-progress-spinner>
+        </ng-template>
     </form>
 </div>

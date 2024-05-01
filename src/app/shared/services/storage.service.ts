@@ -17,8 +17,9 @@ export class StorageService {
     ) {}
 
     uploadMusic(audio: File, image: File | undefined, data: Music) {
+        const id = this.fireStore.createId();
         const task = this.fireStorage.upload(
-            `/public/${this.auth.user?.uid}/music/${audio.name}/${audio.name}`,
+            `/public/${this.auth.user?.uid}/music/${id}/${audio.name}`,
             audio,
         );
 
@@ -28,7 +29,7 @@ export class StorageService {
             if (image) {
                 this.fireStorage
                     .upload(
-                        `/public/${this.auth.user?.uid}/img/${audio.name}/${image.name}`,
+                        `/public/${this.auth.user?.uid}/img/${id}/${image.name}`,
                         image,
                     )
                     .then(async (imgUrl) => {

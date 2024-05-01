@@ -1,26 +1,26 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { StorageService } from '../../shared/services/storage.service';
+import { Component, ElementRef, OnDestroy, ViewChild } from "@angular/core";
+import { StorageService } from "../../shared/services/storage.service";
 import {
     FormBuilder,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
     Validators,
-} from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButton } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
-import { MatIcon } from '@angular/material/icon';
-import { NgOptimizedImage } from '@angular/common';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { AuthService } from '../../shared/services/auth.service';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { Subscription } from 'rxjs';
+} from "@angular/forms";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatButton } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { RouterLink } from "@angular/router";
+import { MatIcon } from "@angular/material/icon";
+import { NgIf, NgOptimizedImage } from "@angular/common";
+import { MatSlideToggle } from "@angular/material/slide-toggle";
+import { AuthService } from "../../shared/services/auth.service";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { Subscription } from "rxjs";
 
 @Component({
-    selector: 'app-upload-music',
+    selector: "app-upload-music",
     standalone: true,
     imports: [
         FlexLayoutModule,
@@ -35,19 +35,22 @@ import { Subscription } from 'rxjs';
         NgOptimizedImage,
         MatSlideToggle,
         MatProgressSpinner,
+        NgIf,
     ],
-    templateUrl: './upload-music.component.html',
-    styleUrl: './upload-music.component.scss',
+    templateUrl: "./upload-music.component.html",
+    styleUrl: "./upload-music.component.scss",
 })
 export class UploadMusicComponent implements OnDestroy {
-    @ViewChild('img') img: ElementRef | undefined;
-    @ViewChild('musicName') musicName: ElementRef | undefined;
+    @ViewChild("img") img: ElementRef | undefined;
+    @ViewChild("imgInput") imgInput: ElementRef | undefined;
+    @ViewChild("audioInput") audioInput: ElementRef | undefined;
     musicForm: FormGroup;
 
     imgFile: File | undefined;
     audioFile: File | undefined;
 
     taskProgress: number = 0;
+    taskDone: boolean = false;
 
     percentSubscribe: Subscription | undefined;
 
@@ -58,10 +61,11 @@ export class UploadMusicComponent implements OnDestroy {
     ) {
         this.musicForm = this.formBuilder.group({
             name: [
-                '',
-                [Validators.required, Validators.pattern('^[A-Za-z0-9_ ]*$')],
+                "",
+                [Validators.required, Validators.pattern("^[A-Za-z0-9_ ]*$")],
             ],
-            album: ['', []],
+            album: ["", []],
+            description: ["", []],
         });
     }
 
@@ -77,19 +81,18 @@ export class UploadMusicComponent implements OnDestroy {
         event.preventDefault();
         this.audioFile = event.target.files[0];
         this.musicForm.setValue({
-            name: this.audioFile?.name.split('.').shift(),
-            album: '',
+            name: this.audioFile?.name.split(".").shift(),
+            album: "",
+            description: "",
         });
     }
 
     progress() {
-        if (this.taskProgress === 100.0) {
-            this.percentSubscribe?.unsubscribe();
-        }
         return this.taskProgress;
     }
 
     async onSubmit() {
+        this.taskDone = false;
         if (this.musicForm.valid && this.audioFile) {
             const uploadTask = this.storageService.uploadMusic(
                 this.audioFile,
@@ -98,16 +101,25 @@ export class UploadMusicComponent implements OnDestroy {
                     name: this.musicForm.value.name,
                     author: this.authService.user?.displayName,
                     album: this.musicForm.value.album,
+                    description: this.musicForm.value.description,
                     rating: 0,
                 },
             );
-            this.percentSubscribe = uploadTask
-                .percentageChanges()
-                .subscribe((next: number | undefined) => {
+            this.percentSubscribe = uploadTask.percentageChanges().subscribe({
+                next: (next: number | undefined) => {
                     if (next) {
                         this.taskProgress = next;
                     }
-                });
+                },
+                complete: () => {
+                    this.taskDone = true;
+                    this.percentSubscribe?.unsubscribe();
+                    this.musicForm.reset();
+                    this.audioInput!.nativeElement.value = "";
+                    this.imgInput!.nativeElement.value = "";
+                    this.img!.nativeElement.src = "assets/img/fm_logo.png";
+                },
+            });
         }
     }
 
