@@ -7,7 +7,13 @@
             Musics
         </ng-template>
         <div fxLayout="column">
-            @for (card of musics?.slice(pageIndex*pageSize, (pageIndex+1)*pageSize); track card) {
+            @for (
+                card of musics?.slice(
+                    pageIndex * pageSize,
+                    (pageIndex + 1) * pageSize
+                );
+                track card
+            ) {
                 <mat-card class="dashboard-card">
                     <mat-card-header>
                         <mat-card-title>
@@ -30,14 +36,27 @@
                                 <mat-icon>more_vert</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu" xPosition="before">
-                                <button mat-menu-item>Expand</button>
-                                <button mat-menu-item>Remove</button>
+                                <button mat-menu-item>Modify</button>
+                                <button
+                                    mat-menu-item
+                                    (click)="
+                                        this.storageService.deleteMusic(card)
+                                    "
+                                >
+                                    Remove
+                                </button>
                             </mat-menu>
                         </mat-card-title>
                     </mat-card-header>
                     <mat-card-content class="dashboard-card-content">
                         <div>Music description:</div>
                         {{ card.description }}
+                        <p>
+                            aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa
+                            aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa
+                            aaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa
+                            aaaaaaaaaaaaaaaa
+                        </p>
                     </mat-card-content>
                     <mat-card-actions>
                         <button mat-fab extended (click)="this.play(card)">

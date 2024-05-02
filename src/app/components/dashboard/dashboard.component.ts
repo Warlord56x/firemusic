@@ -4,6 +4,7 @@ import { AuthService } from "../../shared/services/auth.service";
 import { Music } from "../../shared/utils/music";
 import { PageEvent } from "@angular/material/paginator";
 import { MusicService } from "../../shared/services/music.service";
+import { StorageService } from "../../shared/services/storage.service";
 
 @Component({
     selector: "app-dashboard",
@@ -16,6 +17,7 @@ export class DashboardComponent implements OnInit {
     protected pageIndex: number = 0;
 
     constructor(
+        protected storageService: StorageService,
         private databaseService: DatabaseService,
         private authService: AuthService,
         private musicService: MusicService,

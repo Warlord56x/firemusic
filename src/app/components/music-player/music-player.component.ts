@@ -1,16 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatSlider, MatSliderThumb } from '@angular/material/slider';
-import { FormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { MusicService } from '../../shared/services/music.service';
-import { Music } from '../../shared/utils/music';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { MatSlider, MatSliderThumb } from "@angular/material/slider";
+import { FormsModule } from "@angular/forms";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { MusicService } from "../../shared/services/music.service";
+import { Music } from "../../shared/utils/music";
 
 @Component({
-    selector: 'app-music-player',
+    selector: "app-music-player",
     standalone: true,
     imports: [
         CommonModule,
@@ -23,22 +23,22 @@ import { Music } from '../../shared/utils/music';
         MatIcon,
         NgOptimizedImage,
     ],
-    templateUrl: './music-player.component.html',
-    styleUrl: './music-player.component.scss',
+    templateUrl: "./music-player.component.html",
+    styleUrl: "./music-player.component.scss",
 })
 export class MusicPlayerComponent implements OnInit {
-    @ViewChild('audio') audioRef: ElementRef | undefined;
-    @ViewChild('slider') sliderRef: ElementRef | undefined;
+    @ViewChild("audio") audioRef: ElementRef | undefined;
+    @ViewChild("slider") sliderRef: ElementRef | undefined;
     isPlaying: boolean = false;
     _volume: number = 1.0;
     _loop: boolean = false;
-    music: Music = { name: '', rating: 0 };
+    music: Music = { name: "", rating: 0, uid: "", musicId: "" };
 
     constructor(readonly musicService: MusicService) {}
 
     shortenTitle(title: string, maxLength: number): string | undefined {
         if (title!.length > maxLength) {
-            return title?.slice(0, maxLength) + '...';
+            return title?.slice(0, maxLength) + "...";
         }
         return title;
     }
@@ -127,7 +127,7 @@ export class MusicPlayerComponent implements OnInit {
     }
 
     atEnd() {
-        console.log('ended');
+        console.log("ended");
     }
 
     sliderInputDone() {

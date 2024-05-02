@@ -6,5 +6,6 @@ export interface Music {
     audio?: string;
     description?: string;
     rating: number;
-    uid?: string;
+    uid: string;
+    musicId: string;
 }

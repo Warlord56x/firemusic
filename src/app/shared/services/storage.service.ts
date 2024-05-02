@@ -3,6 +3,7 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Music } from "../utils/music";
 import { AuthService } from "./auth.service";
+import { combineLatestWith, map, Observable } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -16,6 +17,10 @@ export class StorageService {
         private auth: AuthService,
     ) {}
 
+    generateId() {
+        return this.fireStore.createId();
+    }
+
     uploadMusic(audio: File, image: File | undefined, data: Music) {
         const id = this.fireStore.createId();
         const task = this.fireStorage.upload(
@@ -25,7 +30,6 @@ export class StorageService {
 
         task.then(async (audioUrl) => {
             data.audio = await audioUrl.ref.getDownloadURL();
-            data.uid = this.auth.user?.uid;
             if (image) {
                 this.fireStorage
                     .upload(
@@ -42,5 +46,37 @@ export class StorageService {
         });
 
         return task;
+    }
+
+    deleteMusic(music: Music) {
+        let audioTask$ = new Observable();
+        let imageTask$ = new Observable();
+
+        const res = this.fireStore
+            .collection<Music>("music")
+            .ref.where("musicId", "==", music.musicId)
+            .get();
+        res.then((ref) => {
+            ref.docs.forEach((doc) => {
+                const data = doc.data();
+
+                if (data.audio) {
+                    audioTask$ = this.fireStorage
+                        .refFromURL(data.audio)
+                        .delete();
+                }
+                if (data.cover) {
+                    imageTask$ = this.fireStorage
+                        .refFromURL(data.cover)
+                        .delete();
+                }
+                doc.ref.delete();
+            });
+        });
+
+        return audioTask$.pipe(
+            combineLatestWith(imageTask$),
+            map(([task1, task2]) => (<number>task1 + <number>task2) / 2),
+        );
     }
 }

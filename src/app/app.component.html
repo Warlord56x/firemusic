@@ -1,51 +1,4 @@
 <div fxLayout="column" fxFlexFill>
-    <mat-toolbar color="primary">
-        <ng-container *ngIf="!search; else showSearch">
-            <div fxFlex fxLayout>
-                <button mat-icon-button (click)="sidenav.toggle()">
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </div>
-
-            <div fxFlex fxLayout="column" fxLayoutAlign="center center">
-                <button
-                    fxFlex
-                    class="icon-container"
-                    mat-icon-button
-                    routerLink="/home"
-                >
-                    <mat-icon svgIcon="firemusic"></mat-icon>
-                </button>
-            </div>
-
-            <div fxFlex fxLayout fxLayoutAlign="end">
-                <button mat-icon-button (click)="search = true">
-                    <mat-icon>search</mat-icon>
-                </button>
-            </div>
-        </ng-container>
-        <ng-template #showSearch>
-            <mat-form-field fxFlex fxFlexFill subscriptSizing="dynamic">
-                <input
-                    matInput
-                    #searchInput
-                    type="text"
-                    (input)="
-                                databaseService.searchQuery(searchInput.value)
-                            "
-                    (change)="router.navigate(['search'])"
-                    (focusout)="search = false"
-                />
-                <button
-                    matIconSuffix
-                    mat-icon-button
-                    (click)="search = false"
-                >
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </mat-form-field>
-        </ng-template>
-    </mat-toolbar>
     <mat-sidenav-container fxFlex>
         <mat-sidenav
             opened
@@ -64,11 +17,6 @@
                 <a mat-list-item routerLink="/three">
                     <mat-icon matListItemIcon>3d_rotation</mat-icon>
                     Visualize
-                </a>
-
-                <a mat-list-item routerLink="/upload">
-                    <mat-icon matListItemIcon>cloud_upload</mat-icon>
-                    Upload
                 </a>
 
                 <a
@@ -101,11 +49,57 @@
                 </ng-template>
             </mat-nav-list>
         </mat-sidenav>
-        <mat-sidenav-content>
+        <mat-sidenav-content fxFlex fxLayout="column">
+            <mat-toolbar color="primary">
+                <ng-container *ngIf="!search; else showSearch">
+                    <div fxFlex fxLayout>
+                        <button mat-icon-button (click)="sidenav.toggle()">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                    </div>
 
+                    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+                        <button
+                            fxFlex
+                            class="icon-container"
+                            mat-icon-button
+                            routerLink="/home"
+                        >
+                            <mat-icon svgIcon="firemusic"></mat-icon>
+                        </button>
+                    </div>
 
-            <router-outlet style="display: none"></router-outlet>
-
+                    <div fxFlex fxLayout fxLayoutAlign="end">
+                        <button mat-icon-button (click)="search = true">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-template #showSearch>
+                    <mat-form-field fxFlex fxFlexFill subscriptSizing="dynamic">
+                        <input
+                            matInput
+                            #searchInput
+                            type="text"
+                            (input)="
+                                databaseService.searchQuery(searchInput.value)
+                            "
+                            (change)="router.navigate(['search'])"
+                            (focusout)="search = false"
+                        />
+                        <button
+                            matIconSuffix
+                            mat-icon-button
+                            (click)="search = false"
+                        >
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </ng-template>
+            </mat-toolbar>
+            <div fxFlex>
+                <router-outlet style="display: none"></router-outlet>
+            </div>
         </mat-sidenav-content>
     </mat-sidenav-container>
     <app-music-player />
