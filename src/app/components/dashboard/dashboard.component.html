@@ -1,13 +1,26 @@
 <!--TODO: Should make 2 dialogs 1 for remove and 1 for updating the content, (not the audio file, only the "metadata" and/or the cover image (maybe next time))-->
-<div class="grid-container">
-    <h1 class="mat-h1">Dashboard</h1>
-    <mat-grid-list cols="2" rowHeight="10rem">
-        @for (card of cards$ | async; track card) {
-            <mat-grid-tile [colspan]="card.cols" [rowspan]="card.rows">
+
+<mat-tab-group>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">dashboard</mat-icon>
+            Musics
+        </ng-template>
+        <div fxLayout="column">
+            @for (card of musics?.slice(pageIndex*pageSize, (pageIndex+1)*pageSize); track card) {
                 <mat-card class="dashboard-card">
                     <mat-card-header>
                         <mat-card-title>
-                            {{ card.music.name }}
+                            <img
+                                mat-card-sm-image
+                                [src]="
+                                    card.cover
+                                        ? card.cover
+                                        : 'assets/img/fm_logo.png'
+                                "
+                                [alt]="card.name"
+                            />
+                            {{ card.name }}
                             <button
                                 mat-icon-button
                                 class="more-button"
@@ -23,11 +36,43 @@
                         </mat-card-title>
                     </mat-card-header>
                     <mat-card-content class="dashboard-card-content">
-                        <div>Card Content Here</div>
-                        {{ card.music.description }}
+                        <div>Music description:</div>
+                        {{ card.description }}
                     </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-fab extended (click)="this.play(card)">
+                            <mat-icon>play_arrow</mat-icon>
+                            Play
+                        </button>
+                    </mat-card-actions>
                 </mat-card>
-            </mat-grid-tile>
-        }
-    </mat-grid-list>
-</div>
+            }
+            <mat-paginator
+                [length]="musics?.length"
+                [pageSize]="10"
+                [pageIndex]="0"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                (page)="pageChange($event)"
+                aria-label="Select page"
+            >
+            </mat-paginator>
+        </div>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">cloud_upload</mat-icon>
+            Upload
+        </ng-template>
+        <app-upload-music></app-upload-music>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">thumb_up</mat-icon>
+            Third
+        </ng-template>
+
+        Content 3
+    </mat-tab>
+</mat-tab-group>

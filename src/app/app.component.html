@@ -1,4 +1,51 @@
 <div fxLayout="column" fxFlexFill>
+    <mat-toolbar color="primary">
+        <ng-container *ngIf="!search; else showSearch">
+            <div fxFlex fxLayout>
+                <button mat-icon-button (click)="sidenav.toggle()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+
+            <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+                <button
+                    fxFlex
+                    class="icon-container"
+                    mat-icon-button
+                    routerLink="/home"
+                >
+                    <mat-icon svgIcon="firemusic"></mat-icon>
+                </button>
+            </div>
+
+            <div fxFlex fxLayout fxLayoutAlign="end">
+                <button mat-icon-button (click)="search = true">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </div>
+        </ng-container>
+        <ng-template #showSearch>
+            <mat-form-field fxFlex fxFlexFill subscriptSizing="dynamic">
+                <input
+                    matInput
+                    #searchInput
+                    type="text"
+                    (input)="
+                                databaseService.searchQuery(searchInput.value)
+                            "
+                    (change)="router.navigate(['search'])"
+                    (focusout)="search = false"
+                />
+                <button
+                    matIconSuffix
+                    mat-icon-button
+                    (click)="search = false"
+                >
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-form-field>
+        </ng-template>
+    </mat-toolbar>
     <mat-sidenav-container fxFlex>
         <mat-sidenav
             opened
@@ -54,64 +101,11 @@
                 </ng-template>
             </mat-nav-list>
         </mat-sidenav>
-        <mat-sidenav-content
-            style="
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-            "
-        >
-            <mat-toolbar color="primary">
-                <ng-container *ngIf="!search; else showSearch">
-                    <div fxFlex fxLayout>
-                        <button mat-icon-button (click)="sidenav.toggle()">
-                            <mat-icon>menu</mat-icon>
-                        </button>
-                    </div>
+        <mat-sidenav-content>
 
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
-                        <button
-                            fxFlex
-                            class="icon-container"
-                            mat-icon-button
-                            routerLink="/home"
-                        >
-                            <mat-icon svgIcon="firemusic"></mat-icon>
-                        </button>
-                    </div>
-
-                    <div fxFlex fxLayout fxLayoutAlign="end">
-                        <button mat-icon-button (click)="search = true">
-                            <mat-icon>search</mat-icon>
-                        </button>
-                    </div>
-                </ng-container>
-                <ng-template #showSearch>
-                    <mat-form-field fxFlex fxFlexFill subscriptSizing="dynamic">
-                        <input
-                            matInput
-                            #searchInput
-                            type="text"
-                            (input)="
-                                databaseService.searchQuery(searchInput.value)
-                            "
-                            (change)="router.navigate(['search'])"
-                            (focusout)="search = false"
-                        />
-                        <button
-                            matIconSuffix
-                            mat-icon-button
-                            (click)="search = false"
-                        >
-                            <mat-icon>cancel</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </ng-template>
-            </mat-toolbar>
 
             <router-outlet style="display: none"></router-outlet>
 
-            <div></div>
         </mat-sidenav-content>
     </mat-sidenav-container>
     <app-music-player />
