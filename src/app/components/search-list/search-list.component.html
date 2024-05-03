@@ -1,6 +1,18 @@
-<div fxLayout fxLayoutAlign style="margin: 0.5rem 1rem 0 1rem">
-    <div fxFlex *ngIf="searchList; let results; else: loading">
-        <mat-selection-list>
+<div
+    fxFlexFill
+    fxLayout.xs="column"
+    fxLayout.gt-xs="row"
+    fxLayoutAlign
+    style="margin: 0.5rem 1rem 0 1rem"
+>
+    <div
+        fxFlexOrder.xs="2"
+        fxFlex
+        fxLayout="column"
+        *ngIf="searchList; let results; else: loading"
+    >
+        <p *ngIf="results.length === 0">Nothing to display</p>
+        <mat-selection-list fxFlex>
             <ng-container
                 *ngFor="
                     let result of results.slice(
@@ -23,10 +35,15 @@
                     />
                     <h2 matListItemTitle>{{ result.name }}</h2>
                     <p matListItemLine>{{ result.author }}</p>
+                    <p matListItemLine>
+                        @for (tag of result.tags; track tag) {
+                            <mat-chip>{{ tag }}</mat-chip>
+                        }
+                    </p>
                 </mat-list-item>
             </ng-container>
         </mat-selection-list>
-        <p *ngIf="results.length === 0">Nothing to display</p>
+
         <ng-container *ngIf="results.length > pageSize">
             <mat-paginator
                 [length]="results.length"
@@ -39,28 +56,40 @@
             </mat-paginator>
         </ng-container>
     </div>
-    <div fxLayout="column" fxLayoutGap="1rem">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>Advanced Search</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-form-field>
-                    <mat-label>tags</mat-label>
-                    <input matInput />
-                </mat-form-field>
-            </mat-card-content>
-        </mat-card>
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>Advanced Search</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                @for (tag of databaseService.tags; track tag) {
-                    <p>{{ tag }}</p>
-                }
-            </mat-card-content>
-        </mat-card>
+
+    <!--TODO: Make this an extendable field (maybe only on mobile??? Also resolve the search matching bug)-->
+    <div class="panel" fxFlexOrder.xs="1">
+        <h2>Advanced Search</h2>
+        <div>
+            <h3>Name</h3>
+            <mat-form-field>
+                <mat-label>Music name</mat-label>
+                <input [(ngModel)]="nameQuery" matInput />
+            </mat-form-field>
+        </div>
+
+        <div>
+            <h3>Author</h3>
+            <mat-form-field>
+                <mat-label>Author name</mat-label>
+                <input [(ngModel)]="authorQuery" matInput />
+            </mat-form-field>
+        </div>
+
+        <div>
+            <h3>Album</h3>
+            <mat-form-field>
+                <mat-label>Album name</mat-label>
+                <input [(ngModel)]="albumQuery" matInput />
+            </mat-form-field>
+        </div>
+
+        <div>
+            <h3>Tag filter</h3>
+            <app-tag-chipinput
+                (tagsChange)="tagsChange($event)"
+            ></app-tag-chipinput>
+        </div>
     </div>
     <ng-template #loading>Loading&hellip;</ng-template>
 </div>

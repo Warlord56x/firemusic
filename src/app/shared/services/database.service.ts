@@ -34,16 +34,25 @@ export class DatabaseService {
                     .collection<Music>("music", (ref) => {
                         let query: firebase.firestore.Query = ref;
                         if (name) {
-                            query = query.where("name", ">=", name);
+                            query = query
+                                .orderBy("name")
+                                .startAt(name)
+                                .endAt(name + "\uf8ff");
                         }
+
+                        // TODO: Needs to build indexes to have multiple ranges (probably?), try to use the same technique as above
                         if (author) {
                             query = query.where("author", ">=", author);
                         }
                         if (album) {
                             query = query.where("album", ">=", album);
                         }
-                        if (tags) {
-                            query.where("tags", "array-contains-any", tags);
+                        if (tags && tags.length > 0) {
+                            query = query.where(
+                                "tags",
+                                "array-contains-any",
+                                tags,
+                            );
                         }
                         return query;
                     })
@@ -52,7 +61,6 @@ export class DatabaseService {
         );
         this.searchQuery("");
         this.getMusicTags();
-        console.log(this.tags);
     }
 
     searchQuery(queryWord: string | null) {
@@ -69,6 +77,15 @@ export class DatabaseService {
 
     searchTags(tags: string[]) {
         this.tagFilter$.next(tags);
+    }
+
+    get searchOptions() {
+        return {
+            name: this.nameFilter$.value,
+            author: this.authorFilter$.value,
+            album: this.albumFilter$.value,
+            tags: this.tagFilter$.value,
+        };
     }
 
     getMusicTags() {

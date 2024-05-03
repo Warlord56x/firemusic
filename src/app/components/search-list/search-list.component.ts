@@ -10,6 +10,16 @@ import { Subscription } from "rxjs";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatChipsModule } from "@angular/material/chips";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+    MatAutocomplete,
+    MatAutocompleteTrigger,
+    MatOption,
+} from "@angular/material/autocomplete";
+import { MatIcon } from "@angular/material/icon";
+import { TagChipInputComponent } from "../shared/tag-chipinput/tag-chip-input.component";
 
 @Component({
     selector: "app-search-list",
@@ -25,6 +35,15 @@ import { MatCardModule } from "@angular/material/card";
         MatFormFieldModule,
         MatInput,
         MatCardModule,
+        MatCheckbox,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatAutocompleteTrigger,
+        MatAutocomplete,
+        MatOption,
+        MatIcon,
+        TagChipInputComponent,
+        FormsModule,
     ],
     templateUrl: "./search-list.component.html",
     styleUrl: "./search-list.component.scss",
@@ -41,9 +60,33 @@ export class SearchListComponent implements OnDestroy, OnInit {
     protected pageSize: number = 10;
     protected pageIndex: number = 0;
 
+    set nameQuery(nameQuery: string | null) {
+        this.databaseService.searchQuery(nameQuery);
+    }
+
+    get nameQuery() {
+        return this.databaseService.searchOptions.name;
+    }
+
+    set authorQuery(authorQuery: string | null) {
+        this.databaseService.searchAuthor(authorQuery);
+    }
+
+    get authorQuery() {
+        return this.databaseService.searchOptions.author;
+    }
+
+    set albumQuery(albumQuery: string | null) {
+        this.databaseService.searchAlbum(albumQuery);
+    }
+
+    get albumQuery() {
+        return this.databaseService.searchOptions.album;
+    }
+
     constructor(
-        readonly databaseService: DatabaseService,
-        readonly musicService: MusicService,
+        private databaseService: DatabaseService,
+        private musicService: MusicService,
     ) {}
 
     play(m: Music) {
@@ -65,5 +108,9 @@ export class SearchListComponent implements OnDestroy, OnInit {
 
     ngOnDestroy(): void {
         this.subscription?.unsubscribe();
+    }
+
+    tagsChange(tags: string[]) {
+        this.databaseService.searchTags(tags);
     }
 }

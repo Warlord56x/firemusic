@@ -56,6 +56,8 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
     styleUrl: "./upload-music.component.scss",
 })
 export class UploadMusicComponent implements OnDestroy {
+    // TODO: Implement the chip tag selector component instead of making it in this to reduce code duplication.
+
     @ViewChild("img") img: ElementRef | undefined;
     @ViewChild("imgInput") imgInput: ElementRef | undefined;
     @ViewChild("audioInput") audioInput: ElementRef | undefined;

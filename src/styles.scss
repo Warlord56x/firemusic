@@ -58,8 +58,6 @@ $dark-theme: mat.define-dark-theme(
     )
 );
 
-
-
 @include mat.all-component-themes($light-theme);
 
 html,
@@ -109,3 +107,8 @@ a {
     }
 }
 
+.panel {
+    background-color: map.get($slate, 900);
+    outline: map.get($slate, 800) 0.1rem solid;
+    padding: 1rem;
+}
