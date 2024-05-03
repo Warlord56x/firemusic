@@ -14,18 +14,21 @@ export class DatabaseService {
     nameFilter$: BehaviorSubject<string | null>;
     authorFilter$: BehaviorSubject<string | null>;
     albumFilter$: BehaviorSubject<string | null>;
+    tagFilter$: BehaviorSubject<string[] | null>;
 
     constructor(private fireStore: AngularFirestore) {
         this.nameFilter$ = new BehaviorSubject<string | null>(null);
         this.authorFilter$ = new BehaviorSubject<string | null>(null);
         this.albumFilter$ = new BehaviorSubject<string | null>(null);
+        this.tagFilter$ = new BehaviorSubject<string[] | null>(null);
 
         this.queryResult$ = combineLatest([
             this.nameFilter$,
             this.authorFilter$,
             this.albumFilter$,
+            this.tagFilter$,
         ]).pipe(
-            switchMap(([name, author, album]) =>
+            switchMap(([name, author, album, tags]) =>
                 this.fireStore
                     .collection<Music>("music", (ref) => {
                         let query: firebase.firestore.Query = ref;
@@ -37,6 +40,9 @@ export class DatabaseService {
                         }
                         if (album) {
                             query = query.where("album", ">=", album);
+                        }
+                        if (tags) {
+                            query.where("tags", "array-contains-any", tags);
                         }
                         return query;
                     })

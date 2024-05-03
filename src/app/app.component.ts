@@ -9,7 +9,6 @@ import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { DatabaseService } from "./shared/services/database.service";
 
 @Component({
     selector: "app-root",
@@ -23,7 +22,6 @@ export class AppComponent {
 
     constructor(
         protected authService: AuthService,
-        protected databaseService: DatabaseService,
         protected router: Router,
         readonly matIconRegistry: MatIconRegistry,
         readonly domSanitizer: DomSanitizer,

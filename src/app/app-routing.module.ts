@@ -1,9 +1,5 @@
 import { NgModule } from "@angular/core";
-import {
-    RouterModule,
-    Routes,
-    withComponentInputBinding,
-} from "@angular/router";
+import { RouterModule, Routes } from "@angular/router";
 import { ThreeComponent } from "./components/three/three.component";
 import { SignupComponent } from "./components/sign-up/sign-up.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";

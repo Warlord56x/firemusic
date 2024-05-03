@@ -23,6 +23,12 @@ import {
     SupportedTypes,
 } from "../../shared/directives/dnd.directive";
 import { MatStepperModule } from "@angular/material/stepper";
+import {
+    MatChipEditedEvent,
+    MatChipInputEvent,
+    MatChipsModule,
+} from "@angular/material/chips";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
 
 @Component({
     selector: "app-upload-music",
@@ -44,6 +50,7 @@ import { MatStepperModule } from "@angular/material/stepper";
         MatAnchor,
         DndDirective,
         MatStepperModule,
+        MatChipsModule,
     ],
     templateUrl: "./upload-music.component.html",
     styleUrl: "./upload-music.component.scss",
@@ -53,6 +60,7 @@ export class UploadMusicComponent implements OnDestroy {
     @ViewChild("imgInput") imgInput: ElementRef | undefined;
     @ViewChild("audioInput") audioInput: ElementRef | undefined;
     musicForm: FormGroup;
+    tags: string[] = [];
 
     imgFile: File | undefined;
     audioFile: File | undefined;
@@ -64,6 +72,7 @@ export class UploadMusicComponent implements OnDestroy {
 
     protected readonly SupportedTypes = SupportedTypes;
     protected musicName = "";
+    separatorKeysCodes = [ENTER, COMMA] as const;
 
     constructor(
         readonly storageService: StorageService,
@@ -122,6 +131,8 @@ export class UploadMusicComponent implements OnDestroy {
                     rating: 0,
                     uid: this.authService.user!.uid,
                     musicId: this.storageService.generateId(),
+                    tags: this.tags,
+                    uploadDate: new Date(),
                 },
             );
             this.percentSubscribe = uploadTask.percentageChanges().subscribe({
@@ -160,5 +171,36 @@ export class UploadMusicComponent implements OnDestroy {
         } else {
             this.img!.nativeElement.src = URL.createObjectURL(event);
         }
+    }
+
+    removeTag(tag: string) {
+        const index = this.tags.indexOf(tag);
+
+        if (index >= 0) {
+            this.tags.splice(index, 1);
+        }
+    }
+
+    editTag(tag: any, event: MatChipEditedEvent) {
+        const value = event.value.trim();
+
+        if (!value) {
+            this.removeTag(tag);
+            return;
+        }
+
+        const index = this.tags.indexOf(tag);
+        if (index >= 0) {
+            this.tags[index] = value;
+        }
+    }
+
+    addTag(event: MatChipInputEvent) {
+        const value = (event.value || "").trim();
+
+        if (value) {
+            this.tags.push(value);
+        }
+        event.chipInput!.clear();
     }
 }

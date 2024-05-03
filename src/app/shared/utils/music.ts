@@ -8,4 +8,6 @@ export interface Music {
     rating: number;
     uid: string;
     musicId: string;
+    tags: string[];
+    uploadDate: Date;
 }
