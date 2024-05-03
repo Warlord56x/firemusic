@@ -29,7 +29,7 @@ import { RouterLink } from "@angular/router";
         RouterLink,
     ],
     templateUrl: "./sign-up.component.html",
-    styleUrl: "./sign-up.component.scss",
+    styleUrl: "../../shared/styles/sign-styles.scss",
 })
 export class SignupComponent {
     signupForm: FormGroup;

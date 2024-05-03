@@ -92,3 +92,20 @@ $dark-theme: map.merge(
 @media (prefers-color-scheme: dark) {
     @include mat.all-component-colors($dark-theme);
 }
+
+a {
+    color: map.get($blue, 500);
+
+    &:hover {
+        color: map.get($blue, 400);
+    }
+
+    &:visited {
+        color: map.get($violet, 500);
+    }
+
+    &:visited:hover {
+        color: map.get($violet, 400);
+    }
+}
+
