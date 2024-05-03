@@ -7,6 +7,9 @@ import { Music } from "../../shared/utils/music";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { DatabaseService } from "../../shared/services/database.service";
 import { Subscription } from "rxjs";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
     selector: "app-search-list",
@@ -19,6 +22,9 @@ import { Subscription } from "rxjs";
         NgIf,
         NgOptimizedImage,
         MatPaginator,
+        MatFormFieldModule,
+        MatInput,
+        MatCardModule,
     ],
     templateUrl: "./search-list.component.html",
     styleUrl: "./search-list.component.scss",
@@ -45,13 +51,8 @@ export class SearchListComponent implements OnDestroy, OnInit {
     }
 
     pageChange(event: PageEvent) {
-        console.log(event);
         this.pageSize = event.pageSize;
         this.pageIndex = event.pageIndex;
-        console.log(
-            this.pageIndex * this.pageSize,
-            (this.pageIndex + 1) * this.pageSize,
-        );
     }
 
     ngOnInit(): void {

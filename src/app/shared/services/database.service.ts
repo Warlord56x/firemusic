@@ -10,11 +10,12 @@ import firebase from "firebase/compat";
 })
 export class DatabaseService {
     public queryResult$: Observable<Music[]>;
+    public tags: string[] = [];
 
-    nameFilter$: BehaviorSubject<string | null>;
-    authorFilter$: BehaviorSubject<string | null>;
-    albumFilter$: BehaviorSubject<string | null>;
-    tagFilter$: BehaviorSubject<string[] | null>;
+    private nameFilter$: BehaviorSubject<string | null>;
+    private authorFilter$: BehaviorSubject<string | null>;
+    private albumFilter$: BehaviorSubject<string | null>;
+    private tagFilter$: BehaviorSubject<string[] | null>;
 
     constructor(private fireStore: AngularFirestore) {
         this.nameFilter$ = new BehaviorSubject<string | null>(null);
@@ -50,10 +51,38 @@ export class DatabaseService {
             ),
         );
         this.searchQuery("");
+        this.getMusicTags();
+        console.log(this.tags);
     }
 
     searchQuery(queryWord: string | null) {
-        this.nameFilter$?.next(queryWord);
+        this.nameFilter$.next(queryWord);
+    }
+
+    searchAuthor(tags: string | null) {
+        this.authorFilter$.next(tags);
+    }
+
+    searchAlbum(tags: string | null) {
+        this.albumFilter$.next(tags);
+    }
+
+    searchTags(tags: string[]) {
+        this.tagFilter$.next(tags);
+    }
+
+    getMusicTags() {
+        const result = this.fireStore.collection<Music>("music").get();
+        result
+            .forEach((docs) => {
+                docs.docs.forEach((doc) => {
+                    if (doc.data().tags) {
+                        this.tags.push(...doc.data().tags);
+                    }
+                });
+            })
+            .then(() => console.log(this.tags));
+        return this.tags;
     }
 
     async getUserMusics(uid: string | undefined) {
