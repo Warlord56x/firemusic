@@ -131,7 +131,7 @@ export class UploadMusicComponent implements OnDestroy {
                     rating: 0,
                     uid: this.authService.user!.uid,
                     musicId: this.storageService.generateId(),
-                    tags: this.tags,
+                    tags: [...new Set(this.tags)],
                     uploadDate: new Date(),
                 },
             );
@@ -144,10 +144,10 @@ export class UploadMusicComponent implements OnDestroy {
                 complete: () => {
                     this.taskDone = true;
                     this.percentSubscribe?.unsubscribe();
-                    this.musicForm.reset();
                     this.audioInput!.nativeElement.value = "";
                     this.imgInput!.nativeElement.value = "";
                     this.img!.nativeElement.src = "assets/img/fm_logo.png";
+                    this.musicForm.reset();
                 },
             });
         }

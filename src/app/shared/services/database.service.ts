@@ -81,7 +81,9 @@ export class DatabaseService {
                     }
                 });
             })
-            .then(() => console.log(this.tags));
+            .then(() => {
+                this.tags = [...new Set(this.tags)];
+            });
         return this.tags;
     }
 
