@@ -1,65 +1,142 @@
-<!--TODO: This should be on the dashboard somewhere or the sidenav when you're on the dashboard, and should make this a nice popup or something-->
-<div fxLayoutAlign="center center" fxFlexFill>
+<div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
     <form
+        fxFlex
         [formGroup]="musicForm"
         (ngSubmit)="onSubmit()"
         fxLayout="column"
-        fxLayoutAlign="start center"
+        fxLayoutAlign="center center"
         fxLayoutGap="1rem"
     >
-        <form fxLayout="column" fxFlex fxLayoutGap="1rem">
-            <img
-                priority
-                ngSrc="assets/img/fm_logo.png"
-                alt="Cover image"
-                height="200"
-                #img
-                width="200"
-            />
-            <input
-                (change)="updateImage($event)"
-                hidden
-                #imgInput
-                type="file"
-                accept="image/*"
-            />
-            <button mat-raised-button (click)="imgInput.click()">
-                Choose cover&hellip;
-            </button>
+        <mat-stepper fxFlex orientation="vertical" linear="false" #stepper>
+            <mat-step>
+                <div class="stepContent" fxLayout="column" fxLayoutGap="1rem">
+                    <ng-template matStepLabel>Upload audio file</ng-template>
 
-            <input
-                (change)="updateMusic($event)"
-                hidden
-                #audioInput
-                type="file"
-                accept="audio/*"
-            />
-            <button mat-raised-button (click)="audioInput.click()">
-                Choose audio&hellip;
-            </button>
-        </form>
+                    <input
+                        fxFlex
+                        (change)="updateMusic($event)"
+                        hidden
+                        #audioInput
+                        type="file"
+                        accept="audio/*"
+                    />
 
-        <mat-form-field fxFlex subscriptSizing="dynamic">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text" placeholder="A perfect name" />
-            <mat-error>Invalid Name</mat-error>
-        </mat-form-field>
+                    <div
+                        fxFlex
+                        class="dropZone"
+                        fxLayout="row"
+                        fxLayoutAlign="center center"
+                        fxLayoutGap="1rem"
+                        [fileDnd]="SupportedTypes.AUDIO"
+                        (fileDropped)="fileAudioUploadEvent($event)"
+                    >
+                        <p fxFlex>Drag audio file here or</p>
+                        <a mat-raised-button (click)="audioInput.click()">
+                            Browse&hellip;
+                        </a>
+                    </div>
 
-        <mat-form-field fxFlex subscriptSizing="dynamic">
-            <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description" placeholder="A fabuluos description..."></textarea>
-        </mat-form-field>
+                    <mat-form-field fxFlex subscriptSizing="dynamic">
+                        <mat-label>Name</mat-label>
+                        <input
+                            matInput
+                            formControlName="name"
+                            type="text"
+                            placeholder="A perfect name"
+                        />
+                        <mat-error>Invalid Name</mat-error>
+                    </mat-form-field>
 
-        <mat-form-field fxFlex subscriptSizing="dynamic">
-            <mat-label>Album</mat-label>
-            <input matInput formControlName="album" type="text" />
-        </mat-form-field>
+                    <div fxFlex>
+                        <a mat-button (click)="stepper.next()">Next</a>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step optional>
+                <div class="stepContent" fxLayout="column" fxLayoutGap="1rem">
+                    <ng-template matStepLabel
+                        >Additional information
+                    </ng-template>
 
-        <button mat-raised-button color="primary" type="submit">Upload</button>
+                    <input
+                        (change)="updateImage($event)"
+                        hidden
+                        #imgInput
+                        type="file"
+                        accept="image/*"
+                    />
 
-        <ng-container *ngIf="taskDone; else progressSpinner" ><mat-icon>done</mat-icon></ng-container>
-        <ng-template #progressSpinner>
-            <mat-progress-spinner [value]="progress()"></mat-progress-spinner>
-        </ng-template>
+                    <div
+                        class="dropZone"
+                        fxLayout="row"
+                        fxLayoutAlign="center center"
+                        fxLayoutGap="1rem"
+                        [fileDnd]="SupportedTypes.IMAGE"
+                        (fileDropped)="fileImageUploadEvent($event)"
+                    >
+                        <p fxFlex>Drag image file here or</p>
+                        <a mat-raised-button (click)="imgInput.click()">
+                            Browse&hellip;
+                        </a>
+                    </div>
+
+                    <mat-form-field fxFlex subscriptSizing="dynamic">
+                        <mat-label>Description</mat-label>
+                        <textarea
+                            matInput
+                            formControlName="description"
+                            placeholder="A fabuluos description..."
+                        ></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex subscriptSizing="dynamic">
+                        <mat-label>Album</mat-label>
+                        <input matInput formControlName="album" type="text" />
+                    </mat-form-field>
+
+                    <div fxFlex>
+                        <a mat-button (click)="stepper.previous()">Back</a>
+                        <a mat-button (click)="stepper.next()">Next</a>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step>
+                <div class="stepContent" fxLayout="column" fxLayoutGap="1rem">
+                    <ng-template matStepLabel>Publish</ng-template>
+
+                    <img
+                        fxFlex
+                        priority
+                        ngSrc="assets/img/fm_logo.png"
+                        alt="Cover image"
+                        height="200"
+                        #img
+                        width="200"
+                    />
+
+                    <p>{{ musicName }}</p>
+
+                    <div fxFlex>
+                        <button mat-raised-button color="primary" type="submit">
+                            Publish
+                        </button>
+                    </div>
+
+                    <ng-container *ngIf="taskDone; else progressSpinner">
+                        <mat-icon>done</mat-icon>
+                    </ng-container>
+                    <ng-template #progressSpinner>
+                        <mat-progress-spinner
+                            [fxHide]="progress() === 0"
+                            [value]="progress()"
+                        ></mat-progress-spinner>
+                    </ng-template>
+
+                    <div fxFlex>
+                        <a mat-button (click)="stepper.previous()">Back</a>
+                    </div>
+                </div>
+            </mat-step>
+        </mat-stepper>
     </form>
 </div>

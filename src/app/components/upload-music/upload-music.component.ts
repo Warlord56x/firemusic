@@ -8,7 +8,7 @@ import {
     Validators,
 } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { MatButton } from "@angular/material/button";
+import { MatAnchor, MatButton } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { RouterLink } from "@angular/router";
@@ -18,6 +18,11 @@ import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { AuthService } from "../../shared/services/auth.service";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { Subscription } from "rxjs";
+import {
+    DndDirective,
+    SupportedTypes,
+} from "../../shared/directives/dnd.directive";
+import { MatStepperModule } from "@angular/material/stepper";
 
 @Component({
     selector: "app-upload-music",
@@ -36,6 +41,9 @@ import { Subscription } from "rxjs";
         MatSlideToggle,
         MatProgressSpinner,
         NgIf,
+        MatAnchor,
+        DndDirective,
+        MatStepperModule,
     ],
     templateUrl: "./upload-music.component.html",
     styleUrl: "./upload-music.component.scss",
@@ -53,6 +61,9 @@ export class UploadMusicComponent implements OnDestroy {
     taskDone: boolean = false;
 
     percentSubscribe: Subscription | undefined;
+
+    protected readonly SupportedTypes = SupportedTypes;
+    protected musicName = "";
 
     constructor(
         readonly storageService: StorageService,
@@ -80,11 +91,16 @@ export class UploadMusicComponent implements OnDestroy {
     updateMusic(event: any) {
         event.preventDefault();
         this.audioFile = event.target.files[0];
+        this.music = this.audioFile?.name.split(".").shift();
+    }
+
+    set music(name: string | undefined) {
         this.musicForm.setValue({
-            name: this.audioFile?.name.split(".").shift(),
+            name: name,
             album: "",
             description: "",
         });
+        this.musicName = this.musicForm.value.name;
     }
 
     progress() {
@@ -92,6 +108,7 @@ export class UploadMusicComponent implements OnDestroy {
     }
 
     async onSubmit() {
+        console.log("submit");
         this.taskDone = false;
         if (this.musicForm.valid && this.audioFile) {
             const uploadTask = this.storageService.uploadMusic(
@@ -103,6 +120,8 @@ export class UploadMusicComponent implements OnDestroy {
                     album: this.musicForm.value.album,
                     description: this.musicForm.value.description,
                     rating: 0,
+                    uid: this.authService.user!.uid,
+                    musicId: this.storageService.generateId(),
                 },
             );
             this.percentSubscribe = uploadTask.percentageChanges().subscribe({
@@ -125,5 +144,21 @@ export class UploadMusicComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         this.percentSubscribe?.unsubscribe();
+    }
+
+    fileAudioUploadEvent(event: File | ErrorEvent) {
+        if (event instanceof ErrorEvent) {
+            window.alert(event.message);
+        } else {
+            this.music = event?.name.split(".").shift();
+        }
+    }
+
+    fileImageUploadEvent(event: File | ErrorEvent) {
+        if (event instanceof ErrorEvent) {
+            window.alert(event.message);
+        } else {
+            this.img!.nativeElement.src = URL.createObjectURL(event);
+        }
     }
 }

@@ -1,0 +1,40 @@
+.dropZone {
+    outline: #f88756ff 0.2rem dashed;
+    border-radius: 2rem;
+    padding: 1rem;
+
+    &.fileOver,&:hover {
+        animation: fileOver 0.2s linear;
+        animation-fill-mode: forwards;
+    }
+
+    &:not(:hover):not(.fileOver) {
+        animation: fileLeave 0.2s linear;
+        animation-fill-mode: forwards;
+    }
+}
+
+.stepContent {
+    margin-top: 1rem;
+}
+
+@keyframes fileLeave {
+    from {
+        transform: scale(1.1);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes fileOver {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
