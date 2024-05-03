@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component } from "@angular/core";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import {
     FormBuilder,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
     Validators,
-} from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { AuthService } from '../../shared/services/auth.service';
-import { MatIcon } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+} from "@angular/forms";
+import { MatInputModule } from "@angular/material/input";
+import { MatButton } from "@angular/material/button";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { AuthService } from "../../shared/services/auth.service";
+import { MatIcon } from "@angular/material/icon";
+import { RouterLink } from "@angular/router";
 
 @Component({
-    selector: 'app-sign-up',
+    selector: "app-sign-up",
     standalone: true,
     imports: [
         FlexLayoutModule,
@@ -28,8 +28,8 @@ import { RouterLink } from '@angular/router';
         MatIcon,
         RouterLink,
     ],
-    templateUrl: './sign-up.component.html',
-    styleUrl: './sign-up.component.scss',
+    templateUrl: "./sign-up.component.html",
+    styleUrl: "./sign-up.component.scss",
 })
 export class SignupComponent {
     signupForm: FormGroup;
@@ -39,10 +39,14 @@ export class SignupComponent {
         private formBuilder: FormBuilder,
     ) {
         this.signupForm = this.formBuilder.group({
-            name: [Validators.required, Validators.pattern('^[A-Za-z0-9_]*$')],
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required, Validators.minLength(8)]],
-            confirmPassword: ['', [Validators.required]],
+            name: [
+                "",
+                Validators.required,
+                Validators.pattern("^[A-Za-z0-9_]*$"),
+            ],
+            email: ["", [Validators.required, Validators.email]],
+            password: ["", [Validators.required, Validators.minLength(8)]],
+            confirmPassword: ["", [Validators.required]],
         });
     }
 
