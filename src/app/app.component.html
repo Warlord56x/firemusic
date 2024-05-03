@@ -14,6 +14,11 @@
                 </a>
                 <mat-divider></mat-divider>
 
+                <a mat-list-item routerLink="/search">
+                    <mat-icon matListItemIcon>search</mat-icon>
+                    Search
+                </a>
+
                 <a mat-list-item routerLink="/three">
                     <mat-icon matListItemIcon>3d_rotation</mat-icon>
                     Visualize
@@ -85,10 +90,13 @@
                             matInput
                             #searchInput
                             type="text"
-                            (input)="
-                                databaseService.searchQuery(searchInput.value)
+                            (change)="
+                                router.navigate(['search'], {
+                                    queryParams: {
+                                        query: searchInput.value
+                                    }
+                                })
                             "
-                            (change)="router.navigate(['search'])"
                             (focusout)="search = false"
                         />
                         <button

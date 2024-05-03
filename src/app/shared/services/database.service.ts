@@ -43,9 +43,10 @@ export class DatabaseService {
                     .valueChanges(),
             ),
         );
+        this.searchQuery("");
     }
 
-    searchQuery(queryWord: string) {
+    searchQuery(queryWord: string | null) {
         this.nameFilter$?.next(queryWord);
     }
 

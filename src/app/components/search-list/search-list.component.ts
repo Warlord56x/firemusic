@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
 import { MatListModule } from "@angular/material/list";
@@ -24,6 +24,11 @@ import { Subscription } from "rxjs";
     styleUrl: "./search-list.component.scss",
 })
 export class SearchListComponent implements OnDestroy, OnInit {
+    @Input()
+    set query(queryWord: string) {
+        this.databaseService.searchQuery(queryWord);
+    }
+
     private subscription: Subscription | undefined;
     protected searchList: Music[] = [];
 
@@ -33,9 +38,7 @@ export class SearchListComponent implements OnDestroy, OnInit {
     constructor(
         readonly databaseService: DatabaseService,
         readonly musicService: MusicService,
-    ) {
-        databaseService.searchQuery("");
-    }
+    ) {}
 
     play(m: Music) {
         this.musicService.changeMusic(m);
