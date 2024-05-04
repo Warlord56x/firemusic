@@ -94,38 +94,9 @@
                         <input matInput formControlName="album" type="text" />
                     </mat-form-field>
 
-                    <mat-form-field>
-                        <mat-label>Music Tags</mat-label>
-                        <mat-chip-grid #chipGrid aria-label="Enter tags">
-                            @for (tag of tags; track tags) {
-                                <mat-chip-row
-                                    (removed)="removeTag(tag)"
-                                    [editable]="true"
-                                    (edited)="editTag(tag, $event)"
-                                    [aria-description]="
-                                        'press enter to edit ' + tag
-                                    "
-                                >
-                                    {{ tag }}
-                                    <button
-                                        matChipRemove
-                                        [attr.aria-label]="'remove ' + tag"
-                                    >
-                                        <mat-icon>cancel</mat-icon>
-                                    </button>
-                                </mat-chip-row>
-                            }
-                            <input
-                                placeholder="New tag..."
-                                [matChipInputFor]="chipGrid"
-                                [matChipInputSeparatorKeyCodes]="
-                                    separatorKeysCodes
-                                "
-                                [matChipInputAddOnBlur]="true"
-                                (matChipInputTokenEnd)="addTag($event)"
-                            />
-                        </mat-chip-grid>
-                    </mat-form-field>
+                    <app-tag-chipinput
+                        (tagsChange)="tagsChange($event)"
+                    ></app-tag-chipinput>
 
                     <div fxFlex>
                         <a mat-button (click)="stepper.previous()">Back</a>

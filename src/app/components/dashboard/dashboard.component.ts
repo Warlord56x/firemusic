@@ -48,4 +48,6 @@ export class DashboardComponent implements OnInit {
             (this.pageIndex + 1) * this.pageSize,
         );
     }
+
+    protected readonly Array = Array;
 }

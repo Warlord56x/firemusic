@@ -7,18 +7,18 @@
             Musics
         </ng-template>
         <div fxLayout="column">
-            @for (
-                card of musics?.slice(
-                    pageIndex * pageSize,
-                    (pageIndex + 1) * pageSize
-                );
-                track card
-            ) {
-                <mat-card class="dashboard-card">
-                    <mat-card-header>
-                        <mat-card-title>
+            <div fxFlex>
+                @for (
+                    card of musics?.slice(
+                        pageIndex * pageSize,
+                        (pageIndex + 1) * pageSize
+                    );
+                    track card
+                ) {
+                    <mat-card class="dashboard-card">
+                        <mat-card-header>
                             <img
-                                mat-card-sm-image
+                                mat-card-avatar
                                 [src]="
                                     card.cover
                                         ? card.cover
@@ -26,46 +26,56 @@
                                 "
                                 [alt]="card.name"
                             />
-                            {{ card.name }}
-                            <button
-                                mat-icon-button
-                                class="more-button"
-                                [matMenuTriggerFor]="menu"
-                                aria-label="Toggle menu"
-                            >
-                                <mat-icon>more_vert</mat-icon>
-                            </button>
-                            <mat-menu #menu="matMenu" xPosition="before">
-                                <button mat-menu-item>Modify</button>
+                            <mat-card-title>
+                                {{ card.name }}
                                 <button
-                                    mat-menu-item
-                                    (click)="
-                                        this.storageService.deleteMusic(card)
-                                    "
+                                    mat-icon-button
+                                    class="more-button"
+                                    [matMenuTriggerFor]="menu"
+                                    aria-label="Toggle menu"
                                 >
-                                    Remove
+                                    <mat-icon>more_vert</mat-icon>
                                 </button>
-                            </mat-menu>
-                        </mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="dashboard-card-content">
-                        <div>Music description:</div>
-                        {{ card.description }}
-                        <p>
-                            aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaa
-                        </p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-fab extended (click)="this.play(card)">
-                            <mat-icon>play_arrow</mat-icon>
-                            Play
-                        </button>
-                    </mat-card-actions>
-                </mat-card>
-            }
+                                <mat-menu #menu="matMenu" xPosition="before">
+                                    <button mat-menu-item>Modify</button>
+                                    <button
+                                        mat-menu-item
+                                        (click)="
+                                            this.storageService.deleteMusic(
+                                                card
+                                            )
+                                        "
+                                    >
+                                        Remove
+                                    </button>
+                                </mat-menu>
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                {{ card.author }}
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content class="dashboard-card-content">
+                            <ng-container *ngIf="card.description">
+                                <h3>Music description:</h3>
+                                <br />
+                                {{ card.description }}
+                            </ng-container>
+                        </mat-card-content>
+                        <mat-card-actions fxLayoutAlign="end">
+                            <button mat-fab extended (click)="this.play(card)">
+                                <mat-icon>play_arrow</mat-icon>
+                                Play
+                            </button>
+                        </mat-card-actions>
+                        <mat-card-footer>
+                            Rating:
+                            @for (_star of Array(5); track _star) {
+                                <mat-icon>star</mat-icon>
+                            }
+                        </mat-card-footer>
+                    </mat-card>
+                }
+            </div>
             <mat-paginator
                 [length]="musics?.length"
                 [pageSize]="10"
