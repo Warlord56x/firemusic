@@ -18,6 +18,9 @@ import { MatDivider } from "@angular/material/divider";
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatIconButton } from "@angular/material/button";
 import { MatFormField } from "@angular/material/form-field";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule } from "@angular/common/http";
+import { AppRoutingModule } from "./app-routing.module";
 
 @NgModule({
     declarations: [AppComponent],
@@ -29,6 +32,9 @@ import { MatFormField } from "@angular/material/form-field";
         AngularFireDatabaseModule,
         CommonModule,
         BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
         SharedModulesModule,
         MatIcon,
         MatNavList,
