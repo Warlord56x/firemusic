@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import * as auth from 'firebase/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
-import firebase from 'firebase/compat';
+import { Injectable } from "@angular/core";
+import * as auth from "firebase/auth";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { Router } from "@angular/router";
+import firebase from "firebase/compat";
 import User = firebase.User;
-import { Profile } from '../utils/profile';
-import { DatabaseService } from './database.service';
+import { Profile } from "../utils/profile";
+import { DatabaseService } from "./database.service";
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: "root",
 })
 export class AuthService {
     constructor(
@@ -20,10 +20,10 @@ export class AuthService {
         logged in and setting up null when logged out */
         this.fireAuth.authState.subscribe((user) => {
             if (user) {
-                localStorage.setItem('user', JSON.stringify(user)!);
+                localStorage.setItem("user", JSON.stringify(user)!);
                 //JSON.parse(localStorage.getItem('user')!);
             } else {
-                localStorage.setItem('user', 'null');
+                localStorage.setItem("user", "null");
                 //JSON.parse(localStorage.getItem('user')!);
             }
             this._user = user!;
@@ -49,7 +49,7 @@ export class AuthService {
             .then(() => {
                 this.fireAuth.authState.subscribe((user) => {
                     if (user) {
-                        this.router.navigate(['dashboard']);
+                        this.router.navigate(["dashboard"]);
                     }
                 });
             });
@@ -75,7 +75,7 @@ export class AuthService {
     async sendVerificationMail() {
         return this.fireAuth.currentUser.then((user: User | null) => {
             user?.sendEmailVerification();
-            this.router.navigate(['verify-email']);
+            this.router.navigate(["verify-email"]);
         });
     }
 
@@ -86,14 +86,14 @@ export class AuthService {
 
     // Returns true when user is logged in
     get isLoggedIn(): boolean {
-        this._user = JSON.parse(localStorage.getItem('user')!);
+        this._user = JSON.parse(localStorage.getItem("user")!);
         return this._user !== null;
     }
 
     // Sign in with Google
     async GoogleAuth() {
         return this.authLogin(new auth.GoogleAuthProvider()).then(() => {
-            this.router.navigate(['dashboard']);
+            this.router.navigate(["dashboard"]);
         });
     }
 
@@ -102,7 +102,7 @@ export class AuthService {
         return this.fireAuth
             .signInWithPopup(provider)
             .then(() => {
-                this.router.navigate(['dashboard']);
+                this.router.navigate(["dashboard"]);
             })
             .catch((error) => {
                 window.alert(error);
@@ -112,7 +112,7 @@ export class AuthService {
     // Sign out
     async signOut() {
         return this.fireAuth.signOut().then(() => {
-            this.router.navigate(['sign-in']);
+            this.router.navigate(["sign-in"]);
             this.fireAuth.signOut();
         });
     }

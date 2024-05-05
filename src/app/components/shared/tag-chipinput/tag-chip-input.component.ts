@@ -2,38 +2,18 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    Input,
     Output,
     ViewChild,
 } from "@angular/core";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatChipInputEvent, MatChipsModule } from "@angular/material/chips";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import {
-    MatAutocomplete,
-    MatAutocompleteSelectedEvent,
-    MatAutocompleteTrigger,
-    MatOption,
-} from "@angular/material/autocomplete";
-import { MatIcon } from "@angular/material/icon";
+import { MatChipInputEvent } from "@angular/material/chips";
+import { FormControl } from "@angular/forms";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { DatabaseService } from "../../../shared/services/database.service";
-import { map, Observable, startWith, Subscription } from "rxjs";
+import { map, Observable, startWith } from "rxjs";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { AsyncPipe } from "@angular/common";
 
 @Component({
     selector: "app-tag-chipinput",
-    standalone: true,
-    imports: [
-        MatFormFieldModule,
-        MatChipsModule,
-        ReactiveFormsModule,
-        MatAutocompleteTrigger,
-        MatIcon,
-        MatOption,
-        MatAutocomplete,
-        AsyncPipe,
-    ],
     templateUrl: "./tag-chip-input.component.html",
     styleUrl: "./tag-chip-input.component.scss",
 })

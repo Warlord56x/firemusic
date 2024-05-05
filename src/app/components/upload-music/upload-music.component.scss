@@ -3,7 +3,8 @@
     border-radius: 2rem;
     padding: 1rem;
 
-    &.fileOver,&:hover {
+    &.fileOver,
+    &:hover {
         animation: fileOver 0.2s linear;
         animation-fill-mode: forwards;
     }
@@ -27,7 +28,6 @@
         transform: scale(1);
     }
 }
-
 
 @keyframes fileOver {
     from {

@@ -1,11 +1,8 @@
-import { Component } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { Component } from "@angular/core";
 
 @Component({
-    selector: 'app-404',
-    standalone: true,
-    imports: [FlexLayoutModule],
-    templateUrl: './404.component.html',
-    styleUrl: './404.component.scss',
+    selector: "app-404",
+    templateUrl: "./404.component.html",
+    styleUrl: "./404.component.scss",
 })
 export class WildCardComponent {}

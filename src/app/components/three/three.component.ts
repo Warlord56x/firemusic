@@ -4,21 +4,18 @@ import {
     ElementRef,
     HostListener,
     ViewChild,
-} from '@angular/core';
-import * as THREE from 'three';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+} from "@angular/core";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 @Component({
-    selector: 'app-three',
-    standalone: true,
-    imports: [FlexLayoutModule],
-    template: '<div fxFlex ><canvas fxFlexFill #canvas></canvas></div>',
-    styleUrl: './three.component.scss',
+    selector: "app-three",
+    template: "<div fxFlex ><canvas fxFlexFill #canvas></canvas></div>",
+    styleUrl: "./three.component.scss",
 })
 export class ThreeComponent implements AfterViewInit {
-    @ViewChild('canvas', { static: true }) private canvasRef:
+    @ViewChild("canvas", { static: true }) private canvasRef:
         | ElementRef
         | undefined;
 
@@ -50,7 +47,7 @@ export class ThreeComponent implements AfterViewInit {
     uniforms = {
         uTime: {
             value: 0.00025 * (performance.now() - this.start),
-            type: 'f',
+            type: "f",
         },
         uPos0: { value: new THREE.Vector2() },
         uPos1: { value: new THREE.Vector3(0, 0, 0) },
@@ -60,7 +57,7 @@ export class ThreeComponent implements AfterViewInit {
 
     constructor() {}
 
-    @HostListener('window:resize', ['$event'])
+    @HostListener("window:resize", ["$event"])
     onResize() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
@@ -73,7 +70,7 @@ export class ThreeComponent implements AfterViewInit {
         this.renderer?.setSize(this.width, this.height, false);
     }
 
-    @HostListener('window:mousemove', ['$event'])
+    @HostListener("window:mousemove", ["$event"])
     onMouseMove(ev: MouseEvent): void {
         let x = ev.clientX / window.innerWidth - 0.5;
         let y = ev.clientY / window.innerHeight - 0.5;
@@ -115,12 +112,12 @@ export class ThreeComponent implements AfterViewInit {
         this.renderer.setPixelRatio(window.devicePixelRatio);
 
         const model = await this.modelLoader.loadAsync(
-            'assets/models/dice.glb',
+            "assets/models/dice.glb",
         );
 
         let dice: THREE.Mesh;
         model.scene.traverse((child) => {
-            if (child.type === 'Mesh') {
+            if (child.type === "Mesh") {
                 dice = child as THREE.Mesh;
             }
         });
@@ -296,11 +293,11 @@ transformed.y += -2.9 * (1.-mouseTrail);
 
         mesh.material.onBeforeCompile = (shader) => {
             shader.vertexShader = shader.vertexShader.replace(
-                'void main() {',
+                "void main() {",
                 vertexHead,
             );
             shader.vertexShader = shader.vertexShader.replace(
-                '#include <project_vertex>',
+                "#include <project_vertex>",
                 projectVertex,
             );
             shader.uniforms = {
@@ -312,11 +309,11 @@ transformed.y += -2.9 * (1.-mouseTrail);
         mesh.customDepthMaterial = new THREE.MeshDepthMaterial();
         mesh.customDepthMaterial.onBeforeCompile = (shader) => {
             shader.vertexShader = shader.vertexShader.replace(
-                'void main() {',
+                "void main() {",
                 vertexHead,
             );
             shader.vertexShader = shader.vertexShader.replace(
-                '#include <project_vertex>',
+                "#include <project_vertex>",
                 projectVertex,
             );
             shader.uniforms = {

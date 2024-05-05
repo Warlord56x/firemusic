@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Music } from '../utils/music';
+import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
+import { Music } from "../utils/music";
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: "root",
 })
 export class MusicService {
     private musicSubject = new Subject<Music>();

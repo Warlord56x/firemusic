@@ -40,7 +40,7 @@
 
 (window as any).global = window;
 
-import * as _buffer from 'buffer';
+import * as _buffer from "buffer";
 (window as any).Buffer = _buffer.Buffer; // note: the trailing slash is important!
 
 /** IE10 and IE11 requires the following for the Reflect API. */
@@ -68,7 +68,7 @@ import * as _buffer from 'buffer';
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js'; // Included with Angular CLI.
+import "zone.js"; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

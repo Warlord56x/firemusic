@@ -1,17 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { RouterOutlet } from "@angular/router";
-import { MatButtonModule } from "@angular/material/button";
-import { HttpClientModule } from "@angular/common/http";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatMenuModule } from "@angular/material/menu";
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { MatIcon, MatIconModule } from "@angular/material/icon";
-import { MatListItem, MatNavList, MatListModule } from "@angular/material/list";
 import { CommonModule } from "@angular/common";
 import { AngularFireModule } from "@angular/fire/compat";
 import { environment } from "../environments/environment";
@@ -19,24 +8,19 @@ import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { DragDropModule } from "@angular/cdk/drag-drop";
-import { MusicPlayerComponent } from "./components/music-player/music-player.component";
-import {
-    MatFormField,
-    MatPrefix,
-    MatSuffix,
-} from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { FormsModule } from "@angular/forms";
-import { MatGridListModule } from "@angular/material/grid-list";
-import { MatCard, MatCardModule } from "@angular/material/card";
-import { MatTabsModule } from "@angular/material/tabs";
-import { UploadMusicComponent } from "./components/upload-music/upload-music.component";
-import { MatPaginator } from "@angular/material/paginator";
+import { SharedModulesModule } from "./Modules/shared-modules/shared-modules.module";
+import { MatIcon } from "@angular/material/icon";
+import { MatListItem, MatNavList } from "@angular/material/list";
+import { RouterLink, RouterOutlet } from "@angular/router";
+import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatDivider } from "@angular/material/divider";
+import { MatToolbar } from "@angular/material/toolbar";
+import { MatIconButton } from "@angular/material/button";
+import { MatFormField } from "@angular/material/form-field";
 
 @NgModule({
-    declarations: [AppComponent, DashboardComponent],
+    declarations: [AppComponent],
     imports: [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
@@ -45,34 +29,19 @@ import { MatPaginator } from "@angular/material/paginator";
         AngularFireDatabaseModule,
         CommonModule,
         BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        RouterOutlet,
-        MatButtonModule,
-        FlexLayoutModule,
+        SharedModulesModule,
         MatIcon,
         MatNavList,
         MatListItem,
-        HttpClientModule,
-        MatMenuModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatListModule,
-        MatCard,
-        MatCardModule,
-        DragDropModule,
-        MusicPlayerComponent,
-        MatInput,
-        FormsModule,
+        RouterLink,
+        MatSidenav,
+        MatSidenavContainer,
+        FlexLayoutModule,
+        MatDivider,
+        MatToolbar,
+        MatIconButton,
         MatFormField,
-        MatPrefix,
-        MatGridListModule,
-        MatCardModule,
-        MatSuffix,
-        MatTabsModule,
-        UploadMusicComponent,
-        MatPaginator,
+        RouterOutlet,
     ],
     providers: [],
     bootstrap: [AppComponent],

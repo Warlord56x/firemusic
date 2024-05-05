@@ -1,37 +1,13 @@
 import { Component } from "@angular/core";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import {
-    FormBuilder,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-    Validators,
-} from "@angular/forms";
-import { MatInputModule } from "@angular/material/input";
-import { MatButton } from "@angular/material/button";
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../shared/services/auth.service";
-import { MatIcon } from "@angular/material/icon";
-import { RouterLink } from "@angular/router";
 
 @Component({
     selector: "app-sign-up",
-    standalone: true,
-    imports: [
-        FlexLayoutModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatButton,
-        MatIcon,
-        RouterLink,
-    ],
     templateUrl: "./sign-up.component.html",
     styleUrl: "../../shared/styles/sign-styles.scss",
 })
-export class SignupComponent {
+export class SignUpComponent {
     signupForm: FormGroup;
 
     constructor(

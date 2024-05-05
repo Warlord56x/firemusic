@@ -1,28 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { MatSlider, MatSliderThumb } from "@angular/material/slider";
-import { FormsModule } from "@angular/forms";
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatIconButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { MusicService } from "../../shared/services/music.service";
 import { Music } from "../../shared/utils/music";
 
 @Component({
     selector: "app-music-player",
-    standalone: true,
-    imports: [
-        CommonModule,
-        MatSlider,
-        FormsModule,
-        MatSliderThumb,
-        FlexLayoutModule,
-        MatToolbarModule,
-        MatIconButton,
-        MatIcon,
-        NgOptimizedImage,
-    ],
     templateUrl: "./music-player.component.html",
     styleUrl: "./music-player.component.scss",
 })

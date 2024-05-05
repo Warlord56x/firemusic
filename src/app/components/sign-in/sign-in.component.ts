@@ -1,32 +1,9 @@
 import { Component } from "@angular/core";
-import { FlexModule } from "@angular/flex-layout";
-import { MatButton } from "@angular/material/button";
-import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import {
-    FormBuilder,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../shared/services/auth.service";
-import { MatIcon } from "@angular/material/icon";
-import { RouterLink } from "@angular/router";
 
 @Component({
     selector: "app-sign-in",
-    standalone: true,
-    imports: [
-        FlexModule,
-        MatButton,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        ReactiveFormsModule,
-        MatIcon,
-        RouterLink,
-    ],
     templateUrl: "./sign-in.component.html",
     styleUrl: "../../shared/styles/sign-styles.scss",
 })

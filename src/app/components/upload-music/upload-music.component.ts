@@ -1,52 +1,12 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from "@angular/core";
 import { StorageService } from "../../shared/services/storage.service";
-import {
-    FormBuilder,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-    Validators,
-} from "@angular/forms";
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { MatAnchor, MatButton } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { RouterLink } from "@angular/router";
-import { MatIcon } from "@angular/material/icon";
-import { NgIf, NgOptimizedImage } from "@angular/common";
-import { MatSlideToggle } from "@angular/material/slide-toggle";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../shared/services/auth.service";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { Subscription } from "rxjs";
-import {
-    DndDirective,
-    SupportedTypes,
-} from "../../shared/directives/dnd.directive";
-import { MatStepperModule } from "@angular/material/stepper";
-import { TagChipInputComponent } from "../shared/tag-chipinput/tag-chip-input.component";
+import { SupportedTypes } from "../../shared/directives/dnd.directive";
 
 @Component({
     selector: "app-upload-music",
-    standalone: true,
-    imports: [
-        FlexLayoutModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatButton,
-        MatIcon,
-        RouterLink,
-        NgOptimizedImage,
-        MatSlideToggle,
-        MatProgressSpinner,
-        NgIf,
-        MatAnchor,
-        DndDirective,
-        MatStepperModule,
-        TagChipInputComponent,
-    ],
     templateUrl: "./upload-music.component.html",
     styleUrl: "./upload-music.component.scss",
 })
