@@ -1,10 +1,10 @@
 <!--TODO: Should make 2 dialogs 1 for remove and 1 for updating the content, (not the audio file, only the "metadata" and/or the cover image (maybe next time))-->
 
-<mat-tab-group>
+<mat-tab-group dynamicHeight [selectedIndex]="tab">
     <mat-tab>
         <ng-template mat-tab-label>
             <mat-icon class="tab-icon">dashboard</mat-icon>
-            Musics
+            My Musics
         </ng-template>
         <div fxLayout="column">
             <div fxFlex>
@@ -98,10 +98,10 @@
 
     <mat-tab>
         <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">thumb_up</mat-icon>
-            Third
+            <mat-icon class="tab-icon">account_circle</mat-icon>
+            Profile
         </ng-template>
 
-        Content 3
+        <app-profile></app-profile>
     </mat-tab>
 </mat-tab-group>

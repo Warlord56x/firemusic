@@ -10,17 +10,22 @@ import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
 import { SharedModulesModule } from "./Modules/shared-modules/shared-modules.module";
 import { MatIcon } from "@angular/material/icon";
-import { MatListItem, MatNavList } from "@angular/material/list";
+import {
+    MatListItem,
+    MatListItemIcon,
+    MatNavList,
+} from "@angular/material/list";
 import { RouterLink, RouterOutlet } from "@angular/router";
-import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
+import { MatSidenav, MatSidenavModule } from "@angular/material/sidenav";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatDivider } from "@angular/material/divider";
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatIconButton } from "@angular/material/button";
-import { MatFormField } from "@angular/material/form-field";
+import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
+import { MatInput } from "@angular/material/input";
 
 @NgModule({
     declarations: [AppComponent],
@@ -38,16 +43,19 @@ import { AppRoutingModule } from "./app-routing.module";
         SharedModulesModule,
         MatIcon,
         MatNavList,
+        MatListItemIcon,
         MatListItem,
         RouterLink,
-        MatSidenav,
-        MatSidenavContainer,
+        MatSidenavModule,
         FlexLayoutModule,
         MatDivider,
-        MatToolbar,
         MatIconButton,
         MatFormField,
         RouterOutlet,
+        MatInput,
+        MatSuffix,
+        MatToolbar,
+        MatSidenav,
     ],
     providers: [],
     bootstrap: [AppComponent],

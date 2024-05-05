@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { DatabaseService } from "../../shared/services/database.service";
 import { AuthService } from "../../shared/services/auth.service";
 import { Music } from "../../shared/utils/music";
@@ -12,6 +12,12 @@ import { StorageService } from "../../shared/services/storage.service";
     styleUrl: "./dashboard.component.scss",
 })
 export class DashboardComponent implements OnInit {
+    @Input({
+        transform: (value: string): number =>
+            ({ mymusics: 0, upload: 1, profile: 2 })[value] || 0,
+    })
+    tab: number = 0;
+
     musics: Music[] | undefined;
     protected pageSize: number = 10;
     protected pageIndex: number = 0;

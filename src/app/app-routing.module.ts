@@ -8,7 +8,6 @@ import { VerifyEmailComponent } from "./components/verify-email/verify-email.com
 
 import { AngularFireAuthGuard } from "@angular/fire/compat/auth-guard";
 import { HomeComponent } from "./components/home/home.component";
-import { ProfileComponent } from "./components/profile/profile.component";
 import { WildCardComponent } from "./components/404/404.component";
 import { SearchListComponent } from "./components/search-list/search-list.component";
 
@@ -22,12 +21,12 @@ const routes: Routes = [
     { path: "search", component: SearchListComponent },
     { path: "search/:query", component: SearchListComponent },
     {
-        path: "profile",
-        component: ProfileComponent,
+        path: "dashboard",
+        component: DashboardComponent,
         canActivate: [AngularFireAuthGuard],
     },
     {
-        path: "dashboard",
+        path: "dashboard/:tab",
         component: DashboardComponent,
         canActivate: [AngularFireAuthGuard],
     },
