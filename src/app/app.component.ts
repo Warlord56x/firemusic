@@ -20,6 +20,8 @@ export class AppComponent {
     title = "firemusic";
     _search: boolean = false;
 
+    protected readonly Breakpoints = Breakpoints;
+
     constructor(
         protected authService: AuthService,
         protected router: Router,
@@ -45,6 +47,4 @@ export class AppComponent {
             this.searchInputRef!.nativeElement.focus();
         }
     }
-
-    protected readonly Breakpoints = Breakpoints;
 }

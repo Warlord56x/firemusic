@@ -37,6 +37,14 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatOptionModule } from "@angular/material/core";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatSliderModule } from "@angular/material/slider";
+import { ErrorDialogComponent } from "../../components/shared/error-dialog/error-dialog.component";
+import {
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
+} from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from "../../components/shared/confirmation-dialog/confirmation-dialog.component";
 
 @NgModule({
     declarations: [
@@ -53,6 +61,8 @@ import { MatSliderModule } from "@angular/material/slider";
         ForgotPasswordComponent,
         WildCardComponent,
         TagChipInputComponent,
+        ErrorDialogComponent,
+        ConfirmationDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -81,11 +91,17 @@ import { MatSliderModule } from "@angular/material/slider";
         MatListModule,
         MatToolbarModule,
         MatSliderModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
     ],
     exports: [
         UploadMusicComponent,
         TagChipInputComponent,
         MusicPlayerComponent,
+        ErrorDialogComponent,
+        ConfirmationDialogComponent,
     ],
 })
 export class SharedModulesModule {}

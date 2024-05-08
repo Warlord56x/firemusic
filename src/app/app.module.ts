@@ -20,7 +20,7 @@ import { MatSidenav, MatSidenavModule } from "@angular/material/sidenav";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatDivider } from "@angular/material/divider";
 import { MatToolbar } from "@angular/material/toolbar";
-import { MatIconButton } from "@angular/material/button";
+import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http";
@@ -56,6 +56,7 @@ import { MatInput } from "@angular/material/input";
         MatSuffix,
         MatToolbar,
         MatSidenav,
+        MatButton,
     ],
     providers: [],
     bootstrap: [AppComponent],

@@ -40,11 +40,7 @@
                                     <button mat-menu-item>Modify</button>
                                     <button
                                         mat-menu-item
-                                        (click)="
-                                            this.storageService.deleteMusic(
-                                                card
-                                            )
-                                        "
+                                        (click)="openRemoveDialog(card)"
                                     >
                                         Remove
                                     </button>

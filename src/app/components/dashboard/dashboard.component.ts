@@ -5,6 +5,9 @@ import { Music } from "../../shared/utils/music";
 import { PageEvent } from "@angular/material/paginator";
 import { MusicService } from "../../shared/services/music.service";
 import { StorageService } from "../../shared/services/storage.service";
+import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { take } from "rxjs";
 
 @Component({
     selector: "app-dashboard",
@@ -18,6 +21,8 @@ export class DashboardComponent implements OnInit {
     })
     tab: number = 0;
 
+    protected readonly Array = Array;
+
     musics: Music[] | undefined;
     protected pageSize: number = 10;
     protected pageIndex: number = 0;
@@ -27,6 +32,7 @@ export class DashboardComponent implements OnInit {
         private databaseService: DatabaseService,
         private authService: AuthService,
         private musicService: MusicService,
+        private dialog: MatDialog,
     ) {}
 
     play(m: Music) {
@@ -46,14 +52,24 @@ export class DashboardComponent implements OnInit {
     }
 
     pageChange(event: PageEvent) {
-        console.log(event);
         this.pageSize = event.pageSize;
         this.pageIndex = event.pageIndex;
-        console.log(
-            this.pageIndex * this.pageSize,
-            (this.pageIndex + 1) * this.pageSize,
-        );
     }
 
-    protected readonly Array = Array;
+    openRemoveDialog(music: Music) {
+        const { afterClosed } = this.dialog.open(ConfirmationDialogComponent, {
+            data: {
+                title: "Confirm Deletion",
+                subject: `Are you sure you want to delete the music named: "${music.name}"`,
+                nameOfAction: "Delete",
+            },
+        });
+        afterClosed()
+            .pipe(take(1))
+            .subscribe((res: boolean) => {
+                if (res) {
+                    this.storageService.deleteMusic(music);
+                }
+            });
+    }
 }
