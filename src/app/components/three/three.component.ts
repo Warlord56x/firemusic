@@ -3,6 +3,7 @@ import {
     Component,
     ElementRef,
     HostListener,
+    OnDestroy,
     ViewChild,
 } from "@angular/core";
 import * as THREE from "three";
@@ -14,7 +15,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
     template: "<div fxFlex ><canvas fxFlexFill #canvas></canvas></div>",
     styleUrl: "./three.component.scss",
 })
-export class ThreeComponent implements AfterViewInit {
+export class ThreeComponent implements AfterViewInit, OnDestroy {
     @ViewChild("canvas", { static: true }) private canvasRef:
         | ElementRef
         | undefined;
@@ -32,19 +33,19 @@ export class ThreeComponent implements AfterViewInit {
     private camera: THREE.PerspectiveCamera | undefined;
     private renderer: THREE.WebGLRenderer | null = null;
 
-    modelLoader: GLTFLoader = new GLTFLoader();
+    private modelLoader: GLTFLoader = new GLTFLoader();
 
-    mouse = new THREE.Vector2();
-    v2 = new THREE.Vector2();
+    private mouse = new THREE.Vector2();
+    private v2 = new THREE.Vector2();
 
-    hitplane = new THREE.Mesh(
+    private hitplane = new THREE.Mesh(
         new THREE.PlaneGeometry(),
         new THREE.MeshBasicMaterial(),
     );
 
-    raycaster = new THREE.Raycaster();
+    private raycaster = new THREE.Raycaster();
 
-    uniforms = {
+    private uniforms = {
         uTime: {
             value: 0.00025 * (performance.now() - this.start),
             type: "f",
@@ -53,7 +54,7 @@ export class ThreeComponent implements AfterViewInit {
         uPos1: { value: new THREE.Vector3(0, 0, 0) },
     };
 
-    vel = new THREE.Vector2();
+    private vel = new THREE.Vector2();
 
     constructor() {}
 
@@ -326,5 +327,12 @@ transformed.y += -2.9 * (1.-mouseTrail);
         this.hitplane.rotation.x = -Math.PI / 2;
         this.hitplane.updateMatrix();
         this.hitplane.updateMatrixWorld();
+    }
+
+    ngOnDestroy(): void {
+        /*    this.scene = new THREE.Scene();
+    private camera: THREE.PerspectiveCamera | undefined;
+    private renderer: THREE.WebGLRenderer | null = null;*/
+        this.scene.clear();
     }
 }
