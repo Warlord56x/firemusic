@@ -53,6 +53,5 @@ export class MusicService {
         this.highPassFilter.connect(this.trebleAnalyser);
 
         this.source.connect(this.audioContext.destination);
-        this.audioContext.resume();
     }
 }

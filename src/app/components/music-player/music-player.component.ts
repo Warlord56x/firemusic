@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { MusicService } from "../../shared/services/music.service";
 import { Music } from "../../shared/utils/music";
+import { Meta } from "@angular/platform-browser";
 
 @Component({
     selector: "app-music-player",
@@ -15,7 +16,6 @@ import { Music } from "../../shared/utils/music";
 })
 export class MusicPlayerComponent implements OnInit, AfterViewInit {
     @ViewChild("audio") audioRef: ElementRef | undefined;
-    @ViewChild("slider") sliderRef: ElementRef | undefined;
     isPlaying: boolean = false;
     _volume: number = 1.0;
     _loop: boolean = false;
@@ -30,12 +30,33 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
 
     constructor(readonly musicService: MusicService) {}
 
+    ngOnInit(): void {
+        this.musicService.music$.subscribe((music) => {
+            this.music = music;
+            if (this.audio) {
+                this.pause();
+                this.audio.src = music.audio!;
+            }
+        });
+    }
+
+    get audio(): HTMLAudioElement | undefined {
+        return this.audioRef?.nativeElement;
+    }
+
     ngAfterViewInit() {
-        if (this.audioRef?.nativeElement) {
-            this.audioRef.nativeElement.crossOrigin = "anonymous";
+        if (this.audio) {
+            this.audio.crossOrigin = "anonymous";
         }
 
-        this.musicService.initAnalyzers(this.audioRef!.nativeElement);
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: this.music.name,
+            artist: this.music.author || "Anonymous",
+            artwork: [{ src: this.music.cover || "assets/img/fm_logo.png" }],
+            album: this.music.album || "Anonymous",
+        });
+
+        this.musicService.initAnalyzers(this.audio!);
     }
 
     shortenTitle(title: string, maxLength: number): string | undefined {
@@ -43,14 +64,6 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
             return title?.slice(0, maxLength) + "...";
         }
         return title;
-    }
-
-    get audio(): HTMLAudioElement | undefined {
-        return this.audioRef?.nativeElement;
-    }
-
-    get slider() {
-        return this.sliderRef?.nativeElement;
     }
 
     play() {
@@ -85,22 +98,6 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
         return this.audio?.duration;
     }
 
-    ngOnInit(): void {
-        this.musicService.music$.subscribe((music) => {
-            this.music = music;
-            if (this.audio) {
-                this.pause();
-                this.audio.src = music.audio!;
-            }
-        });
-    }
-
-    updateTime() {
-        if (this.slider) {
-            this.slider.value += 1;
-        }
-    }
-
     togglePlayState() {
         if (this.isPlaying) {
             this.pause();
@@ -127,6 +124,13 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
     }
     get volume(): number | undefined {
         return this.audio?.volume;
+    }
+
+    timeUpdate() {
+        navigator.mediaSession.setPositionState({
+            position: this.audio?.currentTime,
+            duration: this.audio?.duration || 0,
+        });
     }
 
     atEnd() {

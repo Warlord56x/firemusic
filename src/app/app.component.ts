@@ -6,7 +6,7 @@ import {
 } from "@angular/core";
 import { AuthService } from "./shared/services/auth.service";
 import { MatIconRegistry } from "@angular/material/icon";
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
@@ -17,7 +17,6 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 })
 export class AppComponent {
     @ViewChild("searchInput") searchInputRef?: ElementRef;
-    title = "firemusic";
     _search: boolean = false;
 
     protected readonly Breakpoints = Breakpoints;
@@ -29,7 +28,9 @@ export class AppComponent {
         readonly domSanitizer: DomSanitizer,
         private changeDetection: ChangeDetectorRef,
         protected bpObserver: BreakpointObserver,
+        title: Title,
     ) {
+        title.setTitle("Firemusic");
         matIconRegistry.addSvgIcon(
             "firemusic",
             domSanitizer.bypassSecurityTrustResourceUrl("fm_logo.svg"),

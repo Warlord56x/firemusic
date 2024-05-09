@@ -8,7 +8,7 @@
     <mat-toolbar-row fxLayoutAlign="center center">
         <audio
             #audio
-            (timeupdate)="updateTime()"
+            (timeupdate)="timeUpdate()"
             (ended)="atEnd()"
             [loop]="_loop"
         ></audio>
@@ -44,7 +44,6 @@
                 </button>
                 <mat-slider fxFlex min="0" [max]="duration ? duration : 0">
                     <input
-                        #slider
                         matSliderThumb
                         (touchend)="sliderInputDone()"
                         (click)="sliderInputDone()"
