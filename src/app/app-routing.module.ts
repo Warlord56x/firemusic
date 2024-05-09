@@ -13,7 +13,7 @@ import { SearchListComponent } from "./components/search-list/search-list.compon
 
 const routes: Routes = [
     { path: "", pathMatch: "full", component: HomeComponent },
-    { path: "three", component: ThreeComponent },
+    { path: "visualize", component: ThreeComponent },
     { path: "sign-up", component: SignUpComponent },
     { path: "sign-in", component: SignInComponent },
     { path: "verify-email", component: VerifyEmailComponent },
