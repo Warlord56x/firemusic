@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+} from "@angular/core";
 import { MusicService } from "../../shared/services/music.service";
 import { Music } from "../../shared/utils/music";
 
@@ -7,7 +13,7 @@ import { Music } from "../../shared/utils/music";
     templateUrl: "./music-player.component.html",
     styleUrl: "./music-player.component.scss",
 })
-export class MusicPlayerComponent implements OnInit {
+export class MusicPlayerComponent implements OnInit, AfterViewInit {
     @ViewChild("audio") audioRef: ElementRef | undefined;
     @ViewChild("slider") sliderRef: ElementRef | undefined;
     isPlaying: boolean = false;
@@ -23,6 +29,14 @@ export class MusicPlayerComponent implements OnInit {
     };
 
     constructor(readonly musicService: MusicService) {}
+
+    ngAfterViewInit() {
+        if (this.audioRef?.nativeElement) {
+            this.audioRef.nativeElement.crossOrigin = "anonymous";
+        }
+
+        this.musicService.initAnalyzers(this.audioRef!.nativeElement);
+    }
 
     shortenTitle(title: string, maxLength: number): string | undefined {
         if (title!.length > maxLength) {
@@ -44,6 +58,7 @@ export class MusicPlayerComponent implements OnInit {
             return;
         }
         this.audio?.play().then(() => (this.isPlaying = true));
+        this.musicService.audioContext.resume();
     }
 
     pause() {
