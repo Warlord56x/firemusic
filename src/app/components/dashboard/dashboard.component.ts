@@ -8,6 +8,7 @@ import { StorageService } from "../../shared/services/storage.service";
 import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { take } from "rxjs";
+import { ModifyDialogComponent } from "../shared/modify-dialog/modify-dialog.component";
 
 @Component({
     selector: "app-dashboard",
@@ -56,15 +57,35 @@ export class DashboardComponent implements OnInit {
         this.pageIndex = event.pageIndex;
     }
 
+    openModifyDialog(music: Music) {
+        const matDialogRef = this.dialog.open(ModifyDialogComponent, {
+            data: {
+                title: `Modify ${music.name}`,
+                subject: ``,
+                nameOfAction: "Modify",
+                optionalData: music,
+            },
+        });
+        matDialogRef
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe((res: Music) => {
+                this.storageService
+                    .updateMusic(res)
+                    .then(() => console.log("success"));
+            });
+    }
+
     openRemoveDialog(music: Music) {
-        const { afterClosed } = this.dialog.open(ConfirmationDialogComponent, {
+        const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
             data: {
                 title: "Confirm Deletion",
                 subject: `Are you sure you want to delete the music named: "${music.name}"`,
                 nameOfAction: "Delete",
             },
         });
-        afterClosed()
+        matDialogRef
+            .afterClosed()
             .pipe(take(1))
             .subscribe((res: boolean) => {
                 if (res) {

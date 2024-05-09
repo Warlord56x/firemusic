@@ -45,6 +45,7 @@ import {
     MatDialogTitle,
 } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../components/shared/confirmation-dialog/confirmation-dialog.component";
+import { ModifyDialogComponent } from "../../components/shared/modify-dialog/modify-dialog.component";
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { ConfirmationDialogComponent } from "../../components/shared/confirmatio
         TagChipInputComponent,
         ErrorDialogComponent,
         ConfirmationDialogComponent,
+        ModifyDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -102,6 +104,7 @@ import { ConfirmationDialogComponent } from "../../components/shared/confirmatio
         MusicPlayerComponent,
         ErrorDialogComponent,
         ConfirmationDialogComponent,
+        ModifyDialogComponent,
     ],
 })
 export class SharedModulesModule {}

@@ -36,8 +36,13 @@
                                 >
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
-                                <mat-menu #menu="matMenu" xPosition="before">
-                                    <button mat-menu-item>Modify</button>
+                                <mat-menu #menu="matMenu">
+                                    <button
+                                        mat-menu-item
+                                        (click)="openModifyDialog(card)"
+                                    >
+                                        Modify
+                                    </button>
                                     <button
                                         mat-menu-item
                                         (click)="openRemoveDialog(card)"
@@ -52,7 +57,22 @@
                         </mat-card-header>
                         <mat-card-content class="dashboard-card-content">
                             <ng-container *ngIf="card.description">
-                                <h3>Music description:</h3>
+                                <div>
+                                    @for (
+                                        _star of Array(card.rating);
+                                        track _star
+                                    ) {
+                                        <mat-icon>star</mat-icon>
+                                    }
+                                    @for (
+                                        _star of Array(5 - card.rating);
+                                        track _star
+                                    ) {
+                                        <mat-icon color="primary"
+                                            >star</mat-icon
+                                        >
+                                    }
+                                </div>
                                 <br />
                                 {{ card.description }}
                             </ng-container>
@@ -63,12 +83,6 @@
                                 Play
                             </button>
                         </mat-card-actions>
-                        <mat-card-footer>
-                            Rating:
-                            @for (_star of Array(5); track _star) {
-                                <mat-icon>star</mat-icon>
-                            }
-                        </mat-card-footer>
                     </mat-card>
                 }
             </div>

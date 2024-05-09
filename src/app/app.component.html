@@ -1,7 +1,7 @@
 <div fxLayout="column" fxFlexFill>
     <mat-sidenav-container fxFlex>
         <mat-sidenav
-            opened
+            [opened]="!bpObserver.isMatched(Breakpoints.Handset)"
             [mode]="bpObserver.isMatched(Breakpoints.Handset) ? 'over' : 'side'"
             autoFocus="dialog"
             #sidenav

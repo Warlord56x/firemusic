@@ -2,6 +2,8 @@ import {
     Component,
     ElementRef,
     EventEmitter,
+    Input,
+    OnInit,
     Output,
     ViewChild,
 } from "@angular/core";
@@ -13,11 +15,12 @@ import { map, Observable, startWith } from "rxjs";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 
 @Component({
-    selector: "app-tag-chipinput",
+    selector: "app-tag-chip-input",
     templateUrl: "./tag-chip-input.component.html",
     styleUrl: "./tag-chip-input.component.scss",
 })
-export class TagChipInputComponent {
+export class TagChipInputComponent implements OnInit {
+    @Input() initialTags: string[] = [];
     @Output() public tagsChange = new EventEmitter<string[]>();
     @ViewChild("tagInput") tagInput!: ElementRef<HTMLInputElement>;
 
@@ -34,6 +37,11 @@ export class TagChipInputComponent {
                 tag ? this._filter(tag) : this.allTags.slice(),
             ),
         );
+    }
+
+    ngOnInit() {
+        this.tags = this.initialTags;
+        console.log(this.tags);
     }
 
     add(event: MatChipInputEvent): void {
@@ -56,6 +64,7 @@ export class TagChipInputComponent {
     }
 
     selected(event: MatAutocompleteSelectedEvent): void {
+        console.log(this.tags);
         this.tags.push(event.option.viewValue);
         this.tagInput.nativeElement.value = "";
         this.tagCtrl.setValue(null);

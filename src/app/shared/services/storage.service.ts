@@ -4,6 +4,7 @@ import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Music } from "../utils/music";
 import { AuthService } from "./auth.service";
 import { combineLatestWith, map, Observable } from "rxjs";
+import { doc } from "@angular/fire/firestore";
 
 @Injectable({
     providedIn: "root",
@@ -78,5 +79,12 @@ export class StorageService {
             combineLatestWith(imageTask$),
             map(([task1, task2]) => (<number>task1 + <number>task2) / 2),
         );
+    }
+
+    async updateMusic(music: Music) {
+        const result = await this.musicCollection.ref
+            .where("musicId", "==", music.musicId)
+            .get();
+        result.forEach((doc) => doc.ref.update(music));
     }
 }
