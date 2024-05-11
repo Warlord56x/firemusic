@@ -24,12 +24,25 @@
                     Visualize
                 </a>
 
+                <a mat-list-item routerLink="/albums"
+                    ><mat-icon matListItemIcon>library_music</mat-icon>
+                    Albums
+                </a>
+
                 <a
                     mat-list-item
                     routerLink="/dashboard"
                     *ngIf="authService.isLoggedIn"
                     ><mat-icon matListItemIcon>dashboard</mat-icon>
                     Dashboard
+                </a>
+
+                <a
+                    mat-list-item
+                    routerLink="/playlists"
+                    *ngIf="authService.isLoggedIn"
+                    ><mat-icon matListItemIcon>queue_music</mat-icon>
+                    My playlists
                 </a>
 
                 <div style="position: absolute; bottom: 0; right: 0; left: 0">

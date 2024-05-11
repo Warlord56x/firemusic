@@ -1,7 +1,7 @@
 <mat-toolbar>
     <mat-toolbar-row fxLayoutAlign="center center" fxHide.gt-xs>
         <ng-container *ngIf="music.name !== ''">
-            <p fxFlex>{{ shortenTitle(music.name, 18) }}</p>
+            <p fxFlex>{{ music.name | truncate: 18 }}</p>
         </ng-container>
     </mat-toolbar-row>
 
@@ -23,7 +23,7 @@
         />
 
         <ng-container *ngIf="music.name !== ''">
-            <p fxHide.xs>{{ shortenTitle(music.name, 18) }}</p>
+            <p fxHide.xs>{{ music.name | truncate: 18 }}</p>
         </ng-container>
 
         <div fxFlex fxLayout>

@@ -10,6 +10,8 @@ import { AngularFireAuthGuard } from "@angular/fire/compat/auth-guard";
 import { HomeComponent } from "./components/home/home.component";
 import { WildCardComponent } from "./components/404/404.component";
 import { SearchListComponent } from "./components/search-list/search-list.component";
+import { AlbumListComponent } from "./components/album-list/album-list.component";
+import { PlaylistsComponent } from "./components/playlists/playlists.component";
 
 const routes: Routes = [
     { path: "", pathMatch: "full", component: HomeComponent },
@@ -20,6 +22,12 @@ const routes: Routes = [
     { path: "home", component: HomeComponent },
     { path: "search", component: SearchListComponent },
     { path: "search/:query", component: SearchListComponent },
+    { path: "albums", component: AlbumListComponent },
+    {
+        path: "playlists",
+        component: PlaylistsComponent,
+        canActivate: [AngularFireAuthGuard],
+    },
     {
         path: "dashboard",
         component: DashboardComponent,

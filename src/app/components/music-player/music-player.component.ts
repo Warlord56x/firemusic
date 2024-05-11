@@ -38,13 +38,6 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
         this.musicService.initAnalyzers(this.audioRef!.nativeElement);
     }
 
-    shortenTitle(title: string, maxLength: number): string | undefined {
-        if (title!.length > maxLength) {
-            return title?.slice(0, maxLength) + "...";
-        }
-        return title;
-    }
-
     get audio(): HTMLAudioElement | undefined {
         return this.audioRef?.nativeElement;
     }

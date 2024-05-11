@@ -41,7 +41,6 @@ export class TagChipInputComponent implements OnInit {
 
     ngOnInit() {
         this.tags = this.initialTags;
-        console.log(this.tags);
     }
 
     add(event: MatChipInputEvent): void {

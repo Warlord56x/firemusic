@@ -9,6 +9,11 @@ import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confi
 import { MatDialog } from "@angular/material/dialog";
 import { take } from "rxjs";
 import { ModifyDialogComponent } from "../shared/modify-dialog/modify-dialog.component";
+import { Album } from "../../shared/utils/album";
+import { AlbumSelectDialogComponent } from "../shared/album-select-dialog/album-select-dialog.component";
+import { PlaylistSelectDialogComponent } from "../shared/playlist-select-dialog/playlist-select-dialog.component";
+import { Playlist } from "../../shared/utils/playlist";
+import { CustomDialogService } from "../../shared/services/custom-dialog.service";
 
 @Component({
     selector: "app-dashboard",
@@ -18,7 +23,8 @@ import { ModifyDialogComponent } from "../shared/modify-dialog/modify-dialog.com
 export class DashboardComponent implements OnInit {
     @Input({
         transform: (value: string): number =>
-            ({ mymusics: 0, upload: 1, profile: 2 })[value] || 0,
+            ({ mymusics: 0, upload: 1, createalbum: 2, profile: 3 })[value] ||
+            0,
     })
     tab: number = 0;
 
@@ -34,6 +40,7 @@ export class DashboardComponent implements OnInit {
         private authService: AuthService,
         private musicService: MusicService,
         private dialog: MatDialog,
+        protected customDialogService: CustomDialogService,
     ) {}
 
     play(m: Music) {
@@ -73,6 +80,9 @@ export class DashboardComponent implements OnInit {
                 this.storageService
                     .updateMusic(res)
                     .then(() => console.log("success"));
+                this.getCards().then((res) => {
+                    this.musics = res;
+                });
             });
     }
 
@@ -88,8 +98,14 @@ export class DashboardComponent implements OnInit {
             .afterClosed()
             .pipe(take(1))
             .subscribe((res: boolean) => {
+                if (res === undefined) {
+                    return;
+                }
                 if (res) {
                     this.storageService.deleteMusic(music);
+                    this.getCards().then((res) => {
+                        this.musics = res;
+                    });
                 }
             });
     }

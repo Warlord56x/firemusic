@@ -1,5 +1,3 @@
-<!--TODO: Should make 2 dialogs 1 for remove and 1 for updating the content, (not the audio file, only the "metadata" and/or the cover image (maybe next time))-->
-
 <mat-tab-group dynamicHeight [selectedIndex]="tab">
     <mat-tab>
         <ng-template mat-tab-label>
@@ -39,14 +37,47 @@
                                 <mat-menu #menu="matMenu">
                                     <button
                                         mat-menu-item
+                                        (click)="
+                                            this.customDialogService.openAlbumDialog(
+                                                card
+                                            )
+                                        "
+                                    >
+                                        <mat-icon>library_add</mat-icon>
+                                        Add to album
+                                    </button>
+
+                                    <button
+                                        mat-menu-item
+                                        (click)="
+                                            this.customDialogService.openPlaylistDialog(
+                                                card
+                                            )
+                                        "
+                                    >
+                                        <mat-icon matMenuItemIcon>
+                                            playlist_add
+                                        </mat-icon>
+                                        Add to a playlist
+                                    </button>
+
+                                    <button
+                                        mat-menu-item
                                         (click)="openModifyDialog(card)"
                                     >
+                                        <mat-icon matMenuItemIcon>
+                                            edit
+                                        </mat-icon>
                                         Modify
                                     </button>
+
                                     <button
                                         mat-menu-item
                                         (click)="openRemoveDialog(card)"
                                     >
+                                        <mat-icon matMenuItemIcon>
+                                            delete
+                                        </mat-icon>
                                         Remove
                                     </button>
                                 </mat-menu>
@@ -103,7 +134,17 @@
             <mat-icon class="tab-icon">cloud_upload</mat-icon>
             Upload
         </ng-template>
+
         <app-upload-music></app-upload-music>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">library_music</mat-icon>
+            Create album
+        </ng-template>
+
+        <app-create-album></app-create-album>
     </mat-tab>
 
     <mat-tab>

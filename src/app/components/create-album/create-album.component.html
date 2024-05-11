@@ -1,0 +1,34 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <mat-icon fxFlex class="icon" svgIcon="firemusic"></mat-icon>
+    <h1 fxFlex>Create Album</h1>
+
+    <form
+        fxFlex
+        [formGroup]="albumForm"
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+    >
+        <mat-form-field fxFlex>
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" type="text" />
+            <mat-error>Invalid Title</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+            <mat-label>Description</mat-label>
+            <textarea
+                matInput
+                formControlName="description"
+                type="text"
+            ></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Create</button>
+
+        <ng-container *ngIf="taskDone">
+            <mat-icon>done</mat-icon>
+        </ng-container>
+    </form>
+</div>
