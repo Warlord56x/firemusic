@@ -135,7 +135,7 @@ void main() {
     // Base displacement
     displacement = - noise + b;
 
-    // Sound and Mic displacements
+    // Sound displacements
     float sounds = bassFr + midDisp+ treDisp * amp;
 
     // Final displacement value passed to fragment shader

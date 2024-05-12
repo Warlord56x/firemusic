@@ -6,6 +6,13 @@ on:
   push:
     branches:
       - master
+env:
+    # Setting an environment variable with the value of a configuration variable
+    FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+    FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+    FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+    FIREBASE_MESSAGING: ${{ secrets.FIREBASE_MESSAGING }}
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
