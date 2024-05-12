@@ -3,10 +3,9 @@ import { MusicService } from "../../shared/services/music.service";
 import { Music } from "../../shared/utils/music";
 import { PageEvent } from "@angular/material/paginator";
 import { DatabaseService } from "../../shared/services/database.service";
-import { Subscription, take } from "rxjs";
-import { PlaylistSelectDialogComponent } from "../shared/playlist-select-dialog/playlist-select-dialog.component";
-import { Playlist } from "../../shared/utils/playlist";
+import { Subscription } from "rxjs";
 import { CustomDialogService } from "../../shared/services/custom-dialog.service";
+import { AuthService } from "../../shared/services/auth.service";
 
 @Component({
     selector: "app-search-list",
@@ -45,6 +44,7 @@ export class SearchListComponent implements OnDestroy, OnInit {
         private databaseService: DatabaseService,
         private musicService: MusicService,
         protected customDialogService: CustomDialogService,
+        protected authService: AuthService,
     ) {}
 
     play(m: Music) {

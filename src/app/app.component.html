@@ -7,74 +7,79 @@
             #sidenav
             role="navigation"
         >
-            <mat-nav-list>
-                <a mat-list-item routerLink="/home">
-                    <mat-icon matListItemIcon svgIcon="firemusic"></mat-icon>
-                    Fire music
-                </a>
-                <mat-divider></mat-divider>
+            <mat-nav-list class="navList">
+                <div>
+                    <a mat-list-item routerLink="/home">
+                        <mat-icon
+                            matListItemIcon
+                            svgIcon="firemusic"
+                        ></mat-icon>
+                        Fire music
+                    </a>
+                    <mat-divider></mat-divider>
 
-                <a mat-list-item routerLink="/search">
-                    <mat-icon matListItemIcon>search</mat-icon>
-                    Search
-                </a>
+                    <a mat-list-item routerLink="/search">
+                        <mat-icon matListItemIcon>search</mat-icon>
+                        Search
+                    </a>
 
-                <a mat-list-item routerLink="/visualize">
-                    <mat-icon matListItemIcon>3d_rotation</mat-icon>
-                    Visualize
-                </a>
+                    <a mat-list-item routerLink="/visualize">
+                        <mat-icon matListItemIcon>3d_rotation</mat-icon>
+                        Visualize
+                    </a>
 
-                <a mat-list-item routerLink="/albums"
-                    ><mat-icon matListItemIcon>library_music</mat-icon>
-                    Albums
-                </a>
+                    <a mat-list-item routerLink="/albums"
+                        ><mat-icon matListItemIcon>library_music</mat-icon>
+                        Albums
+                    </a>
 
-                <a
-                    mat-list-item
-                    routerLink="/dashboard"
-                    *ngIf="authService.isLoggedIn"
-                    ><mat-icon matListItemIcon>dashboard</mat-icon>
-                    Dashboard
-                </a>
+                    <a
+                        mat-list-item
+                        routerLink="/dashboard"
+                        *ngIf="authService.isLoggedIn"
+                        ><mat-icon matListItemIcon>dashboard</mat-icon>
+                        Dashboard
+                    </a>
 
-                <a
-                    mat-list-item
-                    routerLink="/playlists"
-                    *ngIf="authService.isLoggedIn"
-                    ><mat-icon matListItemIcon>queue_music</mat-icon>
-                    My playlists
-                </a>
+                    <a
+                        mat-list-item
+                        routerLink="/playlists"
+                        *ngIf="authService.isLoggedIn"
+                        ><mat-icon matListItemIcon>queue_music</mat-icon>
+                        My playlists
+                    </a>
+                </div>
 
-                <div style="position: absolute; bottom: 0; right: 0; left: 0">
+                <div>
                     <mat-divider></mat-divider>
                     <ng-container *ngIf="!authService.isLoggedIn; else profile">
                         <mat-list-item routerLink="/sign-in">
                             <mat-icon matListItemIcon>login</mat-icon>
-                            <h3 matListItemTitle>Sign in</h3>
+                            Sign in
                         </mat-list-item>
                         <mat-list-item routerLink="/sign-up">
                             <mat-icon matListItemIcon>person_add</mat-icon>
-                            <h3 matListItemTitle>Sign up</h3>
+                            Sign up
                         </mat-list-item>
                     </ng-container>
-                </div>
 
-                <ng-template #profile>
-                    <a mat-list-item routerLink="/dashboard/profile">
-                        <mat-icon matListItemIcon>account_circle</mat-icon>
-                        Profile
-                    </a>
-                    <a mat-list-item (click)="authService.signOut()">
-                        <mat-icon matListItemIcon>exit_to_app</mat-icon>
-                        Sign out
-                    </a>
-                </ng-template>
+                    <ng-template #profile>
+                        <a mat-list-item routerLink="/dashboard/profile">
+                            <mat-icon matListItemIcon>account_circle</mat-icon>
+                            Profile
+                        </a>
+                        <a mat-list-item (click)="authService.signOut()">
+                            <mat-icon matListItemIcon>exit_to_app</mat-icon>
+                            Sign out
+                        </a>
+                    </ng-template>
+                </div>
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content fxFlex fxLayout="column">
-            <mat-toolbar color="primary">
+            <mat-toolbar color="primary" fxHide>
                 <ng-container *ngIf="!search; else showSearch">
-                    <div fxFlex fxLayout>
+                    <div fxFlex>
                         <button mat-icon-button (click)="sidenav.toggle()">
                             <mat-icon>menu</mat-icon>
                         </button>

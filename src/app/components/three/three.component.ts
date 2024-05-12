@@ -27,7 +27,7 @@ interface Frequency {
 
 @Component({
     selector: "app-three",
-    template: "<div fxFlex ><canvas fxFlexFill #canvas></canvas></div>",
+    template: "<div><canvas #canvas></canvas></div>",
     styleUrl: "./three.component.scss",
 })
 export class ThreeComponent implements AfterViewInit, OnDestroy {
@@ -162,11 +162,11 @@ export class ThreeComponent implements AfterViewInit, OnDestroy {
     onResize() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
+
+        this.renderer?.setSize(this.width, this.height, false);
         this.camera.aspect = this.width / this.height;
 
         this.camera.updateProjectionMatrix();
-
-        this.renderer?.setSize(this.width, this.height, false);
     }
 
     constructor(private musicService: MusicService) {}
@@ -178,14 +178,11 @@ export class ThreeComponent implements AfterViewInit, OnDestroy {
             premultipliedAlpha: false,
             canvas: this.canvas,
         });
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
 
         this.camera.position.z = 100;
         this.scene.add(this.mesh);
 
-        this.renderer.setSize(this.width, this.height, false);
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.onResize();
 
         new OrbitControls(this.camera, this.canvas).enablePan = false;
 

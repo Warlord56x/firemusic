@@ -94,13 +94,26 @@ export class DatabaseService {
 
     async getUserAlbums(uid: string) {
         const albums: Album[] = [];
-        await this.fireStore
+        this.fireStore
             .collection<Album>("albums")
             .ref.where("author", "==", uid)
             .get()
             .then((docs) => {
                 docs.forEach((doc) => {
                     albums.push(doc.data());
+                });
+            });
+        return albums;
+    }
+
+    async getAlbums() {
+        const albums: Album[] = [];
+        this.fireStore
+            .collection<Album>("albums")
+            .ref.get()
+            .then((albumsData) => {
+                albumsData.forEach((album) => {
+                    albums.push(album.data());
                 });
             });
         return albums;

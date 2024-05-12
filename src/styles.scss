@@ -58,16 +58,24 @@ $dark-theme: mat.define-dark-theme(
     )
 );
 
-@include mat.all-component-themes($light-theme);
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    position: relative;
+}
 
 html,
 body {
-    height: 100%;
+    height: 100vh;
 }
 body {
     margin: 0;
     font-family: InterVariable, "Helvetica Neue", sans-serif;
 }
+
+@include mat.all-component-themes($light-theme);
+
 
 // Based on:
 // https://stackoverflow.com/questions/77978760/angular-material-17-how-to-set-custom-background-color

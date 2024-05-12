@@ -3,7 +3,6 @@ import { DatabaseService } from "../../shared/services/database.service";
 import { MusicService } from "../../shared/services/music.service";
 import { PageEvent } from "@angular/material/paginator";
 import { Album } from "../../shared/utils/album";
-import { AuthService } from "../../shared/services/auth.service";
 import { Music } from "../../shared/utils/music";
 
 @Component({
@@ -33,14 +32,11 @@ export class AlbumListComponent {
     constructor(
         protected databaseService: DatabaseService,
         private musicService: MusicService,
-        private authService: AuthService,
     ) {
         this.albumMusics.pop();
-        this.databaseService
-            .getUserAlbums(this.authService.user!.uid)
-            .then((result) => {
-                this.albums = result;
-            });
+        this.databaseService.getAlbums().then((result) => {
+            this.albums = result;
+        });
     }
 
     get albums() {

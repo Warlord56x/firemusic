@@ -134,6 +134,7 @@ import { PlaylistSelectDialogComponent } from "../../components/shared/playlist-
         CreateAlbumComponent,
         AlbumListComponent,
         PlaylistsComponent,
+        ThreeComponent,
     ],
 })
 export class SharedModulesModule {}

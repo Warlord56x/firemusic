@@ -39,24 +39,26 @@
                             <mat-chip>{{ tag }}</mat-chip>
                         }
                     </h2>
-                    <p matListItemMeta>
-                        <button mat-icon-button [matMenuTriggerFor]="menu">
-                            <mat-icon>more_horiz</mat-icon>
-                        </button>
-                    </p>
-                    <mat-menu #menu xPosition="before">
-                        <button
-                            mat-menu-item
-                            (click)="
-                                this.customDialogService.openPlaylistDialog(
-                                    result
-                                )
-                            "
-                        >
-                            <mat-icon>playlist_add</mat-icon>
-                            Add to a playlist
-                        </button>
-                    </mat-menu>
+                    <ng-container *ngIf="this.authService.isLoggedIn">
+                        <p matListItemMeta>
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+                        </p>
+                        <mat-menu #menu xPosition="before">
+                            <button
+                                mat-menu-item
+                                (click)="
+                                    this.customDialogService.openPlaylistDialog(
+                                        result
+                                    )
+                                "
+                            >
+                                <mat-icon>playlist_add</mat-icon>
+                                Add to a playlist
+                            </button>
+                        </mat-menu>
+                    </ng-container>
                     <p matListItemLine>
                         {{ result.author }}
                     </p>
