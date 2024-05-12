@@ -1,0 +1,19 @@
+{
+    "firestore": {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
+    },
+    "hosting": {
+        "public": "dist/firemusic/browser",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**", ".vscode", ".idea"],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    },
+    "storage": {
+        "rules": "storage.rules"
+    }
+}

@@ -4,6 +4,8 @@ import { Music } from "../../shared/utils/music";
 import { PageEvent } from "@angular/material/paginator";
 import { DatabaseService } from "../../shared/services/database.service";
 import { Subscription } from "rxjs";
+import { CustomDialogService } from "../../shared/services/custom-dialog.service";
+import { AuthService } from "../../shared/services/auth.service";
 
 @Component({
     selector: "app-search-list",
@@ -38,17 +40,11 @@ export class SearchListComponent implements OnDestroy, OnInit {
         return this.databaseService.searchOptions.author;
     }
 
-    set albumQuery(albumQuery: string | null) {
-        this.databaseService.searchAlbum(albumQuery);
-    }
-
-    get albumQuery() {
-        return this.databaseService.searchOptions.album;
-    }
-
     constructor(
         private databaseService: DatabaseService,
         private musicService: MusicService,
+        protected customDialogService: CustomDialogService,
+        protected authService: AuthService,
     ) {}
 
     play(m: Music) {

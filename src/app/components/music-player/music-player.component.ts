@@ -7,7 +7,6 @@ import {
 } from "@angular/core";
 import { MusicService } from "../../shared/services/music.service";
 import { Music } from "../../shared/utils/music";
-import { Meta } from "@angular/platform-browser";
 
 @Component({
     selector: "app-music-player",
@@ -57,13 +56,6 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
         });
 
         this.musicService.initAnalyzers(this.audio!);
-    }
-
-    shortenTitle(title: string, maxLength: number): string | undefined {
-        if (title!.length > maxLength) {
-            return title?.slice(0, maxLength) + "...";
-        }
-        return title;
     }
 
     play() {

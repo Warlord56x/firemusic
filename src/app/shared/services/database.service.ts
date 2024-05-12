@@ -1,9 +1,11 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Profile } from "../utils/profile";
 import { BehaviorSubject, combineLatest, Observable, switchMap } from "rxjs";
 import { Music } from "../utils/music";
 import firebase from "firebase/compat";
+import { Album } from "../utils/album";
+import { Playlist } from "../utils/playlist";
 
 @Injectable({
     providedIn: "root",
@@ -71,10 +73,6 @@ export class DatabaseService {
         this.authorFilter$.next(tags);
     }
 
-    searchAlbum(tags: string | null) {
-        this.albumFilter$.next(tags);
-    }
-
     searchTags(tags: string[]) {
         this.tagFilter$.next(tags);
     }
@@ -86,6 +84,86 @@ export class DatabaseService {
             album: this.albumFilter$.value,
             tags: this.tagFilter$.value,
         };
+    }
+
+    async uploadAlbum(album: Partial<Album>) {
+        album.uid = this.fireStore.createId();
+        album.musics = [];
+        await this.fireStore.collection<Album>("albums").add(<Album>album);
+    }
+
+    async getUserAlbums(uid: string) {
+        const albums: Album[] = [];
+        this.fireStore
+            .collection<Album>("albums")
+            .ref.where("author", "==", uid)
+            .get()
+            .then((docs) => {
+                docs.forEach((doc) => {
+                    albums.push(doc.data());
+                });
+            });
+        return albums;
+    }
+
+    async getAlbums() {
+        const albums: Album[] = [];
+        this.fireStore
+            .collection<Album>("albums")
+            .ref.get()
+            .then((albumsData) => {
+                albumsData.forEach((album) => {
+                    albums.push(album.data());
+                });
+            });
+        return albums;
+    }
+
+    async getUserPlaylists(uid: string) {
+        const albums: Playlist[] = [];
+        await this.fireStore
+            .collection<Playlist>("playlists")
+            .ref.where("uid", "==", uid)
+            .get()
+            .then((docs) => {
+                docs.forEach((doc) => {
+                    albums.push(doc.data());
+                });
+            });
+        return albums;
+    }
+
+    async addToPlaylist(playlist: Partial<Playlist>, music: Music) {
+        const result = await this.fireStore
+            .collection<Playlist>("playlists")
+            .ref.where("title", "==", playlist.title)
+            .get();
+
+        if (result.size != 0) {
+            result.forEach((doc) => {
+                const updatedData = doc.data();
+                updatedData.musics.push(music.musicId);
+                doc.ref.update(updatedData);
+            });
+        } else {
+            playlist.id = this.fireStore.createId();
+            playlist.musics = [music.musicId];
+            await this.fireStore
+                .collection<Playlist>("playlists")
+                .add(<Playlist>playlist);
+        }
+    }
+
+    async getMusicsFrom(list: Album | Playlist) {
+        const musics: Music[] = [];
+        const result = await this.fireStore
+            .collection<Music>("music")
+            .ref.where("musicId", "in", list.musics)
+            .get();
+        result.forEach((doc) => {
+            musics.push(doc.data());
+        });
+        return musics;
     }
 
     getMusicTags() {

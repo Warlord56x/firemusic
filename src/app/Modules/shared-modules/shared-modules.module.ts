@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatStepperModule } from "@angular/material/stepper";
 import { DndDirective } from "../../shared/directives/dnd.directive";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { TagChipInputComponent } from "../../components/shared/tag-chipinput/tag-chip-input.component";
+import { TagChipInputComponent } from "../../components/shared/tag-chip-input/tag-chip-input.component";
 import { MatAnchor, MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
@@ -46,9 +46,23 @@ import {
 } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../components/shared/confirmation-dialog/confirmation-dialog.component";
 import { ModifyDialogComponent } from "../../components/shared/modify-dialog/modify-dialog.component";
+import { TruncatePipe } from "../../shared/pipes/truncate.pipe";
+import { CreateAlbumComponent } from "../../components/create-album/create-album.component";
+import { AlbumSelectDialogComponent } from "../../components/shared/album-select-dialog/album-select-dialog.component";
+import { MatSelect } from "@angular/material/select";
+import { AlbumListComponent } from "../../components/album-list/album-list.component";
+import { PlaylistsComponent } from "../../components/playlists/playlists.component";
+import {
+    MatExpansionModule,
+    MatExpansionPanel,
+    MatExpansionPanelDescription,
+    MatExpansionPanelTitle,
+} from "@angular/material/expansion";
+import { PlaylistSelectDialogComponent } from "../../components/shared/playlist-select-dialog/playlist-select-dialog.component";
 
 @NgModule({
     declarations: [
+        PlaylistSelectDialogComponent,
         UploadMusicComponent,
         SignInComponent,
         SignUpComponent,
@@ -65,6 +79,10 @@ import { ModifyDialogComponent } from "../../components/shared/modify-dialog/mod
         ErrorDialogComponent,
         ConfirmationDialogComponent,
         ModifyDialogComponent,
+        CreateAlbumComponent,
+        AlbumSelectDialogComponent,
+        AlbumListComponent,
+        PlaylistsComponent,
     ],
     imports: [
         CommonModule,
@@ -97,14 +115,26 @@ import { ModifyDialogComponent } from "../../components/shared/modify-dialog/mod
         MatDialogClose,
         MatDialogContent,
         MatDialogTitle,
+        TruncatePipe,
+        MatSelect,
+        MatExpansionModule,
+        MatExpansionPanel,
+        MatExpansionPanelTitle,
+        MatExpansionPanelDescription,
     ],
     exports: [
+        PlaylistSelectDialogComponent,
+        AlbumSelectDialogComponent,
         UploadMusicComponent,
         TagChipInputComponent,
         MusicPlayerComponent,
         ErrorDialogComponent,
         ConfirmationDialogComponent,
         ModifyDialogComponent,
+        CreateAlbumComponent,
+        AlbumListComponent,
+        PlaylistsComponent,
+        ThreeComponent,
     ],
 })
 export class SharedModulesModule {}

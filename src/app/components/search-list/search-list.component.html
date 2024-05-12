@@ -26,20 +26,43 @@
                         matListItemAvatar
                         width="50"
                         height="50"
-                        alt="{{ result.name }} image"
+                        alt="{{ result.name | truncate: 18 }} image"
                         [src]="
                             result.cover
                                 ? result.cover
                                 : 'assets/img/fm_logo.png'
                         "
                     />
-                    <h2 matListItemTitle>{{ result.name }}</h2>
-                    <p matListItemLine>{{ result.author }}</p>
-                    <p matListItemLine>
+                    <h2 matListItemTitle>
+                        {{ result.name | truncate: 18 }}
                         @for (tag of result.tags; track tag) {
                             <mat-chip>{{ tag }}</mat-chip>
                         }
+                    </h2>
+                    <ng-container *ngIf="this.authService.isLoggedIn">
+                        <p matListItemMeta>
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+                        </p>
+                        <mat-menu #menu xPosition="before">
+                            <button
+                                mat-menu-item
+                                (click)="
+                                    this.customDialogService.openPlaylistDialog(
+                                        result
+                                    )
+                                "
+                            >
+                                <mat-icon>playlist_add</mat-icon>
+                                Add to a playlist
+                            </button>
+                        </mat-menu>
+                    </ng-container>
+                    <p matListItemLine>
+                        {{ result.author }}
                     </p>
+                    <mat-action-list></mat-action-list>
                 </mat-list-item>
             </ng-container>
         </mat-selection-list>
@@ -73,14 +96,6 @@
             <mat-form-field>
                 <mat-label>Author name</mat-label>
                 <input [(ngModel)]="authorQuery" matInput />
-            </mat-form-field>
-        </div>
-
-        <div>
-            <h3>Album</h3>
-            <mat-form-field>
-                <mat-label>Album name</mat-label>
-                <input [(ngModel)]="albumQuery" matInput />
             </mat-form-field>
         </div>
 

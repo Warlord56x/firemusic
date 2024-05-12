@@ -1,0 +1,81 @@
+<div
+    fxFlexFill
+    fxLayout.xs="column"
+    fxLayout.gt-xs="row"
+    fxLayoutAlign
+    style="margin: 0.5rem 1rem 0 1rem"
+>
+    <div
+        fxFlexOrder.xs="2"
+        fxFlex
+        fxLayout="column"
+        *ngIf="albums; let results; else: loading"
+    >
+        <p *ngIf="results.length === 0">Nothing to display</p>
+        <mat-accordion multi>
+            <ng-container
+                *ngFor="
+                    let result of results.slice(
+                        pageIndex * pageSize,
+                        (pageIndex + 1) * pageSize
+                    )
+                "
+            >
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Album: {{ result.title }}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            List of musics in the album
+                            <mat-icon>library_music</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-selection-list fxFlex>
+                        @for (albumTrack of albumMusics; track albumTrack) {
+                            @if (albumTrack.uid === result.uid) {
+                                <mat-list-item (click)="play(albumTrack.music)">
+                                    <img
+                                        matListItemAvatar
+                                        width="50"
+                                        height="50"
+                                        alt="{{
+                                            albumTrack.music.name | truncate: 18
+                                        }} image"
+                                        [src]="
+                                            albumTrack.music.cover
+                                                ? albumTrack.music.cover
+                                                : 'assets/img/fm_logo.png'
+                                        "
+                                    />
+                                    <h2 matListItemTitle>
+                                        {{
+                                            albumTrack.music.name | truncate: 18
+                                        }}
+                                    </h2>
+                                    <p matListItemLine>
+                                        {{ albumTrack.music.author }}
+                                    </p>
+                                </mat-list-item>
+                            }
+                        }
+                    </mat-selection-list>
+                </mat-expansion-panel>
+            </ng-container>
+
+            <ng-container *ngIf="results.length > pageSize">
+                <mat-paginator
+                    [length]="results.length"
+                    [pageSize]="10"
+                    [pageIndex]="0"
+                    [pageSizeOptions]="[5, 10, 25, 100]"
+                    (page)="pageChange($event)"
+                    aria-label="Select page"
+                >
+                </mat-paginator>
+            </ng-container>
+        </mat-accordion>
+    </div>
+
+    <ng-template #loading>Loading&hellip;</ng-template>
+</div>
