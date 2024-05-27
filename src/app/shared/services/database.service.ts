@@ -1,11 +1,11 @@
-import { Injectable, OnDestroy } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Profile } from "../utils/profile";
-import { BehaviorSubject, combineLatest, Observable, switchMap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, tap } from "rxjs";
 import { Music } from "../utils/music";
-import firebase from "firebase/compat";
 import { Album } from "../utils/album";
 import { Playlist } from "../utils/playlist";
+import { isPlaylist, isAlbum } from "../utils/typeGuards";
 
 @Injectable({
     providedIn: "root",
@@ -14,6 +14,7 @@ export class DatabaseService {
     public queryResult$: Observable<Music[]>;
     public tags: string[] = [];
 
+    private allMusic: Music[] = [];
     private nameFilter$: BehaviorSubject<string | null>;
     private authorFilter$: BehaviorSubject<string | null>;
     private albumFilter$: BehaviorSubject<string | null>;
@@ -25,44 +26,64 @@ export class DatabaseService {
         this.albumFilter$ = new BehaviorSubject<string | null>(null);
         this.tagFilter$ = new BehaviorSubject<string[] | null>(null);
 
+        this.fetchAllMusic();
+
         this.queryResult$ = combineLatest([
             this.nameFilter$,
             this.authorFilter$,
             this.albumFilter$,
             this.tagFilter$,
         ]).pipe(
-            switchMap(([name, author, album, tags]) =>
-                this.fireStore
-                    .collection<Music>("music", (ref) => {
-                        let query: firebase.firestore.Query = ref;
-                        if (name) {
-                            query = query
-                                .orderBy("name")
-                                .startAt(name)
-                                .endAt(name + "\uf8ff");
-                        }
-
-                        // TODO: Needs to build indexes to have multiple ranges (probably?), try to use the same technique as above
-                        if (author) {
-                            query = query.where("author", ">=", author);
-                        }
-                        if (album) {
-                            query = query.where("album", ">=", album);
-                        }
-                        if (tags && tags.length > 0) {
-                            query = query.where(
-                                "tags",
-                                "array-contains-any",
-                                tags,
-                            );
-                        }
-                        return query;
-                    })
-                    .valueChanges(),
+            map(([name, author, album, tags]) =>
+                this.filterMusic(name, author, tags),
             ),
         );
-        this.searchQuery("");
         this.getMusicTags();
+    }
+
+    private fetchAllMusic(): void {
+        this.fireStore
+            .collection<Music>("music")
+            .valueChanges()
+            .pipe(tap((music) => (this.allMusic = music)))
+            .subscribe(() => {
+                // Optionally trigger a filter refresh if necessary
+                this.applyFilters();
+            });
+    }
+
+    private filterMusic(
+        name: string | null,
+        author: string | null,
+        tags: string[] | null,
+    ): Music[] {
+        return this.allMusic.filter((music) => {
+            return (
+                (!name ||
+                    music.name.toLowerCase().includes(name.toLowerCase())) &&
+                (!author ||
+                    music.author
+                        .toLowerCase()
+                        .includes(author.toLowerCase())) &&
+                (!tags ||
+                    tags.length === 0 ||
+                    tags.some((tag) => music.tags.includes(tag)))
+            );
+        });
+    }
+
+    private applyFilters(): void {
+        // This triggers the filtering to re-apply
+        this.queryResult$ = combineLatest([
+            this.nameFilter$,
+            this.authorFilter$,
+            this.albumFilter$,
+            this.tagFilter$,
+        ]).pipe(
+            map(([name, author, album, tags]) =>
+                this.filterMusic(name, author, tags),
+            ),
+        );
     }
 
     searchQuery(queryWord: string | null) {
@@ -133,24 +154,36 @@ export class DatabaseService {
         return albums;
     }
 
-    async addToPlaylist(playlist: Partial<Playlist>, music: Music) {
+    async addTo(object: Partial<Playlist | Album>, music: Music) {
+        let collectionName: string;
+
+        if (isAlbum(object)) {
+            collectionName = "albums";
+        } else if (isPlaylist(object)) {
+            collectionName = "playlists";
+        } else {
+            console.log(object);
+            throw new Error("Object must be either an Album or a Playlist");
+        }
+
         const result = await this.fireStore
-            .collection<Playlist>("playlists")
-            .ref.where("title", "==", playlist.title)
+            .collection<Playlist | Album>(collectionName)
+            .ref.where("title", "==", object.title)
             .get();
 
         if (result.size != 0) {
             result.forEach((doc) => {
                 const updatedData = doc.data();
                 updatedData.musics.push(music.musicId);
+                updatedData.musics = Array.from(new Set(updatedData.musics));
                 doc.ref.update(updatedData);
             });
         } else {
-            playlist.id = this.fireStore.createId();
-            playlist.musics = [music.musicId];
+            object.id = this.fireStore.createId();
+            object.musics = [music.musicId];
             await this.fireStore
-                .collection<Playlist>("playlists")
-                .add(<Playlist>playlist);
+                .collection<Playlist | Album>(collectionName)
+                .add(<Playlist | Album>object);
         }
     }
 

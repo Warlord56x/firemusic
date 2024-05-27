@@ -6,6 +6,7 @@ import {
     Input,
     Output,
 } from "@angular/core";
+import { valueReferenceToExpression } from "@angular/compiler-cli/src/ngtsc/annotations/common";
 
 export enum SupportedTypes {
     AUDIO,
@@ -20,8 +21,6 @@ export class DndDirective {
     @HostBinding("class.fileOver") fileOver: boolean = false;
     @Output() fileDropped = new EventEmitter<File | ErrorEvent>();
 
-    @Input({ transform: () => SupportedTypes }) type = SupportedTypes.AUDIO;
-
     @Input() fileDnd: SupportedTypes = SupportedTypes.AUDIO;
 
     private types = [
@@ -30,25 +29,26 @@ export class DndDirective {
     ];
 
     isTypeCorrect(file: File): boolean {
-        const audioFileTypes = this.types[this.type];
+        const audioFileTypes = this.types[this.fileDnd];
         return audioFileTypes.includes(file.type);
     }
 
-    @HostListener("dragover", ["$event"]) onDragOver(event: DragEvent) {
+    @HostListener("dragover", ["$event"])
+    onDragOver(event: DragEvent) {
         event.preventDefault();
         event.stopPropagation();
         this.fileOver = true;
     }
 
-    @HostListener("dragleave", ["$event"]) public onDragLeave(
-        event: DragEvent,
-    ) {
+    @HostListener("dragleave", ["$event"])
+    public onDragLeave(event: DragEvent) {
         event.preventDefault();
         event.stopPropagation();
         this.fileOver = false;
     }
 
-    @HostListener("drop", ["$event"]) public ondrop(event: DragEvent) {
+    @HostListener("drop", ["$event"])
+    public onDrop(event: DragEvent) {
         event.preventDefault();
         event.stopPropagation();
         this.fileOver = false;
@@ -58,7 +58,7 @@ export class DndDirective {
                 this.fileDropped.emit(
                     new ErrorEvent("fileType", {
                         error: file,
-                        message: `Not a supported ${this.type} file!`,
+                        message: `Not a supported ${(this.fileDnd as unknown as boolean) ? "image" : "audio"} file!`,
                     }),
                 );
                 return;

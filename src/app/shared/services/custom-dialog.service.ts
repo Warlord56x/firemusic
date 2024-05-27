@@ -8,8 +8,6 @@ import { DatabaseService } from "./database.service";
 import { MatDialog } from "@angular/material/dialog";
 import { AlbumSelectDialogComponent } from "../../components/shared/album-select-dialog/album-select-dialog.component";
 import { Album } from "../utils/album";
-import { ModifyDialogComponent } from "../../components/shared/modify-dialog/modify-dialog.component";
-import { ConfirmationDialogComponent } from "../../components/shared/confirmation-dialog/confirmation-dialog.component";
 
 @Injectable({
     providedIn: "root",
@@ -39,8 +37,13 @@ export class CustomDialogService {
                 if (res === undefined) {
                     return;
                 }
-                // TODO: update the album with the music (database side).
-                res.musics.push(music.musicId);
+                const album: Partial<Album> = {
+                    author: this.authService.user!.displayName + "",
+                    title: res.title,
+                    description: res.description,
+                    uid: this.authService.user!.uid,
+                };
+                this.databaseService.addTo(album, music);
             });
     }
 
@@ -67,7 +70,7 @@ export class CustomDialogService {
                     title: res,
                     uid: this.authService.user!.uid,
                 };
-                this.databaseService.addToPlaylist(playlist, music);
+                this.databaseService.addTo(playlist, music);
             });
     }
 }

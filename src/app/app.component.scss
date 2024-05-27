@@ -3,7 +3,8 @@ mat-toolbar {
     top: 0;
     z-index: 10;
     width: 100%;
-    height: 3.2rem;
+    height: 4rem;
+    min-height: 4rem;
 }
 
 .icon-container {
@@ -19,4 +20,3 @@ mat-toolbar {
 
     justify-content: space-between;
 }
-

@@ -20,6 +20,7 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
     _loop: boolean = false;
     music: Music = {
         name: "",
+        author: "",
         rating: 0,
         uid: "",
         musicId: "",
@@ -52,7 +53,7 @@ export class MusicPlayerComponent implements OnInit, AfterViewInit {
             title: this.music.name,
             artist: this.music.author || "Anonymous",
             artwork: [{ src: this.music.cover || "assets/img/fm_logo.png" }],
-            album: this.music.album || "Anonymous",
+            album: "Anonymous",
         });
 
         this.musicService.initAnalyzers(this.audio!);

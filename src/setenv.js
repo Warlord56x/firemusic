@@ -1,9 +1,12 @@
 const fs = require("fs");
 const targetPath = "./src/environments/environment.ts";
+const targetDevPath = "./src/environments/environment.development.ts";
 require("dotenv").config();
-const environmentFileContent = `
+
+function makeConfig(prod = false) {
+    return `
 export const environment = {
-    production: true,
+    production: ${prod},
     firebase: {
         apiKey: "${process.env["FIREBASE_API_KEY"]}",
         authDomain: "firemusic-82e06.firebaseapp.com",
@@ -15,4 +18,6 @@ export const environment = {
     },
 };
 `;
-fs.writeFileSync(targetPath, environmentFileContent, "utf8");
+}
+fs.writeFileSync(targetPath, makeConfig(true), "utf8");
+fs.writeFileSync(targetDevPath, makeConfig(), "utf8");

@@ -78,32 +78,28 @@
         </mat-sidenav>
         <mat-sidenav-content fxFlex fxLayout="column">
             <mat-toolbar color="primary">
-                <ng-container *ngIf="!search; else showSearch">
-                    <div fxFlex>
-                        <button mat-icon-button (click)="sidenav.toggle()">
-                            <mat-icon>menu</mat-icon>
-                        </button>
-                    </div>
+                <div fxFlex>
+                    <button mat-icon-button (click)="sidenav.toggle()">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                </div>
 
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
-                        <button
-                            fxFlex
-                            class="icon-container"
-                            mat-icon-button
-                            routerLink="/home"
-                        >
-                            <mat-icon svgIcon="firemusic"></mat-icon>
-                        </button>
-                    </div>
+                <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+                    <button
+                        fxFlex
+                        class="icon-container"
+                        mat-icon-button
+                        routerLink="/home"
+                    >
+                        <mat-icon svgIcon="firemusic"></mat-icon>
+                    </button>
+                </div>
 
-                    <div fxFlex fxLayout fxLayoutAlign="end">
-                        <button mat-icon-button (click)="search = true">
-                            <mat-icon>search</mat-icon>
-                        </button>
-                    </div>
-                </ng-container>
-                <ng-template #showSearch>
-                    <mat-form-field fxFlex fxFlexFill subscriptSizing="dynamic">
+                <div fxFlex fxLayout fxLayoutAlign="end">
+                    <mat-form-field
+                        subscriptSizing="dynamic"
+                        [@expandAnimation]="search"
+                    >
                         <input
                             matInput
                             #searchInput
@@ -115,17 +111,19 @@
                                     }
                                 })
                             "
-                            (focusout)="search = false"
+                            (focusout)="search = false && search"
                         />
-                        <button
-                            matIconSuffix
-                            mat-icon-button
-                            (click)="search = false"
-                        >
-                            <mat-icon>cancel</mat-icon>
-                        </button>
                     </mat-form-field>
-                </ng-template>
+                    <button mat-icon-button (click)="toggleSearch()">
+                        <mat-icon>
+                            @if (search) {
+                                cancel
+                            } @else {
+                                search
+                            }
+                        </mat-icon>
+                    </button>
+                </div>
             </mat-toolbar>
             <div fxFlex>
                 <router-outlet style="display: none"></router-outlet>

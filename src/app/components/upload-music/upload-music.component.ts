@@ -71,7 +71,6 @@ export class UploadMusicComponent implements OnDestroy {
     }
 
     async onSubmit() {
-        console.log("submit");
         this.taskDone = false;
         if (this.musicForm.valid && this.audioFile) {
             const uploadTask = this.storageService.uploadMusic(
@@ -79,8 +78,7 @@ export class UploadMusicComponent implements OnDestroy {
                 this.imgFile,
                 {
                     name: this.musicForm.value.name,
-                    author: this.authService.user?.displayName,
-                    album: this.musicForm.value.album,
+                    author: this.authService.user!.displayName || "",
                     description: this.musicForm.value.description,
                     rating: 0,
                     uid: this.authService.user!.uid,
@@ -104,6 +102,7 @@ export class UploadMusicComponent implements OnDestroy {
                     this.musicForm.reset();
                 },
             });
+        } else {
         }
     }
 
@@ -120,6 +119,7 @@ export class UploadMusicComponent implements OnDestroy {
             window.alert(event.message);
         } else {
             this.music = event?.name.split(".").shift();
+            this.audioFile = event;
         }
     }
 
@@ -128,6 +128,7 @@ export class UploadMusicComponent implements OnDestroy {
             window.alert(event.message);
         } else {
             this.img!.nativeElement.src = URL.createObjectURL(event);
+            this.audioFile = event;
         }
     }
 }

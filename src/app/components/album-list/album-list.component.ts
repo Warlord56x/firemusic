@@ -18,6 +18,7 @@ export class AlbumListComponent {
             uid: "",
             music: {
                 name: "",
+                author: "",
                 rating: 0,
                 uid: "",
                 musicId: "",

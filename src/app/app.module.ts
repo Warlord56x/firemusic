@@ -26,6 +26,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
 import { MatInput } from "@angular/material/input";
+import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 
 @NgModule({
     declarations: [AppComponent],
@@ -57,6 +58,8 @@ import { MatInput } from "@angular/material/input";
         MatToolbar,
         MatSidenav,
         MatButton,
+        MatAccordion,
+        MatExpansionModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

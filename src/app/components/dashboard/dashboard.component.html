@@ -1,158 +1,152 @@
-<mat-tab-group dynamicHeight [selectedIndex]="tab">
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">dashboard</mat-icon>
-            My Musics
-        </ng-template>
-        <div fxLayout="column">
-            <div fxFlex>
-                @for (
-                    card of musics?.slice(
-                        pageIndex * pageSize,
-                        (pageIndex + 1) * pageSize
-                    );
-                    track card
-                ) {
-                    <mat-card class="dashboard-card">
-                        <mat-card-header>
-                            <img
-                                mat-card-avatar
-                                [src]="
-                                    card.cover
-                                        ? card.cover
-                                        : 'assets/img/fm_logo.png'
-                                "
-                                [alt]="card.name"
-                            />
-                            <mat-card-title>
-                                {{ card.name }}
-                                <button
-                                    mat-icon-button
-                                    class="more-button"
-                                    [matMenuTriggerFor]="menu"
-                                    aria-label="Toggle menu"
-                                >
-                                    <mat-icon>more_vert</mat-icon>
-                                </button>
-                                <mat-menu #menu="matMenu">
-                                    <button
-                                        mat-menu-item
-                                        (click)="
-                                            this.customDialogService.openAlbumDialog(
-                                                card
-                                            )
-                                        "
-                                    >
-                                        <mat-icon>library_add</mat-icon>
-                                        Add to album
-                                    </button>
-
-                                    <button
-                                        mat-menu-item
-                                        (click)="
-                                            this.customDialogService.openPlaylistDialog(
-                                                card
-                                            )
-                                        "
-                                    >
-                                        <mat-icon matMenuItemIcon>
-                                            playlist_add
-                                        </mat-icon>
-                                        Add to a playlist
-                                    </button>
-
-                                    <button
-                                        mat-menu-item
-                                        (click)="openModifyDialog(card)"
-                                    >
-                                        <mat-icon matMenuItemIcon>
-                                            edit
-                                        </mat-icon>
-                                        Modify
-                                    </button>
-
-                                    <button
-                                        mat-menu-item
-                                        (click)="openRemoveDialog(card)"
-                                    >
-                                        <mat-icon matMenuItemIcon>
-                                            delete
-                                        </mat-icon>
-                                        Remove
-                                    </button>
-                                </mat-menu>
-                            </mat-card-title>
-                            <mat-card-subtitle>
-                                {{ card.author }}
-                            </mat-card-subtitle>
-                        </mat-card-header>
-                        <mat-card-content class="dashboard-card-content">
-                            <ng-container *ngIf="card.description">
-                                <div>
-                                    @for (
-                                        _star of Array(card.rating);
-                                        track _star
-                                    ) {
-                                        <mat-icon>star</mat-icon>
-                                    }
-                                    @for (
-                                        _star of Array(5 - card.rating);
-                                        track _star
-                                    ) {
-                                        <mat-icon color="primary"
-                                            >star</mat-icon
-                                        >
-                                    }
-                                </div>
-                                <br />
-                                {{ card.description }}
-                            </ng-container>
-                        </mat-card-content>
-                        <mat-card-actions fxLayoutAlign="end">
-                            <button mat-fab extended (click)="this.play(card)">
-                                <mat-icon>play_arrow</mat-icon>
-                                Play
+<div class="dashboard">
+    <mat-tab-group
+        dynamicHeight
+        [selectedIndex]="tab"
+        (selectedIndexChange)="tabChange($event)"
+    >
+        <mat-tab class="tab">
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">dashboard</mat-icon>
+                My Musics
+            </ng-template>
+            @for (
+                card of musics?.slice(
+                    pageIndex * pageSize,
+                    (pageIndex + 1) * pageSize
+                );
+                track card
+            ) {
+                <mat-card class="dashboard-card">
+                    <mat-card-header class="header">
+                        <img
+                            mat-card-avatar
+                            [src]="
+                                card.cover
+                                    ? card.cover
+                                    : 'assets/img/fm_logo.png'
+                            "
+                            [alt]="card.name"
+                        />
+                        <mat-card-title>
+                            {{ card.name }}
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            {{ card.author }}
+                        </mat-card-subtitle>
+                        <div class="justify">
+                            <button
+                                mat-icon-button
+                                class="more-button"
+                                [matMenuTriggerFor]="menu"
+                                aria-label="Toggle menu"
+                            >
+                                <mat-icon>more_vert</mat-icon>
                             </button>
-                        </mat-card-actions>
-                    </mat-card>
-                }
-            </div>
-            <mat-paginator
-                [length]="musics?.length"
-                [pageSize]="10"
-                [pageIndex]="0"
-                [pageSizeOptions]="[5, 10, 25, 100]"
-                (page)="pageChange($event)"
-                aria-label="Select page"
-            >
-            </mat-paginator>
-        </div>
-    </mat-tab>
+                        </div>
+                        <mat-menu #menu="matMenu">
+                            <button
+                                mat-menu-item
+                                (click)="
+                                    this.customDialogService.openAlbumDialog(
+                                        card
+                                    )
+                                "
+                            >
+                                <mat-icon>library_add</mat-icon>
+                                Add to album
+                            </button>
 
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">cloud_upload</mat-icon>
-            Upload
-        </ng-template>
+                            <button
+                                mat-menu-item
+                                (click)="
+                                    this.customDialogService.openPlaylistDialog(
+                                        card
+                                    )
+                                "
+                            >
+                                <mat-icon matMenuItemIcon>
+                                    playlist_add
+                                </mat-icon>
+                                Add to a playlist
+                            </button>
 
-        <app-upload-music></app-upload-music>
-    </mat-tab>
+                            <button
+                                mat-menu-item
+                                (click)="openModifyDialog(card)"
+                            >
+                                <mat-icon matMenuItemIcon> edit </mat-icon>
+                                Modify
+                            </button>
 
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">library_music</mat-icon>
-            Create album
-        </ng-template>
+                            <button
+                                mat-menu-item
+                                (click)="openRemoveDialog(card)"
+                            >
+                                <mat-icon matMenuItemIcon> delete </mat-icon>
+                                Remove
+                            </button>
+                        </mat-menu>
+                    </mat-card-header>
+                    <mat-card-content class="dashboard-card-content">
+                        <ng-container *ngIf="card.description">
+                            <div>
+                                @for (
+                                    _star of Array(card.rating);
+                                    track _star
+                                ) {
+                                    <mat-icon>star</mat-icon>
+                                }
+                            </div>
+                            <br />
+                            {{ card.description }}
+                        </ng-container>
+                    </mat-card-content>
+                    <mat-card-actions class="actions">
+                        <button mat-fab extended (click)="this.play(card)">
+                            <mat-icon>play_arrow</mat-icon>
+                            Play
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            }
+        </mat-tab>
 
-        <app-create-album></app-create-album>
-    </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">cloud_upload</mat-icon>
+                Upload
+            </ng-template>
 
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">account_circle</mat-icon>
-            Profile
-        </ng-template>
+            <app-upload-music></app-upload-music>
+        </mat-tab>
 
-        <app-profile></app-profile>
-    </mat-tab>
-</mat-tab-group>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">library_music</mat-icon>
+                Create album
+            </ng-template>
+
+            <app-create-album></app-create-album>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">account_circle</mat-icon>
+                Profile
+            </ng-template>
+
+            <app-profile></app-profile>
+        </mat-tab>
+    </mat-tab-group>
+    <div class="justify" #paginator>
+        <mat-paginator
+            [length]="musics?.length"
+            [pageSize]="10"
+            [pageIndex]="0"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="pageChange($event)"
+            aria-label="Select page"
+        >
+        </mat-paginator>
+    </div>
+</div>

@@ -7,11 +7,27 @@
 }
 
 .more-button {
-    position: absolute;
-    top: 0;
-    right: 0;
+    display: flex;
+}
+.justify {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    &:has(mat-paginator) {
+        height: 100%;
+        flex-direction: column;
+    }
 }
 
-.dashboard-card-content {
-    padding-right: 10rem;
+.actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }

@@ -39,26 +39,29 @@
                             <mat-chip>{{ tag }}</mat-chip>
                         }
                     </h2>
-                    <ng-container *ngIf="this.authService.isLoggedIn">
-                        <p matListItemMeta>
+
+                    <p matListItemMeta>
+                        <ng-container *ngIf="this.authService.isLoggedIn">
                             <button mat-icon-button [matMenuTriggerFor]="menu">
                                 <mat-icon>more_horiz</mat-icon>
                             </button>
-                        </p>
-                        <mat-menu #menu xPosition="before">
-                            <button
-                                mat-menu-item
-                                (click)="
-                                    this.customDialogService.openPlaylistDialog(
-                                        result
-                                    )
-                                "
-                            >
-                                <mat-icon>playlist_add</mat-icon>
-                                Add to a playlist
-                            </button>
-                        </mat-menu>
-                    </ng-container>
+                        </ng-container>
+                    </p>
+
+                    <mat-menu #menu xPosition="before">
+                        <button
+                            mat-menu-item
+                            (click)="
+                                this.customDialogService.openPlaylistDialog(
+                                    result
+                                )
+                            "
+                        >
+                            <mat-icon>playlist_add</mat-icon>
+                            Add to a playlist
+                        </button>
+                    </mat-menu>
+
                     <p matListItemLine>
                         {{ result.author }}
                     </p>
@@ -67,17 +70,15 @@
             </ng-container>
         </mat-selection-list>
 
-        <ng-container *ngIf="results.length > pageSize">
-            <mat-paginator
-                [length]="results.length"
-                [pageSize]="10"
-                [pageIndex]="0"
-                [pageSizeOptions]="[5, 10, 25, 100]"
-                (page)="pageChange($event)"
-                aria-label="Select page"
-            >
-            </mat-paginator>
-        </ng-container>
+        <mat-paginator
+            [length]="results.length"
+            [pageSize]="10"
+            [pageIndex]="0"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="pageChange($event)"
+            aria-label="Select page"
+        >
+        </mat-paginator>
     </div>
 
     <!--TODO: Make this an extendable field (maybe only on mobile??? Also resolve the search matching bug)-->

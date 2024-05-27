@@ -1,7 +1,6 @@
 export interface Music {
     name: string;
-    author?: string | null;
-    album?: string | null;
+    author: string;
     cover?: string | null;
     audio?: string;
     description?: string;

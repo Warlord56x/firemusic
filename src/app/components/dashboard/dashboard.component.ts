@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import {
+    Component,
+    ElementRef,
+    Input,
+    OnInit,
+    ViewChild,
+    viewChild,
+} from "@angular/core";
 import { DatabaseService } from "../../shared/services/database.service";
 import { AuthService } from "../../shared/services/auth.service";
 import { Music } from "../../shared/utils/music";
@@ -9,10 +16,6 @@ import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confi
 import { MatDialog } from "@angular/material/dialog";
 import { take } from "rxjs";
 import { ModifyDialogComponent } from "../shared/modify-dialog/modify-dialog.component";
-import { Album } from "../../shared/utils/album";
-import { AlbumSelectDialogComponent } from "../shared/album-select-dialog/album-select-dialog.component";
-import { PlaylistSelectDialogComponent } from "../shared/playlist-select-dialog/playlist-select-dialog.component";
-import { Playlist } from "../../shared/utils/playlist";
 import { CustomDialogService } from "../../shared/services/custom-dialog.service";
 
 @Component({
@@ -21,6 +24,7 @@ import { CustomDialogService } from "../../shared/services/custom-dialog.service
     styleUrl: "./dashboard.component.scss",
 })
 export class DashboardComponent implements OnInit {
+    @ViewChild("paginator") paginator!: ElementRef<HTMLDivElement>;
     @Input({
         transform: (value: string): number =>
             ({ mymusics: 0, upload: 1, createalbum: 2, profile: 3 })[value] ||
@@ -57,6 +61,11 @@ export class DashboardComponent implements OnInit {
         return await this.databaseService.getUserMusics(
             this.authService.user!.uid,
         );
+    }
+
+    tabChange(tab: number) {
+        const element = this.paginator.nativeElement;
+        element.style.display = tab > 0 ? "none" : "flex";
     }
 
     pageChange(event: PageEvent) {

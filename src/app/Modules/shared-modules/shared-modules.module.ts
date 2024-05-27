@@ -17,7 +17,7 @@ import { RouterLink } from "@angular/router";
 import { VerifyEmailComponent } from "../../components/verify-email/verify-email.component";
 import { ThreeComponent } from "../../components/three/three.component";
 import { DashboardComponent } from "../../components/dashboard/dashboard.component";
-import { MatTabsModule } from "@angular/material/tabs";
+import { MatTabBody, MatTabsModule } from "@angular/material/tabs";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -121,6 +121,7 @@ import { PlaylistSelectDialogComponent } from "../../components/shared/playlist-
         MatExpansionPanel,
         MatExpansionPanelTitle,
         MatExpansionPanelDescription,
+        MatTabBody,
     ],
     exports: [
         PlaylistSelectDialogComponent,

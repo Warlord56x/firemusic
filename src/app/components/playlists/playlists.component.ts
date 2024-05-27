@@ -23,6 +23,7 @@ export class PlaylistsComponent {
             uid: "",
             music: {
                 name: "",
+                author: "",
                 rating: 0,
                 uid: "",
                 musicId: "",
@@ -45,7 +46,6 @@ export class PlaylistsComponent {
         this.playlists = await this.databaseService.getUserPlaylists(
             this.authService.user!.uid,
         );
-        console.log(this.playlists[0].musics);
         for (const playlist of this.playlists) {
             const musics = await this.databaseService.getMusicsFrom(playlist);
             console.log(musics);
@@ -57,26 +57,6 @@ export class PlaylistsComponent {
                 });
             }
         }
-        /*        this.databaseService
-            .getUserPlaylists(this.authService.user!.uid)
-            .then((playlists: Playlist[]) => {
-                this.playlists = playlists;
-                console.log(playlists);
-                for (const playlist of this.playlists) {
-                    this.databaseService
-                        .getMusicsFrom(playlist)
-                        .then((musics: Music[]) => {
-                            for (const music of musics) {
-                                this.playlistMusics.push({
-                                    title: playlist.title,
-                                    uid: playlist.uid,
-                                    music,
-                                });
-                            }
-                            console.log(this.playlistMusics, musics);
-                        });
-                }
-            });*/
     }
 
     play(music: Music) {

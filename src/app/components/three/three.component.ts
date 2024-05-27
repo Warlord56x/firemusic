@@ -20,7 +20,7 @@ import {
 
 @Component({
     selector: "app-three",
-    template: "<div><canvas #canvas></canvas></div>",
+    template: "<div #container><canvas #canvas></canvas></div>",
     styleUrl: "./three.component.scss",
 })
 export class ThreeComponent implements AfterViewInit, OnDestroy {
@@ -127,7 +127,7 @@ export class ThreeComponent implements AfterViewInit, OnDestroy {
             this.mesh.rotation.y += 0.002;
             this.mesh.rotation.z += 0.002;
 
-            this.renderer?.render(this.scene, this.camera);
+            this.renderer!.render(this.scene, this.camera);
             this.animFrameId = requestAnimationFrame(animate);
         };
         animate();
